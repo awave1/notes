@@ -28,11 +28,12 @@
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
-    "deploy": "yarn build --prefix-paths && gh-pages -d public"
+    "deploy": "yarn build --prefix-paths && gh-pages -d public",
+    "prettier": "prettier --write ./src/**/*.js"
   },
   "devDependencies": {
     "gh-pages": "^2.0.1",
-    "prettier": "^1.15.2"
+    "prettier": "^1.15.3"
   },
   "repository": {
     "type": "git",
