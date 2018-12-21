@@ -1,7 +1,7 @@
 module.exports = {
   pathPrefix: '/schoolstuff',
   siteMetadata: {
-    title: `Gatsby Default Starter`,
+    title: `yea`,
     description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
     author: `@gatsbyjs`,
   },
@@ -32,4 +32,4 @@ module.exports = {
     // To learn more, visit: https://gatsby.app/offline
     // 'gatsby-plugin-offline',
   ],
-}
+};
