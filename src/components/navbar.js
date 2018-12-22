@@ -25,8 +25,8 @@ const Navbar = ({ siteTitle }) => (
         <Link
           to="/"
           style={{
-            color: `white`,
-            textDecoration: `none`,
+            color: 'white',
+            textDecoration: 'none',
           }}
         >
           {siteTitle}
@@ -41,7 +41,7 @@ Navbar.propTypes = {
 };
 
 Navbar.defaultProps = {
-  siteTitle: ``,
+  siteTitle: '',
 };
 
 export default Navbar;
