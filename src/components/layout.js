@@ -4,7 +4,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import styled from 'styled-components';
 import Navbar from './navbar';
 
-import './layout.css';
+import './layout.scss';
 
 const Container = styled.div`
   margin: 0 auto;
