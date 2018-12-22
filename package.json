@@ -12,14 +12,18 @@
     "gatsby-plugin-react-helmet": "^3.0.2",
     "gatsby-plugin-sass": "^2.0.7",
     "gatsby-plugin-sharp": "^2.0.14",
+    "gatsby-plugin-typography": "^2.2.4",
     "gatsby-source-filesystem": "^2.0.8",
     "gatsby-transformer-sharp": "^2.1.8",
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-helmet": "^5.2.0",
+    "react-typography": "^0.16.18",
     "sass": "^1.15.2",
-    "styled-components": "^4.1.3"
+    "styled-components": "^4.1.3",
+    "typography": "^0.16.18",
+    "typography-theme-fairy-gates": "^0.16.18"
   },
   "keywords": [
     "gatsby"

@@ -14,24 +14,17 @@ const NavContent = styled.div`
   padding: 1.45rem 1.0875rem;
 `;
 
-const NavHeader = styled.h1`
-  margin: 0;
+const NavHeader = styled(Link)`
+  color: white;
+  text-decoration: none;
+  text-shadow: none;
+  background-image: none;
 `;
 
 const Navbar = ({ siteTitle }) => (
   <Nav>
     <NavContent>
-      <NavHeader>
-        <Link
-          to="/"
-          style={{
-            color: 'white',
-            textDecoration: 'none',
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </NavHeader>
+      <NavHeader to="/">{siteTitle}</NavHeader>
     </NavContent>
   </Nav>
 );
