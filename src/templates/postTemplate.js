@@ -7,7 +7,7 @@ export default function Template({ data, location }) {
   const { frontmatter, html } = markdownRemark;
 
   return (
-    <Layout location={location}>
+    <Layout>
       <div className="blog-post">
         <h1>{frontmatter.title}</h1>
         <h2>{frontmatter.date}</h2>

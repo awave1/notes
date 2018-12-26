@@ -3,7 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
-  background: ${props => (props.primary ? '#202124' : '#fbfbfb')};
+  background: #202124;
   margin-bottom: 1.45rem;
 `;
 
@@ -14,19 +14,17 @@ const NavContent = styled.div`
 `;
 
 const NavHeader = styled(Link)`
-  color: ${props => (props.primary ? '#fff' : '#202124')};
+  color: #fff;
   text-decoration: none;
   text-shadow: none;
   background-image: none;
 `;
 
-const Navbar = ({ siteTitle, sm }) => {
+const Navbar = ({ siteTitle, usePrimaryNav }) => {
   return (
-    <Nav primary={!sm}>
+    <Nav>
       <NavContent>
-        <NavHeader primary={!sm} to="/">
-          {siteTitle}
-        </NavHeader>
+        <NavHeader to="/">{siteTitle}</NavHeader>
       </NavContent>
     </Nav>
   );
