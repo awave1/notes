@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import AnimatedIcon from '../components/animatedIcon';
+import AnimatedIcon from '../components/animatedGhost';
 import Layout from '../components/layout';
 import PostLink from '../components/postLink';
 
@@ -8,7 +8,6 @@ const IndexPage = ({
   data: {
     allMarkdownRemark: { edges },
   },
-  location,
 }) => {
   const Posts = edges
     .filter(edge => !!edge.node.frontmatter.date)
