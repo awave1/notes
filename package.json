@@ -1,9 +1,9 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "notes",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Collection of my lecture notes",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Artem Golovin <artgolovin96@gmail.com>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.10.0",
     "gatsby": "^2.0.53",
