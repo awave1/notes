@@ -1,9 +1,10 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import AnimatedIcon from '../components/animatedGhost';
-import Layout from '../components/layout';
-import Post from '../components/post';
+import AnimatedIcon from '../components/AnimatedGhost';
+import Layout from '../components/Layout';
+import Post from '../components/Post';
+import Bio from '../components/Bio';
 
 const PostContainer = styled.div`
   margin-top: 45px;
@@ -20,6 +21,7 @@ const IndexPage = ({
 
   return (
     <Layout>
+      <Bio />
       <AnimatedIcon size={100} />
       <PostContainer>{Posts}</PostContainer>
     </Layout>

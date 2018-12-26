@@ -1,7 +1,7 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import styled from 'styled-components';
-import Navbar from './navbar';
+import Navbar from './Navbar';
 import { rhythm } from '../utils/typography';
 
 const Container = styled.div`
@@ -9,7 +9,7 @@ const Container = styled.div`
   flex-direction: column;
   margin: 0 auto;
   max-width: 960px;
-  padding: ${rhythm(1.5)} ${rhythm(3/4)};
+  padding: ${rhythm(1.5)} ${rhythm(3 / 4)};
   padding-top: 0;
 `;
 
