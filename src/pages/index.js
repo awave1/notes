@@ -1,8 +1,13 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import styled from 'styled-components';
 import AnimatedIcon from '../components/animatedGhost';
 import Layout from '../components/layout';
-import PostLink from '../components/postLink';
+import Post from '../components/post';
+
+const PostContainer = styled.div`
+  margin-top: 45px;
+`;
 
 const IndexPage = ({
   data: {
@@ -11,12 +16,12 @@ const IndexPage = ({
 }) => {
   const Posts = edges
     .filter(edge => !!edge.node.frontmatter.date)
-    .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
+    .map(edge => <Post key={edge.node.id} post={edge.node} />);
 
   return (
     <Layout>
       <AnimatedIcon size={100} />
-      <div>{Posts}</div>
+      <PostContainer>{Posts}</PostContainer>
     </Layout>
   );
 };
@@ -29,7 +34,7 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          excerpt(pruneLength: 250)
+          excerpt
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             path
