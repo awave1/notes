@@ -3,7 +3,10 @@ module.exports = {
   siteMetadata: {
     title: 'notes',
     description: 'Collection of my university notes.',
-    author: '@awaveawave',
+    author: 'Artem Golovin',
+    social: {
+      twitter: 'awaveawave',
+    },
     siteUrl: 'https://awave1.github.io/notes',
   },
   plugins: [
