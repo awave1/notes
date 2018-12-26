@@ -1,10 +1,9 @@
 import { Link } from 'gatsby';
-import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
-  background: #202124;
+  background: ${props => (props.primary ? '#202124' : '#fbfbfb')};
   margin-bottom: 1.45rem;
 `;
 
@@ -15,26 +14,22 @@ const NavContent = styled.div`
 `;
 
 const NavHeader = styled(Link)`
-  color: white;
+  color: ${props => (props.primary ? '#fff' : '#202124')};
   text-decoration: none;
   text-shadow: none;
   background-image: none;
 `;
 
-const Navbar = ({ siteTitle }) => (
-  <Nav>
-    <NavContent>
-      <NavHeader to="/">{siteTitle}</NavHeader>
-    </NavContent>
-  </Nav>
-);
-
-Navbar.propTypes = {
-  siteTitle: PropTypes.string,
-};
-
-Navbar.defaultProps = {
-  siteTitle: '',
+const Navbar = ({ siteTitle, sm }) => {
+  return (
+    <Nav primary={!sm}>
+      <NavContent>
+        <NavHeader primary={!sm} to="/">
+          {siteTitle}
+        </NavHeader>
+      </NavContent>
+    </Nav>
+  );
 };
 
 export default Navbar;
