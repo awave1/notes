@@ -5,6 +5,9 @@ import styled from 'styled-components';
 const Nav = styled.nav`
   background: #202124;
   margin-bottom: 1.45rem;
+  box-shadow: 0px 0px 50px #0000001a;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 `;
 
 const NavContent = styled.div`
