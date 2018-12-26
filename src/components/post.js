@@ -3,7 +3,8 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 
 const PostTitle = styled.h3`
-  margin-bottom: 5px;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
 `;
 
 const PostContainer = styled.div`
