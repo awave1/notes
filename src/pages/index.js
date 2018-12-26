@@ -15,7 +15,7 @@ const IndexPage = ({
     .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
 
   return (
-    <Layout location={location}>
+    <Layout>
       <AnimatedIcon size={100} />
       <div>{Posts}</div>
     </Layout>

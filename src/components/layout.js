@@ -14,8 +14,7 @@ const Container = styled.div`
 
 class Layout extends React.Component {
   render() {
-    const { children, location } = this.props;
-    const rootPath = '/';
+    const { children } = this.props;
 
     return (
       <StaticQuery
@@ -30,10 +29,7 @@ class Layout extends React.Component {
         `}
         render={data => (
           <>
-            <Navbar
-              siteTitle={data.site.siteMetadata.title}
-              sm={location.pathname !== rootPath}
-            />
+            <Navbar siteTitle={data.site.siteMetadata.title} />
             <Container>{children}</Container>
           </>
         )}
