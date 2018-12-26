@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 import styled from 'styled-components';
 import Navbar from './navbar';
@@ -13,28 +12,34 @@ const Container = styled.div`
   padding-top: 0;
 `;
 
-const Layout = ({ children }) => (
-  <StaticQuery
-    query={graphql`
-      query SiteTitleQuery {
-        site {
-          siteMetadata {
-            title
-          }
-        }
-      }
-    `}
-    render={data => (
-      <>
-        <Navbar siteTitle={data.site.siteMetadata.title} />
-        <Container>{children}</Container>
-      </>
-    )}
-  />
-);
+class Layout extends React.Component {
+  render() {
+    const { children, location } = this.props;
+    const rootPath = '/';
 
-Layout.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+    return (
+      <StaticQuery
+        query={graphql`
+          query SiteTitleQuery {
+            site {
+              siteMetadata {
+                title
+              }
+            }
+          }
+        `}
+        render={data => (
+          <>
+            <Navbar
+              siteTitle={data.site.siteMetadata.title}
+              sm={location.pathname !== rootPath}
+            />
+            <Container>{children}</Container>
+          </>
+        )}
+      />
+    );
+  }
+}
 
 export default Layout;
