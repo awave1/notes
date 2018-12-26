@@ -2,7 +2,7 @@ import React from 'react';
 import { Ghost } from 'react-kawaii';
 import { styler, tween, merge, action, easing } from 'popmotion';
 
-class AnimatedIcon extends React.Component {
+class AnimatedGhost extends React.Component {
   constructor(props) {
     super(props);
 
@@ -77,4 +77,4 @@ class AnimatedIcon extends React.Component {
   }
 }
 
-export default AnimatedIcon;
+export default AnimatedGhost;
