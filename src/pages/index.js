@@ -1,7 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import Layout from '../components/Layout';
 import Post from '../components/Post';
 import Bio from '../components/Bio';
 
