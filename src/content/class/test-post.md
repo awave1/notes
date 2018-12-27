@@ -10,11 +10,74 @@ The path of the righteous man is beset on all sides by the iniquities of the sel
 
 Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows. Some pilots get picked and become television programs. Some don't, become nothing. She starred in one of the ones that became nothing.
 
-```js
-// Your bones don't break, mine do.
-// That's clear. Your cells react to bacteria and viruses differently than mine. You don't get sick, I do.
-// That's also clear. But for some reason, you and I react the exact same way to water.
-// We swallow it too fast, we choke. We get some in our lungs, we drown.
-// However unreal it may seem, we are connected, you and I.
-// We're on the same curve, just on opposite ends.
+```jsx
+import React from 'react';
+import { graphql } from 'gatsby';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import styled from 'styled-components';
+import Layout from '../components/Layout';
+import Bio from '../components/Bio';
+
+const GITHUB_USER = 'awave1';
+const GITHUB_REPO = 'notes';
+const CONTENT_ROOT = 'content';
+
+const EditContainer = styled.a`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background: none;
+  color: black;
+  font-family: monospace;
+  margin: 15px 0;
+  transition: all 0.1s;
+
+  &:hover {
+    color: #1ca086;
+  }
+`;
+
+function Template(props) {
+  const {
+    markdownRemark: {
+      frontmatter: { path, title, date },
+      html,
+    },
+  } = props.data;
+  const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${path}.md`;
+
+  return (
+    <Layout>
+      <div className="blog-post">
+        <h1>{title}</h1>
+        <h2>{date}</h2>
+        <div
+          className="blog-post-content"
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+        <EditContainer href={editUrl}>
+          <FontAwesomeIcon icon={faGithub} />{' '}
+          <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
+        </EditContainer>
+        <Bio simple />
+      </div>
+    </Layout>
+  );
+}
+
+export const pageQuery = graphql`
+  query($path: String!) {
+    markdownRemark(frontmatter: { path: { eq: $path } }) {
+      html
+      frontmatter {
+        date(formatString: "MMMM DD, YYYY")
+        path
+        title
+      }
+    }
+  }
+`;
+
+export default Template;
 ```
