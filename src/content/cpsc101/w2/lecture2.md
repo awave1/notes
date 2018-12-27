@@ -112,6 +112,6 @@ A **value set** specifies the set of values associated with an attribute
 
 Value sets are similar to data types in most programing languages - int, char (n), etc. Mathematically, an attribute A for an entity type E whose value set is V is defined as a function:
 
-```math
+$$
 A: E \to P(V)
-```
+$$

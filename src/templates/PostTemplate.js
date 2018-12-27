@@ -19,8 +19,9 @@ const EditContainer = styled.a`
   background: none;
   color: black;
   font-family: monospace;
-  margin: 15px 0;
+  margin: 1.5rem 0;
   transition: all 0.1s;
+  font-weight: bold;
 
   &:hover {
     color: #1ca086;
