@@ -58,9 +58,9 @@ class AnimatedGhost extends React.Component {
     });
 
     tween({
-      from: { y: 0 },
-      to: { y: 20 },
-      easings: easing.easeInOut,
+      from: { y: 10 },
+      to: { y: 15 },
+      easings: easing.anticipate,
       duration: 1650,
       yoyo: Infinity,
     }).start(body.set);
@@ -70,8 +70,8 @@ class AnimatedGhost extends React.Component {
 
   render() {
     return (
-      <div ref={this.iconRef} style={{ alignSelf: 'center' }}>
-        <Ghost {...this.props} mood="happy" />
+      <div ref={this.iconRef} style={{ marginLeft: 'auto', display: this.props.hide ? 'none' : 'initial' }}>
+        <Ghost size={this.props.size} mood={this.props.mood || "happy"} />
       </div>
     );
   }

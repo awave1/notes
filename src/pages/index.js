@@ -1,7 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import AnimatedIcon from '../components/AnimatedGhost';
 import Layout from '../components/Layout';
 import Post from '../components/Post';
 import Bio from '../components/Bio';
@@ -22,7 +21,6 @@ const IndexPage = ({
   return (
     <Layout>
       <Bio />
-      <AnimatedIcon size={100} />
       <PostContainer>{Posts}</PostContainer>
     </Layout>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import Image from 'gatsby-image';
+import AnimatedGhost from '../components/AnimatedGhost';
 import styled from 'styled-components';
 import { rhythm } from '../utils/typography';
 
@@ -21,7 +22,15 @@ const BioText = styled.div`
   flex-direction: column;
 `;
 
-function Bio() {
+function Bio(props) {
+  const { simple } = props;
+  let ghost;
+  let written;
+
+  if (!simple) {
+    ghost = <AnimatedGhost size={50} />;
+  }
+
   return (
     <StaticQuery
       query={bioQuery}
@@ -40,6 +49,7 @@ function Bio() {
                 </a>
               </p>
             </BioText>
+            {ghost}
           </BioWrapper>
         );
       }}

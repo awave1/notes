@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import Layout from '../components/Layout';
+import Bio from '../components/Bio';
 
 export default function Template({ data, location }) {
   const { markdownRemark } = data;
@@ -15,6 +16,7 @@ export default function Template({ data, location }) {
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
+        <Bio simple />
       </div>
     </Layout>
   );
