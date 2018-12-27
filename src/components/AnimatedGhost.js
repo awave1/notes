@@ -1,6 +1,16 @@
 import React from 'react';
 import { Ghost } from 'react-kawaii';
 import { styler, tween, merge, action, easing } from 'popmotion';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  margin-left: auto;
+  display: ${props => (props.hide ? 'none' : 'initial')};
+
+  @media screen and (max-width: 430px) {
+    display: none !important;
+  }
+`;
 
 class AnimatedGhost extends React.Component {
   constructor(props) {
@@ -70,9 +80,9 @@ class AnimatedGhost extends React.Component {
 
   render() {
     return (
-      <div ref={this.iconRef} style={{ marginLeft: 'auto', display: this.props.hide ? 'none' : 'initial' }}>
-        <Ghost size={this.props.size} mood={this.props.mood || "happy"} />
-      </div>
+      <Wrapper ref={this.iconRef} hide={this.props.hide}>
+        <Ghost size={this.props.size} mood={this.props.mood || 'happy'} />
+      </Wrapper>
     );
   }
 }

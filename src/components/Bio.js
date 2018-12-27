@@ -14,6 +14,10 @@ const Avatar = styled(Image)`
   margin-bottom: 0;
   min-width: 60;
   border-radius: 100%;
+
+  @media screen and (max-width: 310px) {
+    display: none !important;
+  }
 `;
 
 const BioText = styled.div`
