@@ -7,10 +7,14 @@ const GITHUB_USER = 'awave1';
 const GITHUB_REPO = 'notes';
 const CONTENT_ROOT = 'content';
 
-export default function Template({ data, location }) {
-  const { markdownRemark } = data;
-  const { frontmatter: { path, title, date }, html } = markdownRemark;
-  const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${path}.md`
+function Template(props) {
+  const {
+    markdownRemark: {
+      frontmatter: { path, title, date },
+      html,
+    },
+  } = props.data;
+  const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${path}.md`;
 
   return (
     <Layout>
@@ -40,3 +44,5 @@ export const pageQuery = graphql`
     }
   }
 `;
+
+export default Template;

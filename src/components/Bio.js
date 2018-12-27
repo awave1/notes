@@ -24,7 +24,6 @@ const BioText = styled.div`
 function Bio(props) {
   const { simple } = props;
   let ghost;
-  let written;
 
   if (!simple) {
     ghost = <AnimatedGhost size={50} />;
