@@ -3,19 +3,25 @@ import { graphql } from 'gatsby';
 import Layout from '../components/Layout';
 import Bio from '../components/Bio';
 
+const GITHUB_USER = 'awave1';
+const GITHUB_REPO = 'notes';
+const CONTENT_ROOT = 'content';
+
 export default function Template({ data, location }) {
   const { markdownRemark } = data;
-  const { frontmatter, html } = markdownRemark;
+  const { frontmatter: { path, title, date }, html } = markdownRemark;
+  const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${path}.md`
 
   return (
     <Layout>
       <div className="blog-post">
-        <h1>{frontmatter.title}</h1>
-        <h2>{frontmatter.date}</h2>
+        <h1>{title}</h1>
+        <h2>{date}</h2>
         <div
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
+        <a href={editUrl}>edit on github</a>
         <Bio simple />
       </div>
     </Layout>

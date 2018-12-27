@@ -7,7 +7,6 @@ import { rhythm } from '../utils/typography';
 
 const BioWrapper = styled.div`
   display: flex;
-  margin-bottom: ${rhythm(1)};
 `;
 
 const Avatar = styled(Image)`
