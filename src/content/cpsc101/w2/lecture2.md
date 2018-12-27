@@ -1,7 +1,6 @@
 ---
 title: Entity Relationship Model
 date: '2018-12-26'
-path: '/cpsc101/w1/lecture2'
 ---
 
 **Objective**

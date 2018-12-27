@@ -1,7 +1,6 @@
 ---
 title: Theoretical Query Language
 date: '2018-12-25'
-path: '/cpsc101/w1/lecture1'
 ---
 
 **Outline**:
@@ -64,7 +63,7 @@ SELECT THE EMPLOYEE TUPLES WHOSE SALARY IS GREATER THAN 30000
 **Properties of SELECT**:
 
 - The `SELECT` $`\sigma_{condition} (R)`$ operation produces a relation S that has the same schema as R
-- `SELECT` \\$`\sigma`\$ is commutative: \$`\sigma\_{c1}(\sigma\_{c2} (R)) = \sigma\_{c2}(\sigma\_{c1} (R))`\$
+- `SELECT` \\\$`\sigma`\\$ is commutative: \\$`\sigma\\_{c1}(\sigma\\_{c2} (R)) = \sigma\\_{c2}(\sigma\\_{c1} (R))`\$
   - Cascade of `SELECT` operations may be applied in any order
 - Cascade of `SELECT` operations may be replaced by a single selection with a conjunction of all the conditions: $`\sigma_{c1} (\sigma_{c2} (R)) = \sigma{c1 AND c2} (R)`$
 - The number of tuples in the resullt of a `SELECT` is less than (or equal to) the number of tuples in the input relation R

@@ -17,13 +17,14 @@ const PostContainer = styled.div`
 export default ({ post }) => {
   const {
     excerpt,
-    frontmatter: { title, date, path },
+    fields: { slug },
+    frontmatter: { title, date },
   } = post;
 
   return (
     <PostContainer>
       <PostTitle>
-        <Link to={path}>{title}</Link>
+        <Link to={slug}>{title}</Link>
       </PostTitle>
       <small>{date}</small>
       <p dangerouslySetInnerHTML={{ __html: excerpt }} />
