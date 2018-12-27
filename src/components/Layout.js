@@ -1,5 +1,6 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
+import PageTransition from 'gatsby-plugin-page-transitions';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/typography';
@@ -31,7 +32,9 @@ class Layout extends React.Component {
         render={data => (
           <>
             <Navbar siteTitle={data.site.siteMetadata.title} />
-            <Container>{children}</Container>
+            <Container>
+              <PageTransition>{children}</PageTransition>
+            </Container>
           </>
         )}
       />
