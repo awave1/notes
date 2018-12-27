@@ -21,18 +21,6 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-sharp',
     {
-      resolve: 'gatsby-plugin-manifest',
-      options: {
-        name: 'gatsby-starter-default',
-        short_name: 'starter',
-        start_url: '/',
-        background_color: '#663399',
-        theme_color: '#663399',
-        display: 'minimal-ui',
-        icon: 'src/images/gatsby-icon.png', // This path is relative to the root of the site.
-      },
-    },
-    {
       resolve: 'gatsby-plugin-sass',
       options: {
         implementation: require('sass'),
@@ -75,8 +63,18 @@ module.exports = {
         transitionTime: 250,
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.app/offline
-    // 'gatsby-plugin-offline',
+    {
+      resolve: 'gatsby-plugin-manifest',
+      options: {
+        name: 'awave notes',
+        short_name: 'notes',
+        start_url: '/',
+        background_color: '#663399',
+        theme_color: '#663399',
+        display: 'standalone',
+        icon: 'src/images/icon.png',
+      },
+    },
+    'gatsby-plugin-offline',
   ],
 };
