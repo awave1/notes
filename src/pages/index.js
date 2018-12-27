@@ -1,6 +1,9 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
 import Layout from '../components/Layout';
 import Post from '../components/Post';
 import Bio from '../components/Bio';

@@ -1,11 +1,29 @@
 import React from 'react';
 import { graphql } from 'gatsby';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import styled from 'styled-components';
 import Layout from '../components/Layout';
 import Bio from '../components/Bio';
 
 const GITHUB_USER = 'awave1';
 const GITHUB_REPO = 'notes';
 const CONTENT_ROOT = 'content';
+
+const EditContainer = styled.a`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  background: none;
+  color: black;
+  font-family: monospace;
+  margin: 15px 0;
+  transition: all 0.1s;
+
+  &:hover {
+    color: #1ca086;
+  }
+`;
 
 function Template(props) {
   const {
@@ -25,7 +43,10 @@ function Template(props) {
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-        <a href={editUrl}>edit on github</a>
+        <EditContainer href={editUrl}>
+          <FontAwesomeIcon icon={faGithub} />{' '}
+          <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
+        </EditContainer>
         <Bio simple />
       </div>
     </Layout>
