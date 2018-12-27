@@ -21,13 +21,14 @@ const NavHeader = styled(Link)`
   text-decoration: none;
   text-shadow: none;
   background-image: none;
+  font-family: monospace;
 `;
 
 const Navbar = ({ siteTitle, usePrimaryNav }) => {
   return (
     <Nav>
       <NavContent>
-        <NavHeader to="/">{siteTitle}</NavHeader>
+        <NavHeader to="/">/{siteTitle}</NavHeader>
       </NavContent>
     </Nav>
   );

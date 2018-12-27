@@ -14,6 +14,7 @@ const Avatar = styled(Image)`
   margin-bottom: 0;
   min-width: 60;
   border-radius: 100%;
+  box-shadow: 0px 0px 25px #0000004d;
 
   @media screen and (max-width: 310px) {
     display: none !important;
