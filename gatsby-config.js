@@ -11,6 +11,13 @@ module.exports = {
   },
   plugins: [
     'gatsby-plugin-react-helmet',
+
+    {
+      resolve: 'gatsby-plugin-layout',
+      options: {
+        component: require.resolve('./src/components/Layout'),
+      },
+    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -57,12 +64,6 @@ module.exports = {
       },
     },
     `gatsby-plugin-styled-components`,
-    {
-      resolve: 'gatsby-plugin-page-transitions',
-      options: {
-        transitionTime: 250,
-      },
-    },
     {
       resolve: 'gatsby-plugin-manifest',
       options: {

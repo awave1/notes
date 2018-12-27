@@ -1,7 +1,7 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
-import PageTransition from 'gatsby-plugin-page-transitions';
 import styled from 'styled-components';
+import Transition from '../components/Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/typography';
 
@@ -16,7 +16,7 @@ const Container = styled.div`
 
 class Layout extends React.Component {
   render() {
-    const { children } = this.props;
+    const { children, location } = this.props;
 
     return (
       <StaticQuery
@@ -33,7 +33,7 @@ class Layout extends React.Component {
           <>
             <Navbar siteTitle={data.site.siteMetadata.title} />
             <Container>
-              <PageTransition>{children}</PageTransition>
+              <Transition location={location}>{children}</Transition>
             </Container>
           </>
         )}

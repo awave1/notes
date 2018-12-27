@@ -19,10 +19,10 @@ const IndexPage = ({
     .map(edge => <Post key={edge.node.id} post={edge.node} />);
 
   return (
-    <Layout>
+    <>
       <Bio />
       <PostContainer>{Posts}</PostContainer>
-    </Layout>
+    </>
   );
 };
 

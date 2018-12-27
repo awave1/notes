@@ -38,7 +38,7 @@ function Template(props) {
   const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${path}.md`;
 
   return (
-    <Layout>
+    <>
       <div className="blog-post">
         <h1>{title}</h1>
         <h2>{date}</h2>
@@ -52,7 +52,7 @@ function Template(props) {
         </EditContainer>
         <Bio simple />
       </div>
-    </Layout>
+    </>
   );
 }
 
