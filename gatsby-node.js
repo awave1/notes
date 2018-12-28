@@ -25,12 +25,19 @@ exports.createPages = ({ actions, graphql }) => {
       return Promise.reject(result.errors);
     }
 
-    result.data.allMarkdownRemark.edges.forEach(({ node }) => {
+    const posts = result.data.allMarkdownRemark.edges;
+    posts.forEach((post, index) => {
+      const { node } = post;
+      const prev = index === posts.length - 1 ? null : posts[index + 1].node;
+      const next = index === 0 ? null : posts[index - 1].node;
+
       createPage({
         path: node.fields.slug,
         component: template,
         context: {
+          prev,
           slug: node.fields.slug,
+          next,
         },
       });
     });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
-import Post from '../components/Post';
+import PostLink from '../components/PostLink';
 import Bio from '../components/Bio';
 
 const PostContainer = styled.div`
@@ -15,7 +15,7 @@ const IndexPage = ({
 }) => {
   const Posts = edges
     .filter(edge => !!edge.node.frontmatter.date)
-    .map(edge => <Post key={edge.node.id} post={edge.node} />);
+    .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
 
   return (
     <>
