@@ -65,17 +65,14 @@ function Template(props) {
       <div className="blog-post">
         <h1>{title}</h1>
         <h2>{date}</h2>
-
         <div
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
-
         <PagingContainer>
           {prev && <Page to={prev.fields.slug}> ￩ {prev.fields.slug}</Page>}
           {next && <Page to={next.fields.slug}>{next.fields.slug} ￫ </Page>}
         </PagingContainer>
-
         <EditContainer href={editUrl}>
           <FontAwesomeIcon icon={faGithub} />{' '}
           <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
