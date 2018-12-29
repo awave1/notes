@@ -1,19 +1,19 @@
 import { Link } from 'gatsby';
 import React from 'react';
 import styled from 'styled-components';
+import Switch from './Switch';
 
 const Nav = styled.nav`
-  background: #202124;
-  margin-bottom: 1.45rem;
+  background: #212121;
   box-shadow: 0px 0px 50px #0000001a;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
 `;
 
 const NavContent = styled.div`
   margin: 0 auto;
   max-width: 960px;
   padding: 1.45rem 1.0875rem;
+  display: flex;
+  align-items: center;
 `;
 
 const NavHeader = styled(Link)`
@@ -24,11 +24,12 @@ const NavHeader = styled(Link)`
   font-family: monospace;
 `;
 
-const Navbar = ({ siteTitle, usePrimaryNav }) => {
+const Navbar = ({ siteTitle, onThemeChanged }) => {
   return (
     <Nav>
       <NavContent>
         <NavHeader to="/">/{siteTitle}</NavHeader>
+        <Switch style={{ marginLeft: 'auto' }} onChange={onThemeChanged} />
       </NavContent>
     </Nav>
   );

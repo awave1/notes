@@ -1,6 +1,14 @@
 import Typography from 'typography';
 import fairyGatesTheme from 'typography-theme-fairy-gates';
 
+fairyGatesTheme.overrideStyles = () => ({
+  a: {
+    color: '#1ca086',
+    background: 'none',
+    textDecoration: 'none',
+  },
+});
+
 const typography = new Typography(fairyGatesTheme);
 
 // Hot reload typography in development.

@@ -13,7 +13,7 @@ const getTransitionStyles = {
     opacity: 0,
   },
   entered: {
-    transition: `opacity ${enter}ms cubic-bezier(.55,0,.1,1)`,
+    transition: `all ${enter}ms cubic-bezier(.55,0,.1,1)`,
     opacity: 1,
   },
   exiting: {
