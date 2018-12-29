@@ -10,6 +10,10 @@ const GITHUB_USER = 'awave1';
 const GITHUB_REPO = 'notes';
 const CONTENT_ROOT = 'content';
 
+const BlogPost = styled.div`
+  /* transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1); */
+`;
+
 const EditContainer = styled.a`
   display: flex;
   align-items: center;
@@ -62,7 +66,7 @@ function Template(props) {
 
   return (
     <>
-      <div className="blog-post">
+      <BlogPost>
         <h1>{title}</h1>
         <h2>{date}</h2>
         <div
@@ -78,7 +82,7 @@ function Template(props) {
           <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
         </EditContainer>
         <Bio simple />
-      </div>
+      </BlogPost>
     </>
   );
 }

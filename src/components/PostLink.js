@@ -8,10 +8,12 @@ const PostTitle = styled.h3`
 `;
 
 const PostContainer = styled.div`
+  background: ${props => props.theme.card.background};
   box-shadow: 1px 0px 50px #0000001a;
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 48px;
+  transition: background 150ms cubic-bezier(0.55, 0, 0.1, 1);
 `;
 
 export default ({ post }) => {

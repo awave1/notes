@@ -26,6 +26,7 @@ const ContentWrapper = styled.div`
   h5,
   h6 {
     color: ${props => props.theme.secondaryColor};
+    transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
   }
 `;
 
@@ -37,10 +38,16 @@ class Layout extends React.Component {
       light: {
         primaryColor: '#f5f5f6',
         secondaryColor: 'black',
+        card: {
+          background: '#f5f5f6',
+        },
       },
       dark: {
         primaryColor: '#212121',
         secondaryColor: 'white',
+        card: {
+          background: '#191919',
+        },
       },
     };
 
@@ -56,7 +63,7 @@ class Layout extends React.Component {
       theme: target.checked ? this.theme.dark : this.theme.light,
     });
 
-    log(this.state.theme);
+    document.body.style.background = this.state.theme.primaryColor;
   }
 
   render() {
@@ -81,7 +88,10 @@ class Layout extends React.Component {
               onThemeChanged={this.onThemeChanged}
             />
             <ThemeProvider theme={theme}>
-              <Transition location={location}>
+              <Transition
+                location={location}
+                backgroundColor={theme.primaryColor}
+              >
                 <ContentWrapper>
                   <Content>{children}</Content>
                 </ContentWrapper>
