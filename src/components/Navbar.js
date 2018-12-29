@@ -29,7 +29,9 @@ const Navbar = ({ siteTitle, onThemeChanged }) => {
     <Nav>
       <NavContent>
         <NavHeader to="/">/{siteTitle}</NavHeader>
-        <Switch style={{ marginLeft: 'auto' }} onChange={onThemeChanged} />
+        <div style={{ marginLeft: 'auto' }}>
+          <Switch onChange={onThemeChanged} />
+        </div>
       </NavContent>
     </Nav>
   );

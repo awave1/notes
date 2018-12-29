@@ -12,11 +12,11 @@ const SwitchWrapper = styled.label`
   }
 
   input:checked + span {
-    background-color: #2196f3;
+    background-color: #101010;
   }
 
   input:focus + span {
-    box-shadow: 0 0 1px #2196f3;
+    box-shadow: 0 0 1px #101010;
   }
 `;
 
