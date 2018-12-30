@@ -17,41 +17,44 @@ const BlogPost = styled.div`
 const EditContainer = styled.a`
   display: flex;
   align-items: center;
-  text-decoration: none;
-  background: none;
-  color: black;
   font-family: monospace;
   margin: 1.5rem 0;
-  transition: all 0.1s;
   font-weight: bold;
 
   &:hover {
-    color: #1ca086;
+    text-decoration: underline;
   }
 `;
 
 const PagingContainer = styled.ul`
   display: flex;
-  justify-content: space-between;
   list-style: none;
   margin: 1.5rem 0;
 `;
 
 const PageLink = styled(Link)`
-  text-decoration: none;
-  background: none;
-  color: black;
   font-family: monospace;
+
   &:hover {
-    color: #1ca086;
+    text-decoration: underline;
+  }
+
+  @media screen and (max-width: 426px){
+    font-size: 13px;
   }
 `;
 
-const Page = props => (
-  <li style={{ margin: 0 }}>
+const Page = props => {
+
+  const css = {
+    margin: `0 ${props.left ? 'auto' : '0'} 0 ${ props.right ? 'auto' : '0' }`,
+  };
+
+  return (
+  <li style={css}>
     <PageLink to={props.to}>{props.children}</PageLink>
-  </li>
-);
+  </li>);
+};
 
 function Template(props) {
   const {
@@ -74,8 +77,8 @@ function Template(props) {
           dangerouslySetInnerHTML={{ __html: html }}
         />
         <PagingContainer>
-          {prev && <Page to={prev.fields.slug}> ￩ {prev.fields.slug}</Page>}
-          {next && <Page to={next.fields.slug}>{next.fields.slug} ￫ </Page>}
+          {prev && <Page to={prev.fields.slug} left> ￩ {prev.fields.slug}</Page>}
+          {next && <Page to={next.fields.slug} right>{next.fields.slug} ￫ </Page>}
         </PagingContainer>
         <EditContainer href={editUrl}>
           <FontAwesomeIcon icon={faGithub} />{' '}

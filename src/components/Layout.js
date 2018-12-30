@@ -3,7 +3,7 @@ import { StaticQuery, graphql } from 'gatsby';
 import styled, { ThemeProvider } from 'styled-components';
 import Transition from '../components/Transition';
 import Navbar from './Navbar';
-import { rhythm } from '../utils/typography';
+import { rhythm } from '../utils/Typography';
 
 const Content = styled.div`
   display: flex;
@@ -27,6 +27,10 @@ const ContentWrapper = styled.div`
     color: ${props => props.theme.secondaryColor};
     transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
   }
+
+  code.language-text {
+    color: ${props => props.theme.code.primaryColor};
+  }
 `;
 
 class Layout extends React.Component {
@@ -37,8 +41,14 @@ class Layout extends React.Component {
       light: {
         primaryColor: '#f5f5f6',
         secondaryColor: 'black',
+        a: {
+
+        },
         card: {
           background: '#f5f5f6',
+        },
+        code: {
+          primaryColor: '#1a1a1a'
         },
       },
       dark: {
@@ -46,6 +56,9 @@ class Layout extends React.Component {
         secondaryColor: 'white',
         card: {
           background: '#191919',
+        },
+        code: {
+          primaryColor: '#f5f5f6'
         },
       },
     };

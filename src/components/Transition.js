@@ -29,7 +29,7 @@ const TransitionWrapper = styled.div`
 
 class Transition extends React.PureComponent {
   render() {
-    const { children, location, backgroundColor } = this.props;
+    const { children, location } = this.props;
 
     return (
       <TransitionGroup>
