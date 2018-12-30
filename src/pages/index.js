@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PostLink from '../components/PostLink';
 import Bio from '../components/Bio';
+import './index.css';
 
 const PostContainer = styled.div`
   margin-top: 45px;

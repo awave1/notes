@@ -1,0 +1,12 @@
+body {
+  background: #f5f5f6;
+  transition: background 150ms cubic-bezier(0.55, 0, 0.1, 1);
+}
+
+.body__dark {
+  background: #212121
+}
+
+.body__light {
+  background: #f5f5f6;
+}

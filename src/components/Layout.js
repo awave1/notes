@@ -4,7 +4,6 @@ import styled, { ThemeProvider } from 'styled-components';
 import Transition from '../components/Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/typography';
-import log from '../utils/log';
 
 const Content = styled.div`
   display: flex;
@@ -62,6 +61,14 @@ class Layout extends React.Component {
     await this.setState({
       theme: target.checked ? this.theme.dark : this.theme.light,
     });
+
+    if (target.checked) {
+      document.body.classList.remove('body__light');
+      document.body.classList.add('body__dark');
+    } else {
+      document.body.classList.remove('body__dark');
+      document.body.classList.add('body__light');
+    }
 
     document.body.style.background = this.state.theme.primaryColor;
   }
