@@ -12,7 +12,7 @@ exports.onServiceWorkerUpdateFound = () => {
     'The app has been updated, reload to display the latest content?'
   );
 
-  if (answer) {
+  if (answer === true) {
     window.location.reload();
   }
 };
