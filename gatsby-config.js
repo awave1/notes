@@ -68,7 +68,7 @@ module.exports = {
       options: {
         name: 'awave notes',
         short_name: 'notes',
-        start_url: '/',
+        start_url: '/notes',
         background_color: '#212121',
         theme_color: '#212121',
         display: 'standalone',
