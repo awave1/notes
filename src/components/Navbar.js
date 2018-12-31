@@ -24,14 +24,31 @@ const NavHeader = styled(Link)`
   font-family: monospace;
 `;
 
-const Navbar = ({ siteTitle, onThemeChanged }) => {
+const SwitchContainer = styled.div`
+  display: flex;
+  margin-left: auto;
+  align-items: center;
+`;
+
+const SwitchCounter = styled.span`
+  margin-right: 10px;
+  color: #f5f5f6;
+  font-size: 12px;
+
+  @media screen and (max-width: 425px) {
+    display: none;
+  }
+`;
+
+const Navbar = ({ siteTitle, onThemeChanged, switchCounter }) => {
   return (
     <Nav>
       <NavContent>
         <NavHeader to="/">/{siteTitle}</NavHeader>
-        <div style={{ marginLeft: 'auto' }}>
+        <SwitchContainer>
+          {switchCounter > 5 && <SwitchCounter>Look, I just flipped the switch {switchCounter} times!</SwitchCounter>}
           <Switch onChange={onThemeChanged} />
-        </div>
+        </SwitchContainer>
       </NavContent>
     </Nav>
   );

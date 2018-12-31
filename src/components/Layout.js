@@ -65,6 +65,7 @@ class Layout extends React.Component {
 
     this.state = {
       theme: this.theme.light,
+      switchCounter: 0,
     };
 
     this.onThemeChanged = this.onThemeChanged.bind(this);
@@ -73,6 +74,7 @@ class Layout extends React.Component {
   async onThemeChanged({ target }) {
     await this.setState({
       theme: target.checked ? this.theme.dark : this.theme.light,
+      switchCounter: this.state.switchCounter + 1,
     });
 
     if (target.checked) {
@@ -88,7 +90,7 @@ class Layout extends React.Component {
 
   render() {
     const { children, location } = this.props;
-    const { theme } = this.state;
+    const { theme, switchCounter } = this.state;
 
     return (
       <StaticQuery
@@ -106,6 +108,7 @@ class Layout extends React.Component {
             <Navbar
               siteTitle={data.site.siteMetadata.title}
               onThemeChanged={this.onThemeChanged}
+              switchCounter={switchCounter}
             />
             <ThemeProvider theme={theme}>
               <Transition
