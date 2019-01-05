@@ -3,7 +3,6 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PostLink from '../components/PostLink';
 import Bio from '../components/Bio';
-import EmptyPage from '../components/EmptyPage';
 import './index.css';
 
 const PostContainer = styled.div`
