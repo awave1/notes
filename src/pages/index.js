@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PostLink from '../components/PostLink';
 import Bio from '../components/Bio';
+import EmptyPage from '../components/EmptyPage';
 import './index.css';
 
 const PostContainer = styled.div`
@@ -14,14 +15,14 @@ const IndexPage = ({
     allMarkdownRemark: { edges },
   },
 }) => {
-  const Posts = edges
+  const content = edges
     .filter(edge => !!edge.node.frontmatter.date)
     .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
 
   return (
     <>
       <Bio />
-      <PostContainer>{Posts}</PostContainer>
+      <PostContainer>{content}</PostContainer>
     </>
   );
 };

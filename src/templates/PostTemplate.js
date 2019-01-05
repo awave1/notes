@@ -3,8 +3,8 @@ import { graphql, Link } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
-import 'katex/dist/katex.min.css';
 import Bio from '../components/Bio';
+import 'katex/dist/katex.min.css';
 
 const GITHUB_USER = 'awave1';
 const GITHUB_REPO = 'notes';
