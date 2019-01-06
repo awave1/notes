@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
 import Bio from '../components/Bio';
+import TagList from '../components/TagList';
 import 'katex/dist/katex.min.css';
 
 const GITHUB_USER = 'awave1';
@@ -39,46 +40,72 @@ const PageLink = styled(Link)`
     text-decoration: underline;
   }
 
-  @media screen and (max-width: 426px){
+  @media screen and (max-width: 426px) {
     font-size: 13px;
   }
 `;
 
 const Page = props => {
-
   const css = {
-    margin: `0 ${props.left ? 'auto' : '0'} 0 ${ props.right ? 'auto' : '0' }`,
+    margin: `0 ${props.left ? 'auto' : '0'} 0 ${props.right ? 'auto' : '0'}`,
   };
 
   return (
-  <li style={css}>
-    <PageLink to={props.to}>{props.children}</PageLink>
-  </li>);
+    <li style={css}>
+      <PageLink to={props.to}>{props.children}</PageLink>
+    </li>
+  );
+};
+
+const PostHeader = props => {
+  const Container = styled.div`
+    margin: 1rem 0;
+
+    h1 {
+      margin: 0;
+    }
+  `;
+
+  return (
+    <Container>
+      <h1>{props.title}</h1>
+      <small>{props.date}</small>
+      <TagList tags={props.tags} />
+    </Container>
+  );
 };
 
 function Template(props) {
   const {
     markdownRemark: {
-      frontmatter: { path, title, date },
+      frontmatter: { title, date, tags },
       html,
     },
   } = props.data;
-  const { prev, next } = props.pageContext;
-  console.log(props.pageContext);
-  const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${path}.md`;
+  const { slug, prev, next } = props.pageContext;
+
+  const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${slug}.md`;
 
   return (
     <>
       <BlogPost>
-        <h1>{title}</h1>
-        <h2>{date}</h2>
+        <PostHeader title={title} date={date} tags={tags} />
         <div
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: html }}
         />
         <PagingContainer>
-          {prev && <Page to={prev.fields.slug} left> ￩ {prev.fields.slug}</Page>}
-          {next && <Page to={next.fields.slug} right>{next.fields.slug} ￫ </Page>}
+          {prev && (
+            <Page to={prev.fields.slug} left>
+              {' '}
+              ￩ {prev.fields.slug}
+            </Page>
+          )}
+          {next && (
+            <Page to={next.fields.slug} right>
+              {next.fields.slug} ￫{' '}
+            </Page>
+          )}
         </PagingContainer>
         <EditContainer href={editUrl}>
           <FontAwesomeIcon icon={faGithub} />{' '}
@@ -97,6 +124,7 @@ export const pageQuery = graphql`
       frontmatter {
         date(formatString: "MMMM DD, YYYY")
         title
+        tags
       }
     }
   }

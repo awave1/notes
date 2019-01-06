@@ -47,13 +47,11 @@ exports.createPages = ({ actions, graphql }) => {
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === 'MarkdownRemark') {
-    const file = getNode(node.parent);
-    console.log(`\n file: ${file.relativePath}`);
     const slug = createFilePath({ node, getNode, basePath: 'src/content' });
     createNodeField({
       node,
       name: 'slug',
-      value: slug,
+      value: slug.replace(/\/$/, ''),
     });
   }
 };
