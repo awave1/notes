@@ -7,7 +7,7 @@ import { rhythm } from '../utils/Typography';
 
 const Content = styled.div`
   display: flex;
-  max-width: 960px;
+  max-width: 41rem;
   padding: ${rhythm(1.5)} ${rhythm(3 / 4)};
   margin: 0 auto;
   flex-direction: column;

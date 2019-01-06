@@ -10,7 +10,7 @@ const Nav = styled.nav`
 
 const NavContent = styled.div`
   margin: 0 auto;
-  max-width: 960px;
+  max-width: 41rem;
   padding: 1.45rem 1.0875rem;
   display: flex;
   align-items: center;
