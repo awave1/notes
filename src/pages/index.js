@@ -1,13 +1,8 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import styled from 'styled-components';
 import PostLink from '../components/PostLink';
 import Bio from '../components/Bio';
 import './index.css';
-
-const PostContainer = styled.div`
-  margin-top: 45px;
-`;
 
 const IndexPage = ({
   data: {
@@ -21,7 +16,7 @@ const IndexPage = ({
   return (
     <>
       <Bio />
-      <PostContainer>{content}</PostContainer>
+      <div style={{ marginTop: 45 }}>{content}</div>
     </>
   );
 };

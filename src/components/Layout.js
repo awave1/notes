@@ -41,14 +41,17 @@ class Layout extends React.Component {
       light: {
         primaryColor: '#f5f5f6',
         secondaryColor: 'black',
-        a: {
-
-        },
         card: {
           background: '#f5f5f6',
         },
         code: {
-          primaryColor: '#1a1a1a'
+          primaryColor: '#1a1a1a',
+        },
+        tag: {
+          background: '#e0e0e080',
+          hover: {
+            background: '#e0e0e0',
+          },
         },
       },
       dark: {
@@ -58,7 +61,13 @@ class Layout extends React.Component {
           background: '#191919',
         },
         code: {
-          primaryColor: '#f5f5f6'
+          primaryColor: '#f5f5f6',
+        },
+        tag: {
+          background: '#ffffffe6',
+          hover: {
+            background: '#fff',
+          },
         },
       },
     };

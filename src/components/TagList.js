@@ -3,16 +3,32 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTags, faTag } from '@fortawesome/free-solid-svg-icons';
+import { leKebab } from '../utils/common';
 
 const List = styled.ul`
   display: flex;
+  flex-wrap: wrap;
   list-style: none;
-  margin: 0;
+  margin: 0 10px;
 `;
 
 const Tag = styled.li`
   margin: 0 5px;
+  padding: 3px 10px;
   font-size: 0.9em;
+  background: ${props => props.theme.tag.background};
+  font-family: monospace;
+  border-radius: 5px;
+  transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
+  cursor: pointer;
+
+  &:hover {
+    background: ${props => props.theme.tag.hover.background};
+  }
+
+  @media screen and (max-width: 600px) {
+    margin: 5px 2px;
+  }
 `;
 
 const TagList = ({ tags }) => {
@@ -32,9 +48,8 @@ const TagList = ({ tags }) => {
       {icon}
       <List>
         {tags.map((name, i) => (
-          <Tag>
-            <Link to="">{name}</Link>
-            {i !== tags.length - 1 ? ',' : ''}
+          <Tag key={i}>
+            <Link to={`/tags/${leKebab(name)}`}>{name}</Link>
           </Tag>
         ))}
       </List>

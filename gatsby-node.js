@@ -1,9 +1,15 @@
 const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
+const { leKebab } = require('./src/utils/common');
+
+const flatten = arr => [].concat.apply([], arr);
+
+const unique = arr => arr.filter((el, i, array) => array.indexOf(el) === i);
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions;
-  const template = path.resolve('src/templates/PostTemplate.js');
+  const PostTemplate = path.resolve('src/templates/PostTemplate.js');
+  const TagTemplate = path.resolve('src/templates/TagTemplate.js');
 
   return graphql(`
     {
@@ -15,6 +21,9 @@ exports.createPages = ({ actions, graphql }) => {
           node {
             fields {
               slug
+            }
+            frontmatter {
+              tags
             }
           }
         }
@@ -33,12 +42,24 @@ exports.createPages = ({ actions, graphql }) => {
 
       createPage({
         path: node.fields.slug,
-        component: template,
+        component: PostTemplate,
         context: {
           prev,
           slug: node.fields.slug,
           next,
         },
+      });
+    });
+
+    const tags = posts
+      .filter(edge => !!edge.node.frontmatter.tags)
+      .map(edge => edge.node.frontmatter.tags);
+
+    unique(flatten(tags)).forEach(tag => {
+      createPage({
+        path: `/tags/${leKebab(tag)}`,
+        component: TagTemplate,
+        context: { tag },
       });
     });
   });
