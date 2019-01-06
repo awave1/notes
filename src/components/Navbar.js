@@ -44,9 +44,13 @@ const Navbar = ({ siteTitle, onThemeChanged, switchCounter }) => {
   return (
     <Nav>
       <NavContent>
-        <NavHeader to="/">/{siteTitle}</NavHeader>
+        <NavHeader to="/">{siteTitle}</NavHeader>
         <SwitchContainer>
-          {switchCounter > 5 && <SwitchCounter>Look, I just flipped the switch {switchCounter} times!</SwitchCounter>}
+          {switchCounter > 5 && (
+            <SwitchCounter>
+              Look, I just flipped the switch {switchCounter} times!
+            </SwitchCounter>
+          )}
           <Switch onChange={onThemeChanged} />
         </SwitchContainer>
       </NavContent>

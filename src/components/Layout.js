@@ -115,7 +115,7 @@ class Layout extends React.Component {
         render={data => (
           <>
             <Navbar
-              siteTitle={data.site.siteMetadata.title}
+              siteTitle={`/${data.site.siteMetadata.title}`}
               onThemeChanged={this.onThemeChanged}
               switchCounter={switchCounter}
             />
