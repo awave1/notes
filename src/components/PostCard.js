@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
+import { getReadingTime } from '../utils/utils';
 
 const PostTitle = styled.h3`
   margin-top: 1rem;
@@ -18,17 +19,22 @@ const PostContainer = styled.div`
 
 export default ({ post }) => {
   const {
+    html,
     excerpt,
     fields: { slug },
     frontmatter: { title, date },
   } = post;
+
+  const readingTime = getReadingTime(html);
 
   return (
     <PostContainer>
       <PostTitle>
         <Link to={slug}>{title}</Link>
       </PostTitle>
-      <small>{date}</small>
+      <small>
+        {date} | {readingTime}
+      </small>
       <p dangerouslySetInnerHTML={{ __html: excerpt }} />
     </PostContainer>
   );

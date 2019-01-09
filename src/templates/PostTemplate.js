@@ -5,6 +5,8 @@ import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
 import Bio from '../components/Bio';
 import TagList from '../components/TagList';
+import { getReadingTime } from '../utils/utils';
+
 import 'katex/dist/katex.min.css';
 
 const GITHUB_USER = 'awave1';
@@ -69,7 +71,9 @@ const PostHeader = props => {
   return (
     <Container>
       <h1>{props.title}</h1>
-      <small>{props.date}</small>
+      <small>
+        {props.date} | {props.readingTime}
+      </small>
       <TagList tags={props.tags} />
     </Container>
   );
@@ -85,11 +89,17 @@ function Template(props) {
   const { slug, prev, next } = props.pageContext;
 
   const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${slug}.md`;
+  const readingTime = getReadingTime(html);
 
   return (
     <>
       <BlogPost>
-        <PostHeader title={title} date={date} tags={tags} />
+        <PostHeader
+          title={title}
+          date={date}
+          tags={tags}
+          readingTime={readingTime}
+        />
         <div
           className="blog-post-content"
           dangerouslySetInnerHTML={{ __html: html }}
