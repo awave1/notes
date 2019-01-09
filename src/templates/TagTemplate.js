@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, graphql } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTags } from '@fortawesome/free-solid-svg-icons';
-import PostLink from '../components/PostLink';
+import PostCard from '../components/PostCard';
 
 const TagsTemplate = ({ pageContext, data }) => {
   const { tag } = pageContext;
@@ -13,7 +13,7 @@ const TagsTemplate = ({ pageContext, data }) => {
 
   const content = edges
     .filter(edge => !!edge.node.frontmatter.date)
-    .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
+    .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
 
   return (
     <div>

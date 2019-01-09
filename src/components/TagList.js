@@ -3,7 +3,7 @@ import { Link } from 'gatsby';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTags, faTag } from '@fortawesome/free-solid-svg-icons';
-import { leKebab } from '../utils/common';
+import { leKebab } from '../utils/utils';
 
 const List = styled.ul`
   display: flex;

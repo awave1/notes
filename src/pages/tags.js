@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import styled from 'styled-components';
-import { leKebab } from '../utils/common';
+import { leKebab } from '../utils/utils';
 
 const Tag = styled.li`
   margin: 1rem 0;

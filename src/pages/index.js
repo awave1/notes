@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import PostLink from '../components/PostLink';
+import PostCard from '../components/PostCard';
 import Bio from '../components/Bio';
 import './index.css';
 
@@ -11,7 +11,7 @@ const IndexPage = ({
 }) => {
   const content = edges
     .filter(edge => !!edge.node.frontmatter.date)
-    .map(edge => <PostLink key={edge.node.id} post={edge.node} />);
+    .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
 
   return (
     <>

@@ -1,6 +1,6 @@
 const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
-const { leKebab } = require('./src/utils/common');
+const { leKebab } = require('./src/utils/utils');
 
 const flatten = arr => [].concat.apply([], arr);
 
