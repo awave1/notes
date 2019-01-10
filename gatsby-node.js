@@ -33,17 +33,17 @@ exports.createPages = ({ actions, graphql }) => {
     const posts = result.data.allMarkdownRemark.edges;
     posts.forEach((post, index) => {
       const { node } = post;
+      const { slug } = node.fields;
       const prev = index === posts.length - 1 ? null : posts[index + 1].node;
       const next = index === 0 ? null : posts[index - 1].node;
+      const category = slug.split('/').splice(1, slug.split('/').length)[0];
+
+      console.log(category);
 
       createPage({
         path: node.fields.slug,
         component: PostTemplate,
-        context: {
-          prev,
-          slug: node.fields.slug,
-          next,
-        },
+        context: { prev, slug, next, category },
       });
     });
 
@@ -65,10 +65,18 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === 'MarkdownRemark') {
     const slug = createFilePath({ node, getNode, basePath: 'src/content' });
+    const category = slug.split('/').splice(1, slug.split('/').length)[0];
+
     createNodeField({
       node,
       name: 'slug',
       value: slug.replace(/\/$/, ''),
+    });
+
+    createNodeField({
+      node,
+      name: 'category',
+      value: category,
     });
   }
 };
