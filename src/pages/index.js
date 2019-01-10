@@ -3,11 +3,11 @@ import { graphql } from 'gatsby';
 import PostCard from '../components/PostCard';
 import './index.css';
 
-const IndexPage = ({
-  data: {
+const IndexPage = ({ data }) => {
+  const {
     allMarkdownRemark: { edges },
-  },
-}) => {
+  } = data;
+
   const content = edges
     .filter(edge => !!edge.node.frontmatter.date)
     .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
@@ -23,11 +23,11 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          excerpt
           html
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             title
+            description
           }
           fields {
             slug

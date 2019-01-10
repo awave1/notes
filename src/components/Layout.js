@@ -1,5 +1,6 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
+import { Helmet } from 'react-helmet';
 import styled, { ThemeProvider } from 'styled-components';
 import Transition from '../components/Transition';
 import Navbar from './Navbar';
@@ -26,6 +27,11 @@ const ContentWrapper = styled.div`
   h6 {
     color: ${props => props.theme.secondaryColor};
     transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
+  }
+
+  code,
+  pre {
+    font-family: Hack, monospace;
   }
 
   code.language-text {
@@ -114,6 +120,12 @@ class Layout extends React.Component {
         `}
         render={data => (
           <>
+            <Helmet>
+              <link
+                rel="stylesheet"
+                href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css"
+              />
+            </Helmet>
             <Navbar
               siteTitle={`/${data.site.siteMetadata.title}`}
               onThemeChanged={this.onThemeChanged}

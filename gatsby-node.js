@@ -1,10 +1,6 @@
 const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
-const { leKebab } = require('./src/utils/utils');
-
-const flatten = arr => [].concat.apply([], arr);
-
-const unique = arr => arr.filter((el, i, array) => array.indexOf(el) === i);
+const { leKebab, flatten, unique } = require('./src/utils/utils');
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions;

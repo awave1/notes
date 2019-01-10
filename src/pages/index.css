@@ -4,9 +4,13 @@ body {
 }
 
 .body__dark {
-  background: #212121
+  background: #212121;
 }
 
 .body__light {
   background: #f5f5f6;
+}
+
+.katex-display {
+  overflow-x: auto;
 }

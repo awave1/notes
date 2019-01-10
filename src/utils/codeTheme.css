@@ -7,7 +7,7 @@ code[class*='language-'],
 pre[class*='language-'] {
   color: white;
   background: none;
-  font-family: Consolas, Menlo, Monaco, source-code-pro, Courier New, monospace;
+  font-family: Hack, monospace;
   font-feature-settings: normal;
   text-align: left;
   white-space: pre;
@@ -34,6 +34,12 @@ pre[class*='language-'] {
 pre[class*='language-'] {
   overflow: auto;
   padding: 1em;
+}
+
+pre[class*='language-text'],
+pre[class*='language-text'] > code[class*='language-text'] {
+  overflow: auto;
+  color: white !important;
 }
 
 pre[class*='language-']::-moz-selection {

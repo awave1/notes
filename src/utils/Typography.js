@@ -9,6 +9,15 @@ fairyGatesTheme.overrideStyles = () => ({
   },
 });
 
+fairyGatesTheme.headerFontFamily = ['Lato', 'sans-serif'];
+fairyGatesTheme.bodyFontFamily = ['Open Sans', 'sans-serif'];
+fairyGatesTheme.googleFonts = [
+  {
+    name: 'Open Sans',
+    styles: ['300', '400', '500', '600', '700'],
+  },
+];
+
 const typography = new Typography(fairyGatesTheme);
 
 // Hot reload typography in development.

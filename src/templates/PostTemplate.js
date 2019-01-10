@@ -88,7 +88,7 @@ function Template(props) {
   const readingTime = getReadingTime(html);
 
   return (
-    <>
+    <article>
       <PostHeader
         title={title}
         date={date}
@@ -117,7 +117,7 @@ function Template(props) {
         <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
       </EditContainer>
       <Bio simple />
-    </>
+    </article>
   );
 }
 

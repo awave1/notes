@@ -4,15 +4,9 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
+// Required to highlight syntax in <code /> elements
 require('./src/utils/codeTheme.css');
 
 exports.onServiceWorkerUpdateFound = () => {
-  const answer = window.confirm(
-    'The app has been updated, reload to display the latest content?'
-  );
-
-  if (answer === true) {
-    window.location.reload();
-  }
+  window.location.reload();
 };

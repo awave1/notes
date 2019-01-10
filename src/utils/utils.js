@@ -83,7 +83,13 @@ const getReadingTime = html => {
   return readingTime <= 1 ? '1 min read' : `${readingTime} min read`;
 };
 
+const flatten = arr => [].concat.apply([], arr);
+
+const unique = arr => arr.filter((el, i, array) => array.indexOf(el) === i);
+
 module.exports = {
   leKebab,
   getReadingTime,
+  flatten,
+  unique,
 };
