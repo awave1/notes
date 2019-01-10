@@ -13,10 +13,6 @@ const GITHUB_USER = 'awave1';
 const GITHUB_REPO = 'notes';
 const CONTENT_ROOT = 'content';
 
-const BlogPost = styled.div`
-  /* transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1); */
-`;
-
 const EditContainer = styled.a`
   display: flex;
   align-items: center;
@@ -93,36 +89,34 @@ function Template(props) {
 
   return (
     <>
-      <BlogPost>
-        <PostHeader
-          title={title}
-          date={date}
-          tags={tags}
-          readingTime={readingTime}
-        />
-        <div
-          className="blog-post-content"
-          dangerouslySetInnerHTML={{ __html: html }}
-        />
-        <PagingContainer>
-          {prev && (
-            <Page to={prev.fields.slug} left>
-              {' '}
-              ￩ {prev.fields.slug}
-            </Page>
-          )}
-          {next && (
-            <Page to={next.fields.slug} right>
-              {next.fields.slug} ￫{' '}
-            </Page>
-          )}
-        </PagingContainer>
-        <EditContainer href={editUrl}>
-          <FontAwesomeIcon icon={faGithub} />{' '}
-          <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
-        </EditContainer>
-        <Bio simple />
-      </BlogPost>
+      <PostHeader
+        title={title}
+        date={date}
+        tags={tags}
+        readingTime={readingTime}
+      />
+      <div
+        className="blog-post-content"
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+      <PagingContainer>
+        {prev && (
+          <Page to={prev.fields.slug} left>
+            {' '}
+            ￩ {prev.fields.slug}
+          </Page>
+        )}
+        {next && (
+          <Page to={next.fields.slug} right>
+            {next.fields.slug} ￫{' '}
+          </Page>
+        )}
+      </PagingContainer>
+      <EditContainer href={editUrl}>
+        <FontAwesomeIcon icon={faGithub} />{' '}
+        <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
+      </EditContainer>
+      <Bio simple />
     </>
   );
 }

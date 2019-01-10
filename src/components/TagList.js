@@ -44,7 +44,7 @@ const TagList = ({ tags }) => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
       {icon}
       <List>
         {tags.map((name, i) => (
