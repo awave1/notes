@@ -21,7 +21,7 @@ const NavHeader = styled(Link)`
   text-decoration: none;
   text-shadow: none;
   background-image: none;
-  font-family: monospace;
+  font-family: Hack, monospace;
 `;
 
 const SwitchContainer = styled.div`

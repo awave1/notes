@@ -16,7 +16,7 @@ const CONTENT_ROOT = 'content';
 const EditContainer = styled.a`
   display: flex;
   align-items: center;
-  font-family: monospace;
+  font-family: Hack, monospace;
   margin: 1.5rem 0;
   font-weight: bold;
 
@@ -32,7 +32,7 @@ const PagingContainer = styled.ul`
 `;
 
 const PageLink = styled(Link)`
-  font-family: monospace;
+  font-family: Hack, monospace;
 
   &:hover {
     text-decoration: underline;

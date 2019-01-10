@@ -6,7 +6,7 @@ import { leKebab } from '../utils/utils';
 
 const Tag = styled.li`
   margin: 1rem 0;
-  font-family: monospace;
+  font-family: Hack, monospace;
 `;
 
 const TagsPage = ({

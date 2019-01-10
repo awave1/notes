@@ -17,7 +17,7 @@ const Tag = styled.li`
   padding: 3px 10px;
   font-size: 0.9em;
   background: ${props => props.theme.tag.background};
-  font-family: monospace;
+  font-family: Hack, monospace;
   border-radius: 5px;
   transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
   cursor: pointer;
