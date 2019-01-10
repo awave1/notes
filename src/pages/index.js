@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PostCard from '../components/PostCard';
-import './index.css';
+import './css/index.css';
 
 const IndexPage = ({ data }) => {
   const {

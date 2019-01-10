@@ -5,7 +5,7 @@
  */
 
 // Required to highlight syntax in <code /> elements
-require('./src/utils/codeTheme.css');
+require('./src/pages/css/code.css');
 
 exports.onServiceWorkerUpdateFound = () => {
   window.location.reload();
