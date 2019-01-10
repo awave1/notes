@@ -37,6 +37,12 @@ const ContentWrapper = styled.div`
   code.language-text {
     color: ${props => props.theme.code.primaryColor};
   }
+
+  blockquote {
+    border-left: ${props => props.theme.blockquote.borderLeft};
+    color: ${props => props.theme.blockquote.color};
+    padding: 0 1em;
+  }
 `;
 
 class Layout extends React.Component {
@@ -59,6 +65,10 @@ class Layout extends React.Component {
             background: '#e0e0e0',
           },
         },
+        blockquote: {
+          color: '#6a737d',
+          borderLeft: '0.25em solid #dfe2e5',
+        },
       },
       dark: {
         primaryColor: '#212121',
@@ -74,6 +84,10 @@ class Layout extends React.Component {
           hover: {
             background: '#fff',
           },
+        },
+        blockquote: {
+          color: '#958C82',
+          borderLeft: '0.25em solid #958C82',
         },
       },
     };
