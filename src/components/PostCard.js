@@ -8,14 +8,21 @@ const PostTitle = styled.h3`
   margin-bottom: 0.25rem;
 `;
 
-const PostContainer = styled.div`
+const PostContainer = styled(Link)`
+  display: flex;
+  flex-direction: column;
   position: relative;
+  color: ${props => props.theme.secondaryColor};
   background: ${props => props.theme.card.background};
-  box-shadow: 1px 0px 50px #0000001a;
+  box-shadow: 0px 0px 50px #0000001a;
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 48px;
-  transition: background 150ms cubic-bezier(0.55, 0, 0.1, 1);
+  transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
+
+  &:hover {
+    box-shadow: 0px 0px 75px #00000012;
+  }
 `;
 
 const CategoryLabel = styled.span`
@@ -43,11 +50,9 @@ const PostCard = ({ post }) => {
   const readingTime = getReadingTime(html);
 
   return (
-    <PostContainer>
+    <PostContainer to={slug}>
       <CategoryLabel>{category}</CategoryLabel>
-      <PostTitle>
-        <Link to={slug}>{title}</Link>
-      </PostTitle>
+      <PostTitle>{title}</PostTitle>
       <small>
         {date} | {readingTime}
       </small>
