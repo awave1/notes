@@ -45,8 +45,10 @@ def get_tags():
 
 
 def main():
-    to = './src/content/{}'.format(args.dest[0])
-    new_note = '{}/{}.md'.format(to, args.file[0])
+    to = f'./content/{args.dest[0]}'
+    new_note = f'{to}/{args.file[0]}.md'
+    prompt = f"file '{new_note}' aready exists; continue? (y/N): "
+
     force_overwrite = True
 
     if not path.exists(to):
@@ -54,7 +56,7 @@ def main():
         makedirs(to)
 
     if path.exists(new_note):
-        force_overwrite = yes_no(f"file '{new_note}' aready exists; continue? (y/N): ")
+        force_overwrite = yes_no(prompt)
 
     if force_overwrite:
         title = input('title: ')
