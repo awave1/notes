@@ -39,7 +39,7 @@ exports.createPages = ({ actions, graphql }) => {
       const category = slug.split('/').splice(1, slug.split('/').length)[0];
 
       createPage({
-        path: node.fields.slug,
+        path: slug,
         component: PostTemplate,
         context: { prev, slug, next, category },
       });
