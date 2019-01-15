@@ -46,6 +46,8 @@ OSes often developed by customers instead of HW manufacturers. IBM developed fir
 
 ### First Generation (1945 - 1955): Vacuum Tubes and no OS
 
+Programs were hardwired, later were made on punch cards. Programs were written in machine language. Hardware required complicated wiring. Only single user at a time. Such computers were only able to perform basic calculations. No OS since there was no need for one.
+
 ### Second Generation (1955 - 1965): Transistors and Batch Systems
 
 Transistor based mainframe computers replaced old vacuum tube computers. Programs were made with FORTRAN & COBOL. OSes that were used: FMS (Fortran Monitor System) and IBSYS (IBM OS). Important concept was introduced: **batch systems**.
