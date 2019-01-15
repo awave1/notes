@@ -2,6 +2,7 @@
 title: 'Operating Systems: Introduction, History, Basic Concepts'
 date: '2019-01-15'
 description: ''
+published: true
 tags: ['cpsc457']
 ---
 

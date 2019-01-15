@@ -19,6 +19,7 @@ exports.createPages = ({ actions, graphql }) => {
               slug
             }
             frontmatter {
+              published
               tags
             }
           }
@@ -30,7 +31,10 @@ exports.createPages = ({ actions, graphql }) => {
       return Promise.reject(result.errors);
     }
 
-    const posts = result.data.allMarkdownRemark.edges;
+    const posts = result.data.allMarkdownRemark.edges.filter(
+      e => e.node.frontmatter.published
+    );
+
     posts.forEach((post, index) => {
       const { node } = post;
       const { slug } = node.fields;
@@ -46,7 +50,9 @@ exports.createPages = ({ actions, graphql }) => {
     });
 
     const tags = posts
-      .filter(edge => !!edge.node.frontmatter.tags)
+      .filter(
+        edge => !!edge.node.frontmatter.tags && edge.node.frontmatter.published
+      )
       .map(edge => edge.node.frontmatter.tags);
 
     unique(flatten(tags)).forEach(tag => {

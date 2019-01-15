@@ -1,7 +1,8 @@
 ---
 title: 'Introduction: Human Computer Interaction'
 date: '2019-01-10'
-description: 
+description: ''
+published: false
 tags: ['cpsc481']
 ---
 

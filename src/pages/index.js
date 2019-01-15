@@ -9,7 +9,9 @@ const IndexPage = ({ data }) => {
   } = data;
 
   const content = edges
-    .filter(edge => !!edge.node.frontmatter.date)
+    .filter(
+      edge => !!edge.node.frontmatter.date && edge.node.frontmatter.published
+    )
     .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
 
   return <div style={{ marginTop: 45 }}>{content}</div>;
@@ -28,6 +30,7 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
+            published
           }
           fields {
             slug
