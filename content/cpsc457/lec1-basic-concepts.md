@@ -37,7 +37,7 @@ OS acts as a resource allocator. It multiplexes available resources.
 
 OS manages conflics among multiple programs or users.
 
-<!--syscalls need to be checked-->
+<!--IMPORTANT: syscalls need to be checked-->
 
 We can also think about OS as a control program. It decides when to run which application. OS monitors improper use and prevents errors. OS is responsible for handling all interrupts and traps.
 

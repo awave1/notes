@@ -6,8 +6,11 @@ import argparse
 import datetime
 
 parser = argparse.ArgumentParser()
-parser.add_argument('dest', type=str, nargs=1, help='Destination folder')
-parser.add_argument('file', type=str, nargs=1, help='Destination file')
+
+parser.add_argument('--dest', type=str, nargs=1, help='Destination folder')
+parser.add_argument('--file', type=str, nargs=1, help='Destination file')
+parser.add_argument('--publish', type=bool, nargs=1, default=False)
+
 args = parser.parse_args()
 
 

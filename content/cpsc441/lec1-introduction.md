@@ -28,21 +28,19 @@ Network edge contains hosts, clients and servers. Servers often in data centers.
 
 ### Access networks
 
+**Access network** is the network that physically connects an end system to the first router (known as **edge router**) on a path from the end system to any other end system.
 
+#### Digital Subscriber Line (DSL)
+
+A residence typically obtains DSL Internet access from the same telephone company that provides its wired local phone. Each customer's DSL modem uses the same telephone cable. DSL connection therefore is dedicated to the user (e.g. not shared like cable).
 
 ## The Network Core
 
+The core is a mesh of interconnected routers. **Packet-switching**: hosts break down data in packages.
 
+### Packet-switching
 
-## Delay, Loss, and Throughput in Packet-Switched Networks
-
-
-
-## Network Core
-
-
-
-## Packet-switching
+Delay is calculated using this formula: $D = \frac{L}{R}$
 
 End to end (E2E) transmission delay, with router in the midle:
 
@@ -50,3 +48,19 @@ $$
 \frac{L}{R} + \frac{L}{R} = \frac{2L}{R}
 $$
 
+### Transmitting Multiple Packets
+
+If we have to send N packets:
+
+```
+N packets
+[A] --- (R) --- [B]
+```
+
+$$
+D = N \times \frac{L}{R} + \frac{L}{R}
+$$
+
+### Delay, Loss, and Throughput in Packet-Switched Networks
+
+### Circuit Switching

@@ -117,6 +117,46 @@ Who carries out attack?
 
 **Outsider**:
 
-- Someone not authorized to use the system
+- Someone who is not authorized to use the system
 
+### Threat Consqeuences
 
+#### Unauthorized disclousure
+
+A circumstance or event whereby an entity gains access to data for which the entity is not authorized.
+
+**Unauthorized disclosure** is a threat to confidentiality.
+
+- Exposure
+- Interception
+- Inference
+- Intrusion
+
+#### Deception
+
+A circumstance or event may result in an authorized entity receiving false data and believing it to be true.
+
+**Deception** is a threat to either system or data integrity.
+
+- Masquerade
+- Falsification
+- Repudiation
+
+#### Disruption
+
+A circumstance or event that interrupts or prevents the correct operation of system services and functions.
+
+**Disruption** is a threat to availability or system integrity.
+
+- Incapacitation
+- Corruption
+- Obstruction
+
+#### Ususrpation
+
+A circumstance or event that results in control of system services or functions by an unauthorized entity.
+
+**Usurpation** is a threat to system integrity.
+
+- Misappropriation
+- Misuse

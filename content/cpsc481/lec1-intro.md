@@ -76,4 +76,9 @@ To create and envision alternatives.
 
 ## "This user is not like me"
 
-> in progress
+<!--TODO: finish-->
+
+## User-Centered Design (UCD)
+
+<!--TODO: finish-->
+
