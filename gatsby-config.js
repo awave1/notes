@@ -34,8 +34,17 @@ module.exports = {
     },
     {
       resolve: 'gatsby-transformer-remark',
+      strategy: 'img',
       options: {
         plugins: [
+          {
+            resolve: 'gatsby-remark-draw',
+            options: {
+              mermaid: {
+                theme: 'forest',
+              },
+            },
+          },
           {
             resolve: 'gatsby-remark-prismjs',
             options: {
@@ -45,6 +54,12 @@ module.exports = {
           },
           {
             resolve: 'gatsby-remark-katex',
+          },
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 590,
+            },
           },
         ],
       },

@@ -39,11 +39,13 @@ def get_template(title, description, tags, date):
     return template
 
 
-def get_tags():
+def get_tags(default_tag=None):
     tags = input('tags (separated by space): ')
 
     if len(tags) > 0:
         return list(map(lambda tag: f"'{tag}'", tags.split(' ')))
+    elif default_tag:
+        return [default_tag]
     else:
         return []
 
@@ -65,7 +67,7 @@ def main():
     if force_overwrite:
         title = input('title: ')
         description = input('description: ')
-        tags = get_tags()
+        tags = get_tags(args.dest[0])
         date = datetime.datetime.now().strftime('%Y-%m-%d')
 
         with open(new_note, 'w+') as f:

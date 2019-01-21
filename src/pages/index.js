@@ -1,6 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PostCard from '../components/PostCard';
+import Footer from '../components/Footer';
 import './css/index.css';
 
 const IndexPage = ({ data }) => {
@@ -14,7 +15,12 @@ const IndexPage = ({ data }) => {
     )
     .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
 
-  return <div style={{ marginTop: 45 }}>{content}</div>;
+  return (
+    <>
+      <div style={{ marginTop: 45 }}>{content}</div>
+      <Footer />
+    </>
+  );
 };
 
 export default IndexPage;
