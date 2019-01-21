@@ -38,7 +38,7 @@ However, there is a performance issue: fetching from memory takes longer than ex
 - the CPU could be simultaneously decoding instruction `N + 1`,
 - and at the same time also fetch instruction `N + 2`
 
-Therefore fetch-execute cycle can be done in parallel. Three stage pipeline:
+Therefore fetch-execute cycle can be done in parallel. Parallelized app will be as fast as slowest link of the pipeline. Three stage pipeline:
 
 ```mermaid-svg
 graph LR
@@ -46,9 +46,15 @@ graph LR
   B-->C[Execute Unit]
 ```
 
-<!--TODO: Finish-->
+Pros:
 
-<!--parallelized app will be as fast as slowest link of the pipeline-->
+- the CPU can execute more than one instruction at a time
+- 'hide' the memory access time
+
+Cons:
+
+- more complexity
+
 
 ### Memory
 
@@ -79,7 +85,7 @@ CPU consists of multiple levels of caches:
 
 ### Caching on multicore CPUs
 
-<!-- TODO: image -->
+![Caching on multicore CPUs](lec2-caching1.png)
 <!--1. can process bigger chunks, bigger parts of the memory because L2 will be bigger-->
 Caches can be shared and there are multiple ways of sharing cache.
 
@@ -157,11 +163,31 @@ The central part, or the heart of the OS. Kernel is running at all times on the 
 
 ### Kernel mode
 
+Most modern CPUs support at least two privilege levels: **kernel mode** and **user mode**. The mode is usually controlled by modifying the status register. On CPUs without this support, there's only kernel mode.
+
+When CPU is in **kernel mode**:
+
+- all instructions are allowed
+- all I/O operations are allowed
+- all memory can be accessed
+
 <!--not all kernel runs in kernel mode-->
 
 When CPU is in kernel mode, every instruction are executed.
 
 ### User mode
+
+When OS runs a normal application, it runs it in a **user mode**. Only a subset of operations are allowed (e.g. accessing the status register is not allowed). I/O instructions are not allowed, access to some parts of memory is not allowed. Illegal instructions result in traps (exceptions).
+
+Applications that run in user mode must ask kernel to do I/O. Therefore, applications must invoke a **system call**, which is usually accomplished by invoking a **trap** into the OS.
+
+#### Trap
+
+Trap is a special asm instruction (`SWI n`, `INT n`, `TRAP n`). Trap switches from user mode to kernel mode and invokes a **predefined routine**. It 'pauses' the application to execute kernel routine configured by the OS. When kernel routine is done, user mode is restored and application 'resumes'.
+
+---
+
+![Kernel mode vs User mode](lec2-kernel-user-mode.png)
 
 <!--true-->
 <!--true-->
