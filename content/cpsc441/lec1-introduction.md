@@ -57,7 +57,7 @@ If we have to send N packets:
 <!--```-->
 
 ```mermaid-svg
-graph LR
+graph LR;
   A -->R;
   R --> B;
 ```

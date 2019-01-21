@@ -2,7 +2,7 @@
 title: 'Hardware, Cache, Booting, Kernel'
 date: '2019-01-17'
 description: ''
-published: false
+published: true
 tags: ['cpsc457']
 ---
 
@@ -32,13 +32,19 @@ Steps are repeated for the next instruction, until program finishes.
 
 However, there is a performance issue: fetching from memory takes longer than executing an instruction. A solution would be to **pipeline** the opertaions:
 
+#### CPU Pipelining
+
 - while executing instruction `N`,
 - the CPU could be simultaneously decoding instruction `N + 1`,
 - and at the same time also fetch instruction `N + 2`
 
-Therefore fetch-execute cycle can be done in parallel.
+Therefore fetch-execute cycle can be done in parallel. Three stage pipeline:
 
-#### CPU Pipelining
+```mermaid-svg
+graph LR
+  A[Fetch Unit]-->B[Decode Unit]
+  B-->C[Execute Unit]
+```
 
 <!--TODO: Finish-->
 
