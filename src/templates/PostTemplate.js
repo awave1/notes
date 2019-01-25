@@ -43,6 +43,12 @@ const PageLink = styled(Link)`
   }
 `;
 
+const Article = styled.article`
+  ul {
+    margin-left: 2rem;
+  }
+`;
+
 const Page = props => {
   const css = {
     margin: `0 ${props.left ? 'auto' : '0'} 0 ${props.right ? 'auto' : '0'}`,
@@ -88,7 +94,7 @@ function Template(props) {
   const readingTime = getReadingTime(html);
 
   return (
-    <article>
+    <Article>
       <PostHeader
         title={title}
         date={date}
@@ -117,7 +123,7 @@ function Template(props) {
         <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
       </EditContainer>
       <Bio simple />
-    </article>
+    </Article>
   );
 }
 
