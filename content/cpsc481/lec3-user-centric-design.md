@@ -6,4 +6,5 @@ published: false
 tags: ['cpsc481']
 ---
 
+<!--TODO: Finsih `User centric design`-->
 

@@ -6,6 +6,8 @@ published: false
 tags: ['cpsc481']
 ---
 
+<!--TODO: Finsih `Heuristic Evaluation`-->
+
 Heuristic evaluation is a usability engineering method for finding the usability problems in a UI design so that they can be attended to as part of an iterative design process.
 
 Heuristic evaluation involves having a small set of evaluators examine the interface and judge its compliance with recognized usability principles (the "heuristics").

@@ -6,8 +6,9 @@ published: false
 tags: ['cpsc481']
 ---
 
-- Looking gives you great insight into the state of the world
-- but it doesn't tell you why people are activg the way they do
+<!--TODO: Finsih `Ask`-->
+
+Looking gives you great insight into the state of the world. but it doesn't tell you why people are activg the way they do
 
 Basic way of asking is surveys & questionnaires.
 

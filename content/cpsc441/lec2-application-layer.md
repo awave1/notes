@@ -162,21 +162,54 @@ There are two types of HTTP messages: **request** and **response**. Both request
 
 #### Request
 
-<!-- FINISH -->
-
 ![Request message format](lec2-request-format.png)
+
+Request messages are written in **ASCII** text. Messages also consist of several lines. The first line of an HTTP request message is called **request line**; the subsequent lines are called the **header lines**. Request line contains the method type. There can be several different values:
+
+- `GET`
+  - The majority of HTTP request messages use `GET` method. The `GET` method is used when the browser requests an object
+- `POST`
+  - An HTTP client uses `POST` requests to send forms. With a `POST` message, the user is still requesting a web page from the server, but the specific contents of the web page depend on what user entered into the form fields
+- `HEAD`
+  - Similar to `GET`; when a server receives `HEAD`, it responds with an HTTP message, but leaves out the requested object
+- `PUT`
+  - Allows user to upload an object to a specific path (directory) of a web server
+- `DELETE`
+  - Allows user to delete an object from the server
+
+Header lines can contain various parameters. The information provided by the host header line is required for Web proxy caches. By including `Connection: close`, the browser is telling the server to close connection after sending the requested object. The `User-agent:` specifies client's browser type.
 
 #### Response
 
-<!-- FINISH -->
+Response message contains three sections: initial **status line**, **header lines**, and the **entity body**. The entity body contains the requested object itself. The status line contains the protocol version a status code and a corresponding status message.
 
 #### Cookies
 
-<!-- FINISH -->
+HTTP server is stateless, it allows simples server design and permits to develop high performance servers that can handle many simultaneous TCP connections. However, websites sometimes need to identify users, either because server wishes to restrict some access or because it wants to serve content to that specific user. For these purposes, HTTP uses cookies.
+
+Cookies allow sites to keep track of users. Cookie technology has four components:
+
+1. A cookie header line in the HTTP response message
+2. A cookie header line in the HTTP request message
+3. A cookie file kept on the **user's** end system and managed by the user's browser
+4. a backend database of the website
+
+![Keeping user state with cookies](lec2-cookies.png)
 
 ### Web caches (proxy server)
 
-A **web cache** - also called **proxy server** - is a network entity that processes HTTP requests on behalf of origin server.
+A **web cache** - also called **proxy server** - is a network entity that processes HTTP requests on behalf of origin server. The web cache has its own disk storage and keeps copies of recently requested objects in the storage. 
+
+![Web cache](lec2-webcache.png)
+
+As an example, suppose a browser is requesting the object `http://www.example.com/file.gif`:
+
+1. The browser establishes a TCP connection to the web cache and sends HTTP request for the object to the web cache.
+2. The web cache checks to see if it has a copy of the object stored locally. If it does, web cache returns the object within an HTTP response message to the client browser.
+3. If the web cache doesn't have the object, the web cache opens a TCP connection to the origin server. The web cache then sends an HTTP request for the object into the cache-to-server TCP connection. After receiving this request, the origin server sends the object within an HTTP response to the web cache.
+4. When the web cache receives the object, it stores a copy in its local storage and sends a copy within an HTTP response message to the client browser over the existing TCP connection between web cache and client.
+
+Web cache acts as a client *and* server at the same time. When it receives requests from and send responses to a browser, it is a *server*. When it sends requests to and receives responses from an origin server, it is a *client*.
 
 ## Email Protocol
 
@@ -187,3 +220,63 @@ SMTP uses (secure) TCP to transfer email messages, it operates on port 25.
 <!-- mail server <-> webserver  <-> client -->
 
 ## DNS
+
+DNS is one of the core functionalities, but it is provided on the application level. Hosts has to implement it.
+
+The primary functionality of DNS is to map human readable URLs to IP addresses, that are understandable by the network layer protocol.
+
+**Domain Name System (DNS)** is a distributed database. It is implemented in hierarchy of many *name servers*.
+
+Application-layer protocol: hosts <!-- FINISH -->
+
+### Structure, services
+
+- DNS provides host aliasing.
+- DNS can be used for load distribution
+  - replicates web servers: many IP addresses correspond to one name
+
+DNS isn't centralized due to several reasons:
+
+- single point of failure
+- traffic volume
+- distant centralized database
+- maintenance
+
+**Example** of DNS hierarchical database:
+
+#### Root name servers
+
+#### TLD, authoritativ servers
+
+Top-level domain (TLD) servers are responsible for com, org, net, edu, .. etc and all top level country domains, e.g.: uk, ca, ru. Network Solutions maintains servers for .com TLD.
+
+Authoritative DNS servers contain organization's own DNS serve(s), providing authoritative hostname to IP mappings for organization's named hosts.
+
+#### Local DNS name server
+
+Each ISP has one local DNS, also called "default name server". When host makes DNS query, query is sent to its local DNS server. It contains local cache of recent name-to-address translation pairs. Also acts as proxy, forwards query into hierarchy.
+
+```mermaid-svg
+a --> local dns
+local dns --> server
+```
+
+## P2P Applications
+
+<!-- TODO -->
+
+## Video streaming and Content Distribution Networks (CDNs)
+
+### DASH
+
+**DASH** stands for **D**ynamic, **A**daptive **S**treaming over **H**TTP. Server divides video into multiple chunks and each chunk is stored, each chunk is also encoded at different rates. *Manifest file* provides URLs for different chunks.
+
+Client periodically measures server-to-client bandwidth, consults manifest, requests one chunk at a time. Client chooses maximum coding rate sustainable given current bandwidth. Client can also choose different coding rates at different points in time (depending on available bandwidth at time).
+
+### CDN
+
+How to stream content to hundreds of thousands of simultaneous users? The solution is to store multiple copies of videos at multiple geographically distributed sites - CDN. So, CDN servers are pushed closer to users.
+
+<!-- TODO: add info from the book -->
+
+

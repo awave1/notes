@@ -6,6 +6,8 @@ published: false
 tags: ['cpsc481']
 ---
 
+<!-- TODO: Finish Intro -->
+
 ## About
 
 ## Characteristics of a good interface
@@ -43,8 +45,6 @@ tags: ['cpsc481']
   - Useful:
   - Usable:
 
-<!--@TODO: Finish-->
-
 ## Why should we care?
 
 There's shift of attention in computer science: Algorithms $\to$ People
@@ -76,9 +76,5 @@ To create and envision alternatives.
 
 ## "This user is not like me"
 
-<!--TODO: finish-->
-
 ## User-Centered Design (UCD)
-
-<!--TODO: finish-->
 

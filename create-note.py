@@ -45,7 +45,7 @@ def get_tags(default_tag=None):
     if len(tags) > 0:
         return list(map(lambda tag: f"'{tag}'", tags.split(' ')))
     elif default_tag:
-        return [f'{default_tag}']
+        return [f"'{default_tag}'"]
     else:
         return []
 
