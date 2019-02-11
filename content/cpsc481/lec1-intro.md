@@ -6,10 +6,6 @@ published: false
 tags: ['cpsc481']
 ---
 
-<!-- TODO: Finish Intro -->
-
-## About
-
 ## Characteristics of a good interface
 
 - People feel **satisfied** when they use them
