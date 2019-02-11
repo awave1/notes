@@ -6,22 +6,31 @@ published: false
 tags: ['cpsc441']
 ---
 
-<!--TODO: Add info from ch3 and lecture notes -->
+A transport layer protocol provides for **logical communication**. *Logical communication* means that from an application's perpective, it is as if the hosts running the processes were directly connected; in reality, the hosts may be far away from each other, connected via numerous routers. Application processes use the logical communication provided by the transport layer to send messages to each other, without having to worry about physical infrastructure used to deliver these messages.
 
-## Transport layer services
+Transport layer protocols are implemented in the end systems, but not in networks routers:
 
-Transport services and protocols provide **logical communication** between app processes running on different hosts. Transport protocols run on end systems:
-
-- Send side: breaks app messages into **segments** and passes to network layer
-- Receive side: reassambles segments into messages and passes to application layer
+- On the *sending side*, the transport layer converts the application layer messages it receives from a sending application process into transport layer **segments**.
+- On the *receiving side*, the network layer extracts the transport layer segment from the datagram and passes the segment up to the transport layer. The transport layer then processes the received segment and sends it to the receiving application.
 
 There are more than one transport protocol available to applications. The ones that are used in the Internet are TCP and UDP.
 
-**Network layer**: logical communication between hosts.
+**Relationship between transport and network layers**:
 
-**Transport layer**: logical communication between processes. It relies on and enhances network layer services.
+- *Network layer*: logical communication between hosts.
+- *Transport layer*: logical communication between processes. It relies on and enhances network layer services.
+
+## Overview of the Transport Layer in the Internet
+
+The Internet makes two distinct transport layer protocols available to the application level. One of those is **UDP** (User Datagram Protocol), which provides unreliable, connectionless service to the invoking application. The second one is **TCP** (Transmission Control Protocol), which provides a reliable, connection oriented service to the invoking application. When designing a network application, an application developer must specify one of these two protocols.
+
+The Internet’s network-layer protocol has a name—IP, for Internet Protocol. IP provides logical communication between hosts. The IP service model is a **best-effort delivery service**. This means that IP makes its “best effort” to deliver segments between communicating hosts, *but it makes no guarantees*. In particular, it doesn't guarantee segment delivery, it doesn't guarantee orderly delivery of segments, and it doesn't guarantee the integrity of the data in the segments. For these reasons the IP is said to be an **unreliable service**.
+
+The most fundamental responsibility of UDP and TCP is to extend IP’s *delivery service* between two end systems to a delivery service between two processes running on the end systems. Extending host-to-host delivery to process-to-process delivery is called **transport-layer multiplexing** and **demultiplexing**.
 
 ## Multiplexing and demultiplexing
+
+<!-- TODO: yep fiish this -->
 
 At the destination host, the transport layer has the responsibility of delivering the data in the received segments. Each received transport-layer segment has a set of fields in the segment to determine appropriate socket for each segment. At the receiving end, the transport layer examines these fields to identify receiving sockets and direct segments to those sockets. **Demultiplexing** is the process of delivering the data in a transport-layer segment to the correct socket. The job of gathering data chunks at the source host from different sockets, encapsulating each data chunk with header information, that later will be used in *demultiplexing*, to create segments, and passing the segments to the network layers is called **multiplexing**.
 
