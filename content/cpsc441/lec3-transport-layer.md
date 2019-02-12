@@ -62,26 +62,64 @@ Host receives IP datagrams:
 - each datagram carries one transport-layer segment
 - each segment has source port and destination port
 
-![TCP/UDP segment format](lec3-tcp-udp-segment-format.png)
-
 Host uses **IP addresses & port numbers** to direct segment to appropriate socket.
+
+![TCP/UDP segment format](lec3-tcp-udp-segment-format.png)
 
 ### Connectionless multiplexing and demultiplexing
 
-Suppose a process in Host A, with UDP port 19157, wants to send a chunk of application data to a process with UDP port 46428 in Host B. The transport layer in Host A creates a transport-layer segment that includes the application data, the source port number, the destination port number, and two other values. The transport layer then passes the resulting segment to the network layer. The network layer encapsulates the segment in an IP datagram and makes a best effort attempt to deliver the segment to the receiving host. If the segment arrives at the receiving Host B, the trasnport layer at the receiving host examines the destination port number and deliveres the segment to its socket identified by destination port.
+> Connectionless multiplexing and demultiplexing is done using UDP protocol
+
+Suppose a process in Host A, with UDP port 19157, wants to send a chunk of application data to a process with UDP port 46428 in Host B. The transport layer in Host A creates a transport-layer segment that includes the application data, the source port number, the destination port number, and two other values. The transport layer then passes the resulting segment to the network layer. The network layer encapsulates the segment in an IP datagram and makes a best effort attempt to deliver the segment to the receiving host. If the segment arrives at the receiving Host B, the trasnport layer at the receiving host examines the destination port number and deliveres the segment to its socket identified by destination port. As UDP segments arrive from the network, Host B directs, or *demultiplexes*, each segment to the appropriate socket by examining the segment's destination port number.
+
+The source port number serves as part of a "return address" - when B wants to send a segment back to A, the destination port in the B-to-A segment will take its value from the source port value of the A-to-B segment.
 
 ### Connection-oriented multiplexing and demultiplexing
 
+> Connection-oriented multiplexing and demultiplexing is done using TCP protocol
+
+A TCP socket is identified by a four-tuple: (source IP, source port, destination IP, destination port). Thus when a TCP segment arrives from the network to a host, the host uses all four values to direct, or *demultiplex*, the segment to the appropriate socket. In contrast with UDP, two arriving TCP segments with different IP addresses or source ports will be directed to two different sockets.
+
+Server host may support many simultaneous TCP sockets since with each socket attached to a process and with each socket identified by its own four-tuple. When a TCP segment arrives at the host, all four fileds are used to direct the segment to appropriate socket.
+
 ## Connectionless transport: UDP
 
-- UDP doesn't establish connection, therefore less or no delay
-- Simple: no connection state at sender, receiver
-- Smaller header size (compare to TCP)
-- No congestion control: UDP can blast away as fast as desired
+UDP does as little as a transport protocol can do. Aside from multiplexing/demultiplexing function and some light error checking it adds nothing to IP. UDP takes messages from application process, attaches source and destination port number fields for multiplexing/demultiplexing service and two other small fields, and passes the resulting segment to the network layer. The network layer then encapsulates the transport layer segment into an IP datagram and then makes the **best effort** attempt to deliver the segment to the receiving host. If the segment arrives at the receiving host, UDP uses the destination port to deliver the segment's data to the correct application process. *Note* since that there is no handshaking between sending and receiving transport layer entities, UDP is said to be **connectionless**.
 
-### UDP Checksum
+For some application UDP is better suited for following reasons:
 
-The goal of checksum is to detect errors in transmitted sender.
+- *Finer application-level control over what data is sent and when*. As soon as an application process passes data to UDP, UDP will package the data inside a UDP segment and immediately pass the segment to network layer. Useful when building real-time applications, since we do not want delay segment transition and can tolerate some data loss. TCP will not be good fit due to its congestion control and packet delivery guarantee (p.199).
+- *UDP doesn't establish connection, therefore less or no delay*. In case with TCP there's a three-way handshake before the data is transferred. UDP simply sends the data. Thus UDP does not introduce any delay to establish a connection. (hence why DNS is using UDP rather than TCP - DNS would be much slower if it ran over TCP).
+- *No connection state*. TCP maintains connection state in the end systems. State information is needed for TCP congestion control. UDP on the other hand does not track any of parameters.
+- *Smaller header size*. TCP segment has <mark>**20 bytes**</mark> of overhead, UDP has only <mark>**8 bytes**</mark>
+
+### UDP Segement Structure
+
+The UDP header has only four fields, each consulting of 2 byes:
+
+- Source port number
+- Destination port number
+- Length field, specifies number of bytes in UDP segment (header + data)
+- Checksum, used by the receiving host for error checking
+
+#### UDP Checksum
+
+The goal of checksum is to detect errors in transmitted sender. The checksum is used to determine whether bits within the UDP segment have been altered. UDP at the sender performs **1s complement of the sum of all the 16bit words in a segment** with any overflow encountered during the sum being wrapped around. The result is put in a checsum field.
+
+For example, calculation of checksum at *sender*:
+
+```
+     1 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0
++    1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+     - - - - - - - - - - - - - - - -
+   1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1   // wrap around extra 1
++                                  1
+     - - - - - - - - - - - - - - - -
+sum  1 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0
+csum 0 1 0 0 0 1 0 0 0 1 0 0 0 0 1 1
+```
+
+UDP provides a checksum because there is no guarantee that all the links between source and destination provide error checking.
 
 **Sender**:
 
@@ -91,31 +129,21 @@ The goal of checksum is to detect errors in transmitted sender.
 
 **Receiver**:
 
-- Compute checksum of received segment
-- check if computed checksum equals field value:
-  - **no**? - error detected
-  - **yes**? - no errors detected.
-
-Example of checksum calculation at the sender:
-```
-    1 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0
-+   1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
-    - - - - - - - - - - - - - - - -
-  1 0 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 // wrap around extra 1
-+                                 1
-    - - - - - - - - - - - - - - - -
-    0 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0
-```
+At the receiver, 16bit words are added, including the checksum. If no errors are introduced into the packet, then the sum at the receiver will be all 1's. If one of the bits is a 0, then we know that there is an error
 
 Checking checksum at the receiver:
 ```
-    1 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0
-    1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
-+   0 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0
-    - - - - - - - - - - - - - - - -
-  1 0 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 // wrap around extra 1
-+   0 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0
-    - - - - - - - - - - - - - - - -
+     1 1 1 0 0 1 1 0 0 1 1 0 0 1 1 0
++    1 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
+     0 1 0 0 0 1 0 0 0 1 0 0 0 0 1 1
+     - - - - - - - - - - - - - - - -
+   1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1   // wrap around extra 1
++                                  1
+     - - - - - - - - - - - - - - - -
+     1 0 1 1 1 0 1 1 1 0 1 1 1 1 0 0
++    0 1 0 0 0 1 0 0 0 1 0 0 0 0 1 1
+     - - - - - - - - - - - - - - - -
+     1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 ```
 
 ## Principles of reliable data transfer
