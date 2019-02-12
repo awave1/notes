@@ -30,9 +30,18 @@ The most fundamental responsibility of UDP and TCP is to extend IP’s *delivery
 
 ## Multiplexing and demultiplexing
 
-<!-- TODO: yep fiish this -->
+At the destination host, the transport layer has the responsibility of delivering the data in the received segments. Each received transport-layer segment has a set of fields in the segment to determine appropriate socket for each segment. At the receiving end, the transport layer examines these fields to identify receiving sockets and direct segments to those sockets.
 
-At the destination host, the transport layer has the responsibility of delivering the data in the received segments. Each received transport-layer segment has a set of fields in the segment to determine appropriate socket for each segment. At the receiving end, the transport layer examines these fields to identify receiving sockets and direct segments to those sockets. **Demultiplexing** is the process of delivering the data in a transport-layer segment to the correct socket. The job of gathering data chunks at the source host from different sockets, encapsulating each data chunk with header information, that later will be used in *demultiplexing*, to create segments, and passing the segments to the network layers is called **multiplexing**.
+**Demultiplexing** is the process of delivering the data in a transport-layer segment to the correct socket. The job of gathering data chunks at the source host from different sockets, encapsulating each data chunk with header information, that later will be used in *demultiplexing*, to create segments, and passing the segments to the network layers is called **multiplexing**.
+
+In a host, transport-layer multiplexing requires:
+
+1. that sockets have unique identifiers
+2. that each segment have special fields taht indicate the socket to which the segment is to be delivered
+
+Therefore, a **source port number** and **destination port number** is specified in a segment. Each port number is a 16-bit number. The port numbers ranging from 0 to 1023 are reserved and called **well-known port numbers**.
+
+Each socket in the host could be assigned a port number, and when a segment arrives at the host, the transport layer examines the destination port number in the segment and directs the segment to the corresponding socket. The segment's data then passes through the socket into the attacked process.
 
 Mux/demux communication:
 
@@ -45,7 +54,7 @@ Mux/demux communication:
 - **Multiplexing (mux) at sender**: handle data from multiple sockets, add transport header (later used for demultiplexing).
 - **Demultiplexing (demux) at receiver**: use header info to deliver received segments to correct sockets.
 
-### Demultiplexing process
+**How demultiplexing works?**
 
 Host receives IP datagrams:
 
@@ -57,11 +66,11 @@ Host receives IP datagrams:
 
 Host uses **IP addresses & port numbers** to direct segment to appropriate socket.
 
-#### Connectionless multiplexing and demultiplexing
+### Connectionless multiplexing and demultiplexing
 
-#### Connection-oriented multiplexing and demultiplexing
+Suppose a process in Host A, with UDP port 19157, wants to send a chunk of application data to a process with UDP port 46428 in Host B. The transport layer in Host A creates a transport-layer segment that includes the application data, the source port number, the destination port number, and two other values. The transport layer then passes the resulting segment to the network layer. The network layer encapsulates the segment in an IP datagram and makes a best effort attempt to deliver the segment to the receiving host. If the segment arrives at the receiving Host B, the trasnport layer at the receiving host examines the destination port number and deliveres the segment to its socket identified by destination port.
 
-
+### Connection-oriented multiplexing and demultiplexing
 
 ## Connectionless transport: UDP
 
@@ -220,15 +229,15 @@ dev = |EstimatedRTT - SampledRTT| \\
 DevRTT = (1 - b) * DevRTT + b_{dev}
 $$
 
-### Reliable data transport
+## Connection-Oriented Transport: TCP
 
-TCP creates reliable data transport service on top of IP's unreliable service:
+TCP creates reliable data transfer service on top of IP's unreliable service:
 
 - pipelined segments
 - cumulative acks
 - single retransmission timer
 
-#### Sender events
+### TCP Sender events
 
 Data received from app:
 
@@ -248,3 +257,86 @@ ack received:
 - if ack acknowledges previously unacked segments
   - update what is known to be acked
   - start timer if there are still unacked segments
+
+### TCP Fast Retransmit
+
+Time-out period often relatively long: long delay before resending lost packet. Detect lost segments via duplicate ACKs:
+
+- sender often sends many segments back-to-back
+- if segment is lost, there will likely be many duplicate ACKs
+
+**TCP fast retransmit**: If sender receives 4 ACKs for same data ("triple duplicate ACKs"), resend unacked segment with smallest seq #:
+
+- likely that unacked segment lost, so don't wait for timeout
+
+### Connection Management
+
+Before exchanging data, sender/receiver establish a **handshake**:
+
+- agree to establish connection (each knowing the other willing to establish connection)
+- agree on connection parametes
+
+```java
+Socket client = new Socket("hostname", "port nuumber");
+Socket connectionSocket = serverSocket.accept();
+```
+
+#### 3-way handshake
+
+![TCP 3-way handshake](lec3-3way-handshake.png)
+
+#### Closing a connection
+
+Client, server each close their side of connection: send TCP segment with FIN bit = 1. Respond to received FIN with ACK.
+
+![Closing TCP connection](lec3-closing-tcp.png)
+
+## TCP Congestion Control
+
+Informally, congestion is when too many sources sending too much data too fast for **network** to handle. Manifestations:
+
+- lost packets (buffer overflow at routers)
+- long delays (queueing in router buffers)
+
+The solution for resolving congestion control is to ask sources to reduce their **sending rate**.
+
+Let say there's a sender and a receiver with $R bps$ link between them:
+
+```
+[] ===== []
+     R
+```
+
+the goal is to fluxuate around available bandwidth. every time a packet loss is occured, sending rate is decreased by 2. (e.g. was at 10, moved to 5).
+First part called slow start, the fluxuation part is called congestion avoidance
+
+**Approach**: sender increases transmission rate (window size), probing for usage bandwidth, until loss occurs:
+
+- **additive increase**: increase `cwnd` (congestion window) by 1 MSS every RTT unltil loss detected
+- **multiplicative decrease**: cut `cwnd` in half after loss
+
+$$
+TcpTput = \frac{cwnd}{RTT} bytes/s
+$$
+
+By default `cwnd` is measured in bytes.
+
+### Detecting, reacting to loss
+
+- Loss indicated by timeout
+  - `cwnd` set to 1 MSS
+  - window then grows exponentially (as in slow start) to a threshold, then grows linearly
+- Loss indicated by 3 duplicate ACKs
+  - duplicate ACKs indicate network is capable of delivering some segments
+  - `cwnd` is then cut in half, window then grows linearly
+
+### Throughput
+
+W - max window for tcp connection - max possible throughput
+W/2 - min window for tcp connection - min possible throughput
+3/4(W) - avg window - average possible throughput
+W = R * RTT
+
+max throughput = max w/rtt = w / rtt (max throughput in any round)
+min throughput = min w/rtt = w/2 / rtt
+avg throughput = avg w/rtt = 3/4w / rtt
