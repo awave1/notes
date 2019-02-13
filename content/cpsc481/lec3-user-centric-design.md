@@ -54,8 +54,8 @@ Key is to build the prototype fast, concentrate on unknowns and don't be attache
 
 Evaluation is an automated process that can find bugs but not usability issues. Evaluation gives you a way to move forward: what needs to be fixed, added, removed? Evaluation answers two questions:
 
-- did we build *the right thing*?
-- did we build *the thing right*?
+- did we build _the right thing_?
+- did we build _the thing right_?
 
 **Evaluation methods**:
 

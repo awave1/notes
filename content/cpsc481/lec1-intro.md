@@ -32,7 +32,6 @@ tags: ['cpsc481']
 - Humans are central actors "in the loop"
 - Context (cultural and temporal) matters
 
-
 ### Design vs. Art
 
 **Design**:
@@ -57,8 +56,8 @@ Judging/predicting which design will be successful is hard. There are infinite p
 
 ### People make errors: two kinds of them
 
-- **Slips**: Error in carrying out an action (e.g motor action) 
-- **Mistake**
+- **Slips**: Error in carrying out an action (e.g motor action)
+- **Mistake**: errors in choosing an objective or action, occurs when a person misunderstands something in the system
 
 Good designers help people avoid mistakes.
 
@@ -69,8 +68,3 @@ To synthesize a solution from all of the relevant constraints, understanding eve
 To frame or reframe, the problem and objective.
 
 To create and envision alternatives.
-
-## "This user is not like me"
-
-## User-Centered Design (UCD)
-
