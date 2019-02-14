@@ -34,6 +34,61 @@ $$
   - $0 \leq c_1 \cdot g(n) \leq f(n) \leq c_2 \cdot g(n)$
   - $\lim_{n \to \infty} \frac{f(n)}{g(n)} = c$
 - In general: Factorial > Exponential > Polynomial > Log > Constant
+- For any two functions
+
+$$
+f(n) \in \Theta(g(n)) \leftrightarrow f(n) \in O(g(n)) and g(n) \in \Omega(g(n))
+$$
+
+---
+
+**Summation rules**:
+
+$$
+\Sigma^{n}_{i = 1}(ca) = c\Sigma^{n}_{i = 1}a
+$$
+
+$$
+\Sigma^{n}_{i = 1}(a + b) = \Sigma^{n}_{i = 1}(a) + \Sigma^{n}_{i = 1}(b)
+$$
+
+$$
+\Sigma^{n}_{i = 1}c = cn
+$$
+
+$$
+\Sigma^{n}_{i = 1}i = \frac{n(n + 1)}{2}
+$$
+
+$$
+\Sigma^{n}_{i = 1}i^2 = \frac{n(n + 1)(2n + 1)}{6}
+$$
+
+**Log rules**:
+
+$$
+\log{(mn)} = \log{m} + \log{n}
+$$
+
+$$
+\log{(\frac{m}{n})} = \log{m} - \log{n}
+$$
+
+$$
+\log{(m^n)} = n\log{m}
+$$
+
+$$
+\log_{a}{(x)} = \frac{log_b{x}}{\log_b{a}}
+$$
+
+$$
+\log_{a}{(a^x)} = x
+$$
+
+$$
+a^{\log_a{x}} = x
+$$
 
 ## Graphs
 
