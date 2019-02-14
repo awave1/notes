@@ -10,7 +10,6 @@ module.exports = {
     siteUrl: 'https://awave1.github.io/notes',
   },
   plugins: [
-    'gatsby-plugin-mdx',
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-layout',
