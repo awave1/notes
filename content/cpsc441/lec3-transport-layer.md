@@ -364,3 +364,13 @@ W = R \* RTT
 max throughput = max w/rtt = w / rtt (max throughput in any round)
 min throughput = min w/rtt = w/2 / rtt
 avg throughput = avg w/rtt = 3/4w / rtt
+
+### Fairness
+
+**Fairness goal**: if K TCP sessions share same bottleneck link of bandwidth R, each should have average rate $\frac{R}{K}$.
+
+![TCP Fairness](lec3-tcp-fairness.png)
+
+We focus on AIMD part of the TCP congestion control.
+
+With UDP there is no notion of congestion control. If TCP and UDP are used together, UDP will make use of entire bandwidth.
