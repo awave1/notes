@@ -2,7 +2,7 @@
 title: 'Threads'
 date: '2019-02-05'
 description: ''
-published: false
+published: true
 tags: ['cpsc457']
 ---
 
@@ -21,6 +21,22 @@ Both processes and threads can be used to write concurrent applications, but the
 - threads have more options for communication
 - processes have easier access to built-in OS mechanisms, but they are usually less efficient than threads
 
+**Per-process items**:
+
+- address space
+- global variables
+- heap
+- open files
+- child processes
+- signals
+
+**Per-thread items**:
+
+- registers
+- PC
+- stack
+- state
+
 ## Common thread scenarios
 
 - **pipeline**
@@ -33,13 +49,22 @@ Both processes and threads can be used to write concurrent applications, but the
 - **peer**
   - all threads work on the same or different tasks in parallel
 
+### Why Threads?
+
+- multithreaded applications can run faster on computers with multiple cores/CPUs
+- multiple threads can parallelize access to hardware e.g. 2 threads reading different files
+
 ### Thread pool
 
 **Thread pool** is a software design pattern. Program creates and maintained a pool of worker threads. Pool size can be tuned, e.g. to the available computing resources. When program needs a thread, it takes one out of the pool.
 
-<!-- TODO: finish -->
+Thread queues are often combined with a **task queue**. Instead of asking for a thread, a 'task' is inserted into a task queue. Available threads in the thread pool take tasks from the task queue and finish them.
 
 ### Thread libraries
+
+- POSIX threads
+- Win32
+- Java
 
 #### POSIX threads (aka pthreads)
 

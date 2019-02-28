@@ -2,7 +2,7 @@
 title: 'Concurrent Programming'
 date: '2019-02-07'
 description: ''
-published: false
+published: true
 tags: ['cpsc457']
 ---
 
@@ -26,7 +26,7 @@ There are two general approaches:
 
 ### Async cancellation
 
-<!--async becuse there is no sync with thread that needs to be cancelled, as soon as the signal is received (so data might be missing)-->
+It's called async because there is no sync with thread that needs to be cancelled, as soon as the signal is received (so data might be missing)
 
 One thread manually terminates the target thread using `pthread_kill(thread_id, SIGUSR1)` and then target is killed instantly.
 
@@ -39,7 +39,12 @@ Usually, it is better to use synchronous thread cancellation.
 
 ### Deferred / Synchronous Thread Cancellation
 
-<!-- TODO: Finish -->
+Controlling thread **indicates** it wishes to cancel a thread. Can be done via some global flag or `pthread_cancel()`. Target thread periodically checks whether it should terminate, checking done only at **cancellation points** at which a thread can be cancelled safely.
+
+Issues:
+
+- less performance
+- target thread will not react immediately
 
 ## Race Conditions
 
@@ -74,27 +79,27 @@ int main() {
 
 One possible **execution sequence**, leading to `counter = 2`
 
-| **Thread 1**   | **Thread 2**   | **`counter`** |
-|:--------------:|:--------------:|:-------------:|
-|                |                | `0`           |
-| `x = counter;` |                | `0`           |
-| `x++;`         |                | `0`           |
-| `counter = x;` |                | `1`           |
-|                | `x = counter;` | `1`           |
-|                | `x++;`         | `1`           |
-|                | `counter = x;` | `2`           |
+|  **Thread 1**  |  **Thread 2**  | **`counter`** |
+| :------------: | :------------: | :-----------: |
+|                |                |      `0`      |
+| `x = counter;` |                |      `0`      |
+|     `x++;`     |                |      `0`      |
+| `counter = x;` |                |      `1`      |
+|                | `x = counter;` |      `1`      |
+|                |     `x++;`     |      `1`      |
+|                | `counter = x;` |      `2`      |
 
 Another possible execution sequence leading to `counter = 1`
 
-| **Thread 1**   | **Thread 2**   | **`counter`** |
-|:--------------:|:--------------:|:-------------:|
-|                |                | `0`           |
-| `x = counter;` |                | `0`           |
-|                | `x = counter;` | `0`           |
-|                | `x++;`         | `0`           |
-|                | `counter = x;` | `1`           |
-| `x++;`         |                | `1`           |
-| `counter = x;` |                | `1`           |
+|  **Thread 1**  |  **Thread 2**  | **`counter`** |
+| :------------: | :------------: | :-----------: |
+|                |                |      `0`      |
+| `x = counter;` |                |      `0`      |
+|                | `x = counter;` |      `0`      |
+|                |     `x++;`     |      `0`      |
+|                | `counter = x;` |      `1`      |
+|     `x++;`     |                |      `1`      |
+| `counter = x;` |                |      `1`      |
 
 Debugging race conditions is hard, in some rare situations the output might be different, e.g. when system was less/more busy.
 

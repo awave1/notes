@@ -35,7 +35,7 @@ OS acts as a resource allocator. It multiplexes available resources.
 - Multiplexing resources in space
   - e.g. 2 programs allocating memory
 
-OS manages conflics among multiple programs or users.
+OS manages conflicts among multiple programs or users.
 
 <!--IMPORTANT: syscalls need to be checked-->
 

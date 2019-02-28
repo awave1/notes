@@ -2,7 +2,7 @@
 title: 'Processes, pt2'
 date: '2019-01-31'
 description: ''
-published: false
+published: true
 tags: ['cpsc457']
 ---
 
@@ -17,7 +17,7 @@ Example: OS is running 4 processes, P1, P2, P3 and P4
 
 If there is only one CPU, what will be CPU's utilization? i.e. what percentage of the time is the CPU going to be running 'something'?
 
-Answer: CPU utilization = probability that at least one of the processes is *not* waiting on I/O = 1 - (probability that all processes are waiting on I/O) = $1 - (0.4 \cdot 0.2 \cdot 0.5 \cdot 0.9) = 0.964 = 96.4\%$.
+Answer: CPU utilization = probability that at least one of the processes is _not_ waiting on I/O = 1 - (probability that all processes are waiting on I/O) = $1 - (0.4 \cdot 0.2 \cdot 0.5 \cdot 0.9) = 0.964 = 96.4\%$.
 
 Assume $N$ similar processes. Each process spends the same fraction $P$ of its time waiting on I/O, then:
 
@@ -45,46 +45,46 @@ There are several options for allocating resources for a new process:
 When child process is created, parent process usually does one of three things:
 
 1. The parent waits until the child process **is finished**
-    - often used when child executes another program, e.g. `fork()`/`exec()`, or `system()`
-    ```python
-    pid = fork()
-    if pid > 0:
-      wait()
-    ```
+   - often used when child executes another program, e.g. `fork()`/`exec()`, or `system()`
+   ```python
+   pid = fork()
+   if pid > 0:
+     wait()
+   ```
 2. The parent continues to execute concurrently and independently of the child process
-    - e.g. autosave feature
-    ```python
-    pid = fork()
-    if pid > 0:
-      do_something()
-      exit()
-    ```
+   - e.g. autosave feature
+   ```python
+   pid = fork()
+   if pid > 0:
+     do_something()
+     exit()
+   ```
 3. The parent continues to execute concurrently, but synchronizes with the child
-    - can be complicated to synchronize
-    ```python
-    pid = fork()
-    if pid > 0:
-      do_something_1()
-      synchronize()
-      do_something_2()
-      synchronize()
-      # ...
-    ```
+   - can be complicated to synchronize
+   ```python
+   pid = fork()
+   if pid > 0:
+     do_something_1()
+     synchronize()
+     do_something_2()
+     synchronize()
+     # ...
+   ```
 
 ## Process termination
 
 Typical conditions which terminate a process:
 
 - **voluntary**
-  - *normal exit* - application decides it's done, or user closes the app
+  - _normal exit_ - application decides it's done, or user closes the app
     - `exit()` call
-  - *error exit* - application detects an error, optionally notify the user
+  - _error exit_ - application detects an error, optionally notify the user
     - `exit()` call
 - **involuntary**:
-  - *fatal error*
+  - _fatal error_
     - usually due to a bug in the program, detected by OS
     - e.g. accessing invalid memory, div by zero
-  - *involuntary* - killed by another process
+  - _involuntary_ - killed by another process
     - parent, or another process calls `kill()`
     - e.g. during shutdown, pressing `<ctrl-c>` in terminal, closing window
 
@@ -100,7 +100,7 @@ When terminating a process, OS must free all related resources, e.g. free memory
 
 ## Process scheduling
 
-Part of multitasking is deciding which process gets the CPU next. Typical objective is to maximize CPU utilization. **Process scheduler** is a kernel routine/algorithm that selects an available process to execute on the CPU. Process is selected from a *ready queue*. OS maintains different scheduling queues:
+Part of multitasking is deciding which process gets the CPU next. Typical objective is to maximize CPU utilization. **Process scheduler** is a kernel routine/algorithm that selects an available process to execute on the CPU. Process is selected from a _ready queue_. OS maintains different scheduling queues:
 
 - job queue: all programs waiting to run, usually found in batch systems
   - e.g. priority queue
@@ -128,6 +128,15 @@ Only 4 transitions are possible:
 
 ### Context switching
 
+Context switching is essential feature of any multitasking OS. It allows illusion of sharing a single CPU (or limited number of CPUs) among many processes.
+
+OS maintains a context (state) for each process which is usually a part of PCB. When OS switches between process A and B:
+
+- OS saves A's state in A's PCB
+- OS restores B's state from B's PCB
+
+Context switching occurs in kernel mode, for example when process exceeds its **time slice**. Context switching also introduces time overhead, because CPU spends cycles on not useful work when restoring/saving CPU registers. Therefore, context switching is the most optimized part of the kernel
+
 ### Unix signals
 
 A form of **interprocess communication** (IPC):
@@ -146,3 +155,15 @@ A signal is used to notify a process that a particular event has occured. One pr
 
 #### Generating signals
 
+Signals are generated:
+
+- manually from process to another process
+- periodically via timer
+- automatically to handle exceptions
+- from command line
+
+#### Signal Handling
+
+**Signal handler** - a function that will be invoked when a signal is delivered. **Default signal handler** - all programs have default handlers with default behaviors. Programs can also override default handlers via **user-defined handlers**, except for `SIGKILL` (`kill -9 PID`), or `SIGSTOP <ctrl-z>`.
+
+Since signals can be delivered anytime, the state of program's data might be in an **inconsistent state** as well as the signal handler _itself_ can be interrupted.

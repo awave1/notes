@@ -2,7 +2,7 @@
 title: 'Token Based Authentication'
 date: '2019-01-28'
 description: ''
-published: false
+published: true
 tags: ['cpsc329']
 ---
 

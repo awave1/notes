@@ -2,11 +2,9 @@
 title: 'Processes pt.1'
 date: '2019-01-29'
 description: ''
-published: false
+published: true
 tags: ['cpsc457']
 ---
-
-<!--TODO: Finish processes-->
 
 Process is a key concept in all operating systems. A quick definition of a process is <mark>a program in execution</mark>. Process is associated with:
 
@@ -25,7 +23,7 @@ Processes are allowed to create new processes.
 
 ![Pipe process](lec5-pipe.png)
 
-Pipes is a very powerful thing in Unix. On Unix systems, two processes can communicate with each other via a **pipe**. Pipes are accessed using file I/O APIs. Pipes *can* be bidirectional, but normally used as one directional.
+Pipes is a very powerful thing in Unix. On Unix systems, two processes can communicate with each other via a **pipe**. Pipes are accessed using file I/O APIs. Pipes _can_ be bidirectional, but normally used as one directional.
 
 ```bash
 ls -altr | tail -10
@@ -47,24 +45,24 @@ Process abstraction is used to implement **multitasking**. Multitasking allows a
 
 - running `N` processes with `M` CPUs, `while N > M`
 - works even with a single CPU:
-    ```
-    run program (i) for a fraction of a second
-    switch to program (i+1)
-    repeat
-    ```
+  ```
+  run program (i) for a fraction of a second
+  switch to program (i+1)
+  repeat
+  ```
 
 Multitasking allows us to reduce CPU idling during I/O. CPU could be given to another process rather than remain idle. Multitasking is only practical when memory is big enough to hold multiple programs.
 
 **Program $\neq$ Process**:
 
-- A *program* is a **passive** entry
+- A _program_ is a **passive** entry
   - an executable file containing a list of instructions, usually stored on disk
-- A *process* is an **active** entity
-  - associated with a *program counter* and other resources
+- A _process_ is an **active** entity
+  - associated with a _program counter_ and other resources
 
 ## A process in memory
 
-Each process gets its own **address space**. Part of memory available to a process, decided by OS. On modern OSes it is a *virtual* address space (0 - max), isolated from other processes.
+Each process gets its own **address space**. Part of memory available to a process, decided by OS. On modern OSes it is a _virtual_ address space (0 - max), isolated from other processes.
 
 ![Memory stack](lec5-mem-stack.png)
 
@@ -78,6 +76,7 @@ Other information needed by the OS for management, usually grouped in a Process 
 ### Process control block
 
 <!-- NOTE: Remember what goes to PCB -->
+
 Each process is represented in the OS by a PCB that includes:
 
 - process state
@@ -93,7 +92,7 @@ On Linux, [`task_struct`](https://github.com/torvalds/linux/blob/master/include/
 The **process table** is a collection of all PCBs. Some of the fields of a PCB
 
 | Process management       | Memory management        | File management   |
-|--------------------------|--------------------------|-------------------|
+| ------------------------ | ------------------------ | ----------------- |
 | program counter          | pointer to text segment  | root directory    |
 | registers                | pointer to data segment  | working directory |
 | stack pointer            | pointer to stack segment | file descriptors  |
@@ -118,7 +117,7 @@ Processes need to be created and deleted dynamically and OS must provide mechani
 
 Process is executed via `fork()`:
 
-- under Unix there's no difference, but under Win, there is (have to create *then* execute)
+- under Unix there's no difference, but under Win, there is (have to create _then_ execute)
 
 Process termination is done via `exit()` or `kill()`:
 
@@ -197,7 +196,7 @@ There also can be different outputs:
   ```
 - If `fork()` failed
   ```
-  PID: -1 
+  PID: -1
   ```
 
 ---
@@ -246,7 +245,7 @@ int main() {
     The system() library call uses fork() to create a child process that
     executes the shell command
   */
-  
+
   system("/bin/ls");
 
   return 0;
