@@ -14,7 +14,7 @@ Interrupt can happen at any time. When interrupt happens, CPU switches to kernel
 
 Similar to hardware interrupts but the source of the interrupt is the CPU itself. Software interrupts are handled similarly to hardware interrupts.
 
-There are two types of software interrupts: *intentional* and *unintentional*.
+There are two types of software interrupts: _intentional_ and _unintentional_.
 
 #### Unintentional interrupts
 
@@ -22,63 +22,63 @@ Also called **exceptions**. Occurs when CPU executes invalid instruction (e.g. a
 
 #### Intentional interrupts (trap)
 
-Trap usually occurs via special instruction, e.g. `INT`. The purpose of a trap is to execute predefined routine in *kernel mode*. OS can use traps to implement system calls.
+Trap usually occurs via special instruction, e.g. `INT`. The purpose of a trap is to execute predefined routine in _kernel mode_. OS can use traps to implement system calls.
 
 ### Hardware interrupts vs Software interrupts
 
 - **Hardware Interrupts**:
-  - Exernal event delivered to the CPU
+  - External event delivered to the CPU
   - Origins: I/O, timer, user input
-  - asynchronous with the current activity of the CPU
-  - the time of the event is not known and not predictable
+  - Asynchronous with the current activity of the CPU
+  - The time of the event is not known and not predictable
 - **Software Interrupts**:
-  - internal events, e.g. system calls, exceptions
-  - synchronous with the current activity of the CPU
-  - occurs as a result of execution of a machine instruction
+  - Internal events, e.g. system calls, exceptions
+  - Synchronous with the current activity of the CPU
+  - Occurs as a result of execution of a machine instruction
 - Both hardware and software interrupts:
-  - invoke a kernel routine, defined by the OS
-  - put the CPU in a kernel mode
-  - save the current state of the CPU
-  - eventually resume the original operations when done
+  - Invoke a kernel routine, defined by the OS
+  - Put the CPU in a kernel mode
+  - Save the current state of the CPU
+  - Eventually resume the original operations when done
 
 ### I/O
 
 How does the kernel handle I/O? There are two options.
 
-- *Option 1*: busy waiting/spinning/busy looping (aka polling).
-    ```
-    cpu -> disk: read a file
-    loop:
-      cpu -> disk: u done?
-      break if done
-    cpu -> disk: give result
-    ```
+- _Option 1_: busy waiting/spinning/busy looping (aka polling).
+  ```
+  cpu -> disk: read a file
+  loop:
+    cpu -> disk: u done?
+    break if done
+  cpu -> disk: give result
+  ```
   - There are problems with is:
     - the CPU is tied up while slow I/O completes the operation $\implies$ CPU could be doing other operations
     - Power is wasted
-- *Option 2*: busy wait with sleep
-    ```
-    cpu -> disk: read a file
-    loop:
-      sleep
-      cpu -> disk: u done?
-      break if done
-    cpu -> disk: give result
-    ```
-    - Sleep could be detected by OS and the CPU could then run another program
-    - Problems:
-      - hard to estimate the right amount of sleep
-      - program might end up running longer than necessary
-- *Option 3*: Hardware interrupts
-    ```
-    cpu -> disk: read a file
-    cpu -> disk: update when done
-    cpu: sleep until interrupted
-    disk -> cpu: interrupt
-    cpu -> disk: give result
-    ```
-    - When the I/O device finishes the operation, it generates an interrupt, letting the OS know it's done, or there was an error
-    - This approach assumes the I/O device supports interrupts
+- _Option 2_: busy wait with sleep
+  ```
+  cpu -> disk: read a file
+  loop:
+    sleep
+    cpu -> disk: u done?
+    break if done
+  cpu -> disk: give result
+  ```
+  - Sleep could be detected by OS and the CPU could then run another program
+  - Problems:
+    - Hard to estimate the right amount of sleep
+    - Program might end up running longer than necessary
+- _Option 3_: Hardware interrupts
+  ```
+  cpu -> disk: read a file
+  cpu -> disk: update when done
+  cpu: sleep until interrupted
+  disk -> cpu: interrupt
+  cpu -> disk: give result
+  ```
+  - When the I/O device finishes the operation, it generates an interrupt, letting the OS know it's done, or there was an error
+  - This approach assumes the I/O device supports interrupts
 
 #### Using interrupts to do I/O
 
@@ -120,7 +120,7 @@ There are three main kernel designs: **monolithic kernel**(MS-DOS, Linux), **mic
 
 #### Monolithic kernel
 
-The entire OS runs as a single program in kernel mode. It is faster  but more prone to bugs, harder to port, and potentially less stable.
+The entire OS runs as a single program in kernel mode. It is faster but more prone to bugs, harder to port, and potentially less stable.
 
 #### Microkernel
 
@@ -166,4 +166,3 @@ Virtual machines emulate computer systems either in software or in specialized h
 Virtual machines can save money for companies, time for developers. VMs are isolated from each other, that means a user can run different versions of same program, or run unsafe programs. VMs are perfect solution for sys admins: there's no need to setup multiple servers, instead one big server can be setup with multiple VMs. That makes it easier to maintain.
 
 <!--Containers do not virtualize the machine, containers virtualize the OS. "each user app has it's own os"-->
-

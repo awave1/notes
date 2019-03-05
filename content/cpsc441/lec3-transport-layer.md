@@ -149,9 +149,24 @@ Checking checksum at the receiver:
 
 ## Principles of reliable data transfer
 
-### RDT 1.0
+It is the responsibility of **reliable data transfer protocol (rdt)** to implement service abstraction.
 
-### RDT 2.0
+![Principle of RDT](lec3-rdt-principle.png)
+
+- `rdt_send()`: Called from layer above (application layer). Passed data to deliver to receiver upper layer.
+- `deliver_data()`: Called by **rdt** to deliver data to upper layer.
+- `udt_send()`: Called by rdt to transfer packet over unreliable channel to receiver.
+- `rdt_rcv()`: Called when packet arrives from the receiving side of the channel.
+
+### RDT 1.0: reliable transfer over a reliable channel
+
+The sending side of rdt simply accepts data from upper layer via `rdt_send(data)`, creates a packet via `make_pkt(data)` and sends the packet into the channel, using `udt_send(packet)`. On the receiving side, rdt receives a packet from the underlying channel via `rdt_rcv(packet)`, extracts the packet and delivers the data from the packet to the upper layer.
+
+![RDT1.0 FSM](lec3-rdt1.png)
+
+In this protocol there is no difference between a unit o data and a packet. All packet flow is from the sender to receiver; with a reliable channel, there is no need for receiver to provide feedback to the sender since nothing can go wrong.
+
+### RDT 2.0: channel with bit errors
 
 - In real life there are probabilities that checksum will get corrupted, but for this example, checksum is perfect.
 - Add a sequence number to packets to deal with packet duplicates

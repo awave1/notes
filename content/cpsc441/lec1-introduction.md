@@ -52,16 +52,13 @@ $$
 
 If we have to send N packets:
 
-<!--```sequence-->
-<!--A->B-->
-<!--```-->
-
 ```mermaid-svg
 graph LR;
   A -->R;
   R --> B;
 ```
 
+<br/>
 
 $$
 D = N \times \frac{L}{R} + \frac{L}{R}
@@ -111,6 +108,7 @@ Router with a lot of load will have queueing delay.
 Throughput: what is the maximum data you can send? you want to see how fast you can send, while sending as much as you can.
 
 - Scenario 1:
+
   ```
   [A] ----- [B]
         R
@@ -121,12 +119,12 @@ Throughput: what is the maximum data you can send? you want to see how fast you 
 
 - Scenario 2:
 
-    ```
-    [A] --- (x) --- [B]
-         R1      R2
-    ```
+  ```
+  [A] --- (x) --- [B]
+       R1      R2
+  ```
 
-    - $Tput = min(R_1, R_2)$
+  - $Tput = min(R_1, R_2)$
 
 ---
 
@@ -143,7 +141,7 @@ Networks are complex. There are many pieces to it:
 
 ### Protocol Layers
 
-Network components are organized into "layers". Each of these layers are stored in specific order. Also called *protocol stack*. Each layer implements some service:
+Network components are organized into "layers". Each of these layers are stored in specific order. Also called _protocol stack_. Each layer implements some service:
 
 - via its own internal-layer actions
 - relying on service provided on layer below

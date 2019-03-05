@@ -17,9 +17,9 @@ Possible structure of applications:
 - Client-server
 - Peer-to-peer (P2P)
 
-### Client-server architecture
+# Client-server architecture
 
-In a **client-server** architecture, there is an always-on host, *server*, which serves requests from many other hosts called *clients*.
+In a **client-server** architecture, there is an always-on host, _server_, which serves requests from many other hosts called _clients_.
 
 **Client**:
 
@@ -68,14 +68,14 @@ Many networks, including the Internet, provide more than one transport-layer pro
 ### What transport service does an app need?
 
 - **Data integrity**:
-  - if protocol provides guaranteed data delivery service, it is said to provide data integrity or *reliable data transfer*.
+  - if protocol provides guaranteed data delivery service, it is said to provide data integrity or _reliable data transfer_.
   - some apps can tolerate some amount of loss (e.g. audio)
 - **Timing**:
   - some applications require low delay in order to be effective
 - **Throughput**:
   - some applications guaranteed to request $r bps$ of throughput, so protocol would then ensure that the available throughput is always at least $r bps$
     - useful for VoIP
-  - *elastic applications* make use of whatever throughput they get
+  - _elastic applications_ make use of whatever throughput they get
     - useful for email, web transfers
 - **Security**:
   - service that provides various security services (e.g. encryption, data integrity)
@@ -88,8 +88,8 @@ The Internet makes two transport protocols available to applications: UDP and TC
 
 The TCP service model includes a connection-oriented service and a reliable data transfer service. Therefore, application that invokes TCP receives both of these services from TCP.
 
-- *Connection-oriented service*. TCP has the client and server exchange transport layer control information with each other *before* the application-level messages begin to flow. After the handshaking phasem a **TCP connection** is established between the sockets of two processes.
-- *Reliable data service*. The communicating processes can rely on TCP to deliver all data sent without errors and in the proper order.
+- _Connection-oriented service_. TCP has the client and server exchange transport layer control information with each other _before_ the application-level messages begin to flow. After the handshaking phasem a **TCP connection** is established between the sockets of two processes.
+- _Reliable data service_. The communicating processes can rely on TCP to deliver all data sent without errors and in the proper order.
 
 TCP also includes a congestion-control mechanism. The TCP congestion-control mechanism throttles a sending process when the network is congested between sender and receiver.
 
@@ -120,7 +120,7 @@ HTTP is stateless: server maintains no information about past client requests.
 
 ### Non-Persistent and Persistent HTTP Connections
 
-When client-server interaction is taking place over TCP, it should be decided whether each request/response pair has to be sent over *separate* TCP connections, or all of the requests and their responses have to be sent over the *same* TCP connection. In the former approach, the application is said to use **non-persistent connections** and in the latter approach, **persistent connections**.
+When client-server interaction is taking place over TCP, it should be decided whether each request/response pair has to be sent over _separate_ TCP connections, or all of the requests and their responses have to be sent over the _same_ TCP connection. In the former approach, the application is said to use **non-persistent connections** and in the latter approach, **persistent connections**.
 
 #### Non-persistent HTML
 
@@ -130,9 +130,9 @@ Suppose a user wants to browse a page that consists of a HTML and 10 images. All
 2. The client sends an HTTP request to the server via socket. The request includes the path name to `index.html`
 3. The server process receives the request message via its socket, retrieves the `index.html` object, encapsulates the object in an HTTP response message and sends the object back via its socket
 4. The server process tells TCP to close the TCP connection
-    - **Note**: TCP connection doesn't terminate until client has received the response message intact
-4. The client receives the message. TCP connection terminates. The message indicates that the encapsulated object is an HTML file. The client extracts the file from the response message, parses `index.html`, and finds references to the 10 images
-5. First four steps are repeated for each referenced image/object
+   - **Note**: TCP connection doesn't terminate until client has received the response message intact
+5. The client receives the message. TCP connection terminates. The message indicates that the encapsulated object is an HTML file. The client extracts the file from the response message, parses `index.html`, and finds references to the 10 images
+6. First four steps are repeated for each referenced image/object
 
 The connection **does not persist** for all objects - for every object there has to be a TCP connection open.
 
@@ -154,7 +154,7 @@ As a result, a client will need to open multiple parallel TCP connections and th
 
 With persistent connections, the server leaves TCP connection open after sending a response. Subsequent requests and responses between same client and server can be sent over the same connection. In particular, an entire page can be sent over a single persistent TCP connection. Typically, the HTTP server closes a connection when it isn't used for some time.
 
-For previous example them, the total time will be $3RTT$.
+For previous example then, the total time will be $3RTT$.
 
 ### HTTP messages
 
@@ -198,7 +198,7 @@ Cookies allow sites to keep track of users. Cookie technology has four component
 
 ### Web caches (proxy server)
 
-A **web cache** - also called **proxy server** - is a network entity that processes HTTP requests on behalf of origin server. The web cache has its own disk storage and keeps copies of recently requested objects in the storage. 
+A **web cache** - also called **proxy server** - is a network entity that processes HTTP requests on behalf of origin server. The web cache has its own disk storage and keeps copies of recently requested objects in the storage.
 
 ![Web cache](lec2-webcache.png)
 
@@ -209,7 +209,7 @@ As an example, suppose a browser is requesting the object `http://www.example.co
 3. If the web cache doesn't have the object, the web cache opens a TCP connection to the origin server. The web cache then sends an HTTP request for the object into the cache-to-server TCP connection. After receiving this request, the origin server sends the object within an HTTP response to the web cache.
 4. When the web cache receives the object, it stores a copy in its local storage and sends a copy within an HTTP response message to the client browser over the existing TCP connection between web cache and client.
 
-Web cache acts as a client *and* server at the same time. When it receives requests from and send responses to a browser, it is a *server*. When it sends requests to and receives responses from an origin server, it is a *client*.
+Web cache acts as a client _and_ server at the same time. When it receives requests from and send responses to a browser, it is a _server_. When it sends requests to and receives responses from an origin server, it is a _client_.
 
 ## Email Protocol
 
@@ -225,7 +225,7 @@ DNS is one of the core functionalities, but it is provided on the application le
 
 The primary functionality of DNS is to map human readable URLs to IP addresses, that are understandable by the network layer protocol.
 
-**Domain Name System (DNS)** is a distributed database. It is implemented in hierarchy of many *name servers*.
+**Domain Name System (DNS)** is a distributed database. It is implemented in hierarchy of many _name servers_.
 
 Application-layer protocol: hosts <!-- FINISH -->
 
@@ -269,7 +269,7 @@ local dns --> server
 
 ### DASH
 
-**DASH** stands for **D**ynamic, **A**daptive **S**treaming over **H**TTP. Server divides video into multiple chunks and each chunk is stored, each chunk is also encoded at different rates. *Manifest file* provides URLs for different chunks.
+**DASH** stands for **D**ynamic, **A**daptive **S**treaming over **H**TTP. Server divides video into multiple chunks and each chunk is stored, each chunk is also encoded at different rates. _Manifest file_ provides URLs for different chunks.
 
 Client periodically measures server-to-client bandwidth, consults manifest, requests one chunk at a time. Client chooses maximum coding rate sustainable given current bandwidth. Client can also choose different coding rates at different points in time (depending on available bandwidth at time).
 
@@ -278,5 +278,3 @@ Client periodically measures server-to-client bandwidth, consults manifest, requ
 How to stream content to hundreds of thousands of simultaneous users? The solution is to store multiple copies of videos at multiple geographically distributed sites - CDN. So, CDN servers are pushed closer to users.
 
 <!-- TODO: add info from the book -->
-
-

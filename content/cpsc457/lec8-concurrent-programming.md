@@ -43,8 +43,8 @@ Controlling thread **indicates** it wishes to cancel a thread. Can be done via s
 
 Issues:
 
-- less performance
-- target thread will not react immediately
+- Less performance
+- Target thread will not react immediately
 
 ## Race Conditions
 
