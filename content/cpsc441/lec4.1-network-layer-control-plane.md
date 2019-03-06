@@ -1,7 +1,7 @@
 ---
 title: 'Network layer control plane'
 date: '2019-03-04'
-description: ''
+description: 'Chapter 5'
 published: false
 tags: ['cpsc441']
 ---
@@ -42,13 +42,15 @@ Compute routes only once. Used if routes change slowly over time.
   - Updated periodically
   - Done in response to link cost changes
 
-## Link state routing
+## Routing Algorithms
+
+### Link State Routing
 
 In a link state algorithm, the network topology and all link costs are known and available to the LS algorithm. In practice, this is accomplished by having each node broadcast link-state packets to _all_ other nodes in the network, with each link state packet containing the identities and costs of its attached links.
 
-### Dijkstra's Algorithm
+**Dijkstra's Algorithm**
 
-Dijksta's algorithm computes the least-cost path from one node to all other nodes in the network. Dijkstra's algorithm is iterative and has property that after the $k$th iteration of the algorithm, the least-cost paths to all destination nodes, these $k$ paths will have the smallest $k$ smallest costs.
+Dijksta's algorithm computes the least-cost path from one node to all other nodes in the network. Dijkstra's algorithm is iterative and has property that after the $k^{th}$ iteration of the algorithm, the least-cost paths to all destination nodes, these $k$ paths will have the smallest $k$ smallest costs.
 
 - $D(v)$: cost of the least-cost path from the source node to destination $v$ as of this iteration of algorithm.
 - $p(v)$: previous node (neighbour of $v$) along the current least-cost path from the source to $v$.
@@ -66,3 +68,37 @@ Dijksta's algorithm computes the least-cost path from one node to all other node
 | 3    | vxwu   |            |            |            | 10, v      | 14, x              |
 | 4    | yvxwu  |            |            |            |            | 12, y              |
 | 5    | zyvxwu |            |            |            |            |                    |
+
+### Distance Vector
+
+There's no topology discovery. Routers only know their _direct neighbours_. The idea is, by exchanging information with each other, routers compute the network topology.
+
+**Bellman-Ford equation**
+
+Recursive algorithm, that calculates least cost path, however it is more costly compare to Dijkstra's.
+
+Let $d_x(y)$ cost of least-cost path from $x$ to $y$, $c(x, v)$ cost to neighbour $v$, $d_v(y)$ cost from $v$ to $y$.
+
+$$
+d_x(y) = min(c(x, v) + d_v(y))
+$$
+
+Minimum is taken over all neighbours $v$ of $x$.
+
+**Distance Vector Algorithm**
+
+<!-- NOTE: will be on final -->
+
+Let $D_x(y)$ be the estimate of least cost from $x$ to $y$. $x$ maintains distance vector $D_x = [D_x(y): y \in N]$.
+
+Node $x$ knows cost to each neighbour $v$, given by $c(x, v)$. It also maintains its neighbours' distance vectors for each neighbour $v$, $x$ maintains $D_v = [D_v(y): y \in N]$.
+
+_Key idea_:
+
+From time to time, each node sends its own distance vector estimate to neighbours. When $x$ receives new distance vector estimate from neighbour, it updates its own distance vector using **Bellman-Ford equation**:
+
+$$
+\forall y \in N, D_x(y) = min_v(c(x, v) + D_v(y))
+$$
+
+Under minor, natural conditions, the estimate $D_x(y)$ converges to the actual least cost $d_x(y)$.

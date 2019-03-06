@@ -1,8 +1,8 @@
 ---
 title: 'Transport Layer'
 date: '2019-01-28'
-description: ''
-published: false
+description: 'Chapter 3'
+published: true
 tags: ['cpsc441']
 ---
 
@@ -188,19 +188,30 @@ To handle duplicate packets:
 
 ### RDT 2.1
 
+Protocol `rdt2.1` uses both positive and negative acknowledgments from the receiver to sender.
+
+- When an out-of-order packet is received, the receiver sends an `ack` for the packet it has received
+- When a corrupted packet is received, the receiver sends a `nak`
+
+The protocol uses 1-bit sequence number, it allows the receiver whether the sender is resending the previously transmitted packed (the sequence number of the received packet has the same sequence number as the recently received packet) or a new packet (the sequence number changes).
+
 ### RDT 2.2: a NAK-free protocol
 
-Same functionality as RDT2.1, using ACKs only. Instead of NAK, receiver sends ACK for last packet received OK. Receiver must _explicitly_ include sequence number of packet being ACKed. Duplicate ACK at sender results in same action as NAK: _retransmit current packet_.
+Same functionality as RDT2.1, using `ack` only. Instead of `nak`, receiver sends `ack` for last packet received. Receiver must _explicitly_ include sequence number of packet being `acked`. Duplicate `ack` at sender results in same action as `nak`: _retransmit current packet_.
 
-NAK behavior is implemented through _duplicate ACK_.
+`nak` behavior is implemented through _duplicate `ack`_.
 
 ### RDT 3.0: Channels with errors _and_ loss
 
-New assumption: underlying channel can also lose packets (data, ACKs). Checksum, sequence number, ACKs, retransmissions will help, but not by much. Approach: Sender will have a timer; sender waits "reasonable" amount of time for ACK. The time is average round-trip time for packet to get to the server and back. It will retransmit if no ACK received in this time. If packet (or ACK) just delayed and not lost: retransmission will be duplicate, but sequence numbers already handles this. This approach requires countdown timer.
+New assumption: underlying channel can also lose packets (data, `acks`). Checksum, sequence number, `acks`, retransmissions will help, but not by much. Approach: Sender will have a timer; sender waits "reasonable" amount of time for `ack`. The time is average round-trip time for packet to get to the server and back. It will retransmit if no `ack` received in this time. If packet (or `ack`) just delayed and not lost: retransmission will be duplicate, but sequence numbers already handles this. This approach requires countdown timer.
 
-#### Performance
+![rdt3](lec3-rdt3.png)
 
-Thruput = amt of data transmitted in 1 round / duration of 1 round = L/(L/R + RTT) (more important to know than U\_{sender})
+![rdt3](lec3-rdt3-1.png)
+
+**Performance**
+
+**Throughput** - amount of data transmitted in 1 round / duration of 1 round = $L/(L/R + RTT)$ (more important to know than $U_{sender}$)
 
 RDT 3.0 is correct, but performance is bad. e.g. 1 Gbps link, 15 ms prop. delay, 8000 bit packet:
 
@@ -220,13 +231,19 @@ $$
 Tput = \frac{8000}{D_{trans} + 30 \cdot 10^{-3}} = 33 kB(yes)/s
 $$
 
-if $RTT = 30msec$, 1 KB packet every 30 msec: $33 kB/s$ throughput over 1Gbps link.
+If $RTT = 30msec$, 1 KB packet every 30 msec: $33 kB/s$ throughput over 1Gbps link.
+
+**rdt3: stop-and-wait operation**
+
+![rdt3 stop and wait](lec3-rtd3-stop-and-wait.png)
 
 ### Pipelined protocols
 
 **Pipelining**: sender allows multiple "in-flight", yer ro be acknowledged packets.
 
-Go-back-N (easier to implement for both sender and receiver):
+**Go-back-N** (easier to implement for both sender and receiver)
+
+In Go-back-N protocol, the sender is allowed to transmit multiple packets, without waiting for acknowledgement, but is constrained to have no more than some maximum number $N$ of unacknowledged packets in the pipeline.
 
 - Sender can have up to $N$ unacked packets in pipeline
 - receiver only sends **cumulative ack**
@@ -234,28 +251,54 @@ Go-back-N (easier to implement for both sender and receiver):
 - Sender has timer for oldest unacked packet
   - when timer expires, retransmit _all_ unacked packets
 
-Selective Repeat:
+GBN sends `ack` only for the next expected sequence number. Don't buffer out of order packets, just re-`ack` packet with next expected sequence number.
 
+**Selective Repeat**
+
+- Receiver individually acknowledges all correctly received packets
 - Sender can have up to $N$ unacked packets in pipeline
 - Receiver sends **individual ack** for each packet
 - Sender maintains timer for each unacked packet
   - when timer expires, retransmit only that unacked packet
+- Sender only resends packets for which `ack` not received
+  - sender starts timer for each `unacked` packett
+- Sender window:
+  - N consecutive seq. numbers
+  - Limits seq. numbers of send, unacked point
 
-#### Go-Back-N
+![Stop and wait](lec3-stop-n-wait.png)
 
-#### Selective Repeat
+![Pipelined](lec3-pipelined.png)
 
 ## Connection-oriented transport: TCP
 
-### Segment structure
+TCP is said to be **connection-oriented** because before processes begin communicating with each other, they establish connection through **three way handshake**. TCP provides reliable, in-order byte stream connection. It is a pipelined protocol with dynamic window size.
 
-### Reliable data transfer
-
-### Connection management
-
-## TCP congestion control
+TCP connection provides a **full duplex service**: bi-directional data flow. The maximum amount of data that can be grabbed and placed in a segment is limited by the **maximum segment size**.
 
 ### Segment structure
+
+TCP pairs each chunk of client data with TCP header, forming **TCP segments**.
+
+![TCP segment structure](lec3-tcp-segment-struct.png)
+
+**Sequence numbers**
+
+**Sequence number for a segment** is the byte stream "number" of first byte in segment's data.
+
+**Acknowledgements**
+
+Sequence number of next byte, expected from other size. TCP provides cumulative `ack`.
+
+TCP doesn't deal with out-of-order segments.
+
+![TCP ack, seq #s](lec3-tcp-ack.png)
+
+### TCP round trip time, timeout
+
+TCP uses a timeout/retransmit mechanism to recover from lost segments. The timeout should be larger than the connection's RTT.
+
+**Estimating the RTT**
 
 SampleRtt
 
