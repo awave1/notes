@@ -138,7 +138,7 @@ At the queue, the packet experiences a <mark><b>queueing delay</b></mark> as it 
 <mark><b>Transmission delay</b></mark> is the amount of time required to push (transmit) all of the packet's bits into the link.
 
 $$
-d_{trans} = L/R
+d_{trans} = \frac{L}{R}
 $$
 
 Where, $L$ is packet length in bits, and $R$ is the link capacity in bps.
@@ -148,7 +148,7 @@ Where, $L$ is packet length in bits, and $R$ is the link capacity in bps.
 The time required to propagate from beginning of the link to router B is the <mark><b>propagation delay</b></mark>. The bit propagates at the propagation speed of the link, usually $2 \cdot 10^8 m/s$ to $3 \cdot 10^8 m/s$.
 
 $$
-d_{prop} = d/s
+d_{prop} = \frac{d}{s}
 $$
 
 Where, $s$ is propagation speed, and $d$ is distance between two end systems.
@@ -165,7 +165,7 @@ $$
 
 $$
 d_{prop} = d/S \\
-d_{packet} = L/{R \\
+d_{packet} = L/R \\
 d = d_{packet} + d_{prop}
 $$
 
