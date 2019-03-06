@@ -26,23 +26,26 @@ workbox.clientsClaim();
  */
 self.__precacheManifest = [
   {
-    "url": "webpack-runtime-115cc0ff1bf06bba00e6.js"
+    "url": "webpack-runtime-b118c8ee8c6f8045b8e7.js"
   },
   {
-    "url": "app.4e5dc91b5f2a19918105.css"
+    "url": "styles.8121a4c22fe206233c92.css"
   },
   {
-    "url": "app-61512c56d94aa0438539.js"
+    "url": "styles-89a5d72a44682a1d92ef.js"
   },
   {
-    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-dcd6e9af9ce639c257e2.js"
+    "url": "app-387dd75676e46db9fc6f.js"
+  },
+  {
+    "url": "component---node-modules-gatsby-plugin-offline-app-shell-js-c2f9918d996737b6fd74.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "f7b624535d3d04549aa152e343b8f74e"
+    "revision": "3ac3e0851244fec0b15bbeb47215b670"
   },
   {
-    "url": "component---src-pages-404-js-32c7e26f3ff1adf38893.js"
+    "url": "component---src-pages-404-js-d577cde427d834a09763.js"
   },
   {
     "url": "static/d/164/path---404-html-516-62a-NZuapzHg3X9TaN1iIixfv1W23E.json"
@@ -77,20 +80,23 @@ const navigationRoute = new workbox.routing.NavigationRoute(({ event }) => {
       const cacheName = workbox.core.cacheNames.precache
 
       return caches.match(offlineShell, { cacheName }).then(cachedResponse => {
-        if (!cachedResponse) {
-          return fetch(offlineShell).then(response => {
-            if (response.ok) {
-              return caches.open(cacheName).then(cache =>
-                // Clone is needed because put() consumes the response body.
-                cache.put(offlineShell, response.clone()).then(() => response)
-              )
-            } else {
-              return fetch(event.request)
-            }
-          })
-        }
+        if (cachedResponse) return cachedResponse
 
-        return cachedResponse
+        console.error(
+          `The offline shell (${offlineShell}) was not found ` +
+            `while attempting to serve a response for ${pathname}`
+        )
+
+        return fetch(offlineShell).then(response => {
+          if (response.ok) {
+            return caches.open(cacheName).then(cache =>
+              // Clone is needed because put() consumes the response body.
+              cache.put(offlineShell, response.clone()).then(() => response)
+            )
+          } else {
+            return fetch(event.request)
+          }
+        })
       })
     }
 
