@@ -316,7 +316,7 @@ Before exchanging data, sender/receiver establish a **handshake**:
 - agree on connection parametes
 
 ```java
-Socket client = new Socket("hostname", "port nuumber");
+Socket client = new Socket("hostname", "port number");
 Socket connectionSocket = serverSocket.accept();
 ```
 

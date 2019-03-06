@@ -1,0 +1,3 @@
+- The Internet is a network that interconnects devices
+  - Devices are called **hosts** or **end-systems**
+-
