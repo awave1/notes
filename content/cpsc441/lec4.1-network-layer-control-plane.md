@@ -102,3 +102,51 @@ $$
 $$
 
 Under minor, natural conditions, the estimate $D_x(y)$ converges to the actual least cost $d_x(y)$.
+
+<!-- TODO -->
+
+### Comparison of Link State and Distance Vector Algorithms
+
+<!-- TODO -->
+
+## Intra-AS rounting in the Internet: OSPF
+
+<!-- TODO -->
+
+### Interconnected Autonomous Systems
+
+Forwarding table configured by both intra- and iter-AS routing algorithm. Intra-AS routing determine entries for destinations within AS. Inter-AS & intra-AS determine entries for external destinations.
+
+**Inter-AS tasks**
+
+### Intra-AS Routing
+
+Also know as <mark><b>interior gateway protocol</b></mark>. Most common intra-AS routing protocols:
+
+- RIP: Routing Information Protocol
+- IGRP: Interior Gateway Routing Protocol
+- OSPF: Open Shortest Path First
+
+### OSPF (Open Shortest Path First)
+
+It is open, publicly available algorithm. Uses link-state algorithm:
+
+- Link state packet dissemination
+- Topology map at _each_ node
+- Route computation is done via **Dijkstra's algorithm**
+
+Router floods OSPF link-state advertisements to all other routers in **entire AS**.
+
+## Internet inter-AS routing: BGP
+
+BGP uses TCP for communication.
+
+<!-- TODO -->
+
+## Software Defined Networking (SDN)
+
+<!-- TODO -->
+
+## ICMP: Internet Control Message Protocol
+
+<!-- TODO -->

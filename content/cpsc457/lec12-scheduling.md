@@ -137,6 +137,98 @@ Using a quantum = 3msec
 | P4      | 2       | 8     |       |        |            |         |
 | P5      | 3       | 2     |       |        |            |         |
 
+<!-- TODO -->
+
 ```mermaid-svg
 
 ```
+
+(Context switches happen when number changes)
+
+**Time Slice**
+
+Performance of RR depends on the size of the time quantum $Q$ and the time required for a context switch $S$. For example, if $S = 1ms$, $Q = 4ms$, then CPU will spend $1/(4 + 1) = 20\%$ of its time on useless tasks. Very small $Q$ implies heavy overhead, but highly responsive system. Very large $Q$ implies minimum overhead, but a non-responsive system. So $Q$ should be large compared to $S$, but not too large:
+
+- Good rule of thumb is that 80% of the CPU bursts should be shorter than the time quantum.
+- Quantum of around 20-100ms is often a reasonable compromise.
+
+## Shortest-job-first scheduling (SJF)
+
+**Shortest-job-first scheduler** is non-preemptive scheduling algorithm. It's applicable to batch systems, where job length (expected execution time) is known in advance. It could also be modified to be preemptive (e.g. preemption when new job arrives, or existing one unblocks).
+
+When the CPU is available, it is assigned to the shortest job. Shortest job - shortest _execution time_. Ties are resolved using FCFS. SJF is similar to FCFS, but ready queue is sorted based on submitted estimate of execution time.
+
+**SJF scheduling**
+
+<!-- TODO -->
+
+| Process | Arrival | Burst | Start | Finish | Turnaround | Waiting |
+| ------- | ------- | ----- | ----- | ------ | ---------- | ------- |
+| P1      | 0       | 6     | 0     | 6      | 6          | 0       |
+| P2      | 0       | 6     | 11    | 17     | 17         | 11      |
+| P3      | 1       | 3     | 8     | 11     | 10         | 7       |
+| P4      | 2       | 8     | 17    | 25     | 23         | 15      |
+| P5      | 3       | 2     | 6     | 8      | 5          | 3       |
+
+```mermaid-svg
+gantt
+    title SJF Scheduling
+    dateFormat  DD-MM-YYYY
+    section CPU
+```
+
+---
+
+**Advantages**
+
+- minimum number of context switches
+- optimal turnaround time if all jobs arrive simultaneously
+  - minimizes average waiting time
+
+**Disadvantages**
+
+- requires advance knowledge of how long a job will execute
+- has a potential for job starvation
+  - long programs will never get to run if short programs are continuously added
+  - can be solved by **aging** (increasing a job priority based on how long it has waited) and then sorting ready queue based on priority
+
+## Shortest-remaining-time-next scheduling (SRTN)
+
+**Shortest-remaining-time-next** is _preemptive_ version of SJF. Next job is picked based on remaining time: `remaining = (expected execution) - (time spent on CPU)`. **SRTN** is similar to RR, but ready queue is a priority queue, sorted based on remaining time. Preemption happens as a result of adding a job.
+
+**Scheduling**
+
+<!-- TODO -->
+
+| Process | Arrival | Burst | Start | Finish | Turnaround | Waiting |
+| ------- | ------- | ----- | ----- | ------ | ---------- | ------- |
+| P1      | 0       | 6     | 0     | 6      | 6          | 0       |
+| P2      | 0       | 6     | 11    | 17     | 17         | 11      |
+| P3      | 1       | 3     | 8     | 11     | 10         | 7       |
+| P4      | 2       | 8     | 17    | 25     | 23         | 15      |
+| P5      | 3       | 2     | 6     | 8      | 5          | 3       |
+
+```mermaid-svg
+gantt
+    title SJF Scheduling
+    dateFormat  DD-MM-YYYY
+    section CPU
+```
+
+---
+
+**Advantages**
+
+- **optimal turnaround time** even if jobs don't arrive at the same time
+
+**Disadvantages**
+
+- requires knowledge of how long a job will execute
+- has a potential for job starvation
+- needs to consider cost of context switch
+
+## Multilevel queues
+
+Preemptive time-sharing scheduling algorithm that supports process priorities.
+
+<!-- TODO -->
