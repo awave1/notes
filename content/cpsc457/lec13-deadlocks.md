@@ -148,3 +148,69 @@ else return false                           ; system is not in a safe state
 ```
 
 **Complexity**: $O(n^2 * m)$
+
+### Deadlock detection
+
+We allow system to enter a _deadlocked state_, but later we detect the deadlock and recover. Detection algorithm:
+
+- with single instance per resource type
+- multiple instances per resource type
+
+**Single instance per resource type**
+
+Maintains an up-to-date **wait-for** graph:
+
+- nodes are **processes**
+- edge $P_i \to P_j$ exists if $P_i$ is waiting for $P_j$
+- can be obtained by **collapsing** resource allocation graph
+
+A cycle-detection algorithm is invoked periodically. If there's a cycle, there exists a deadlock.
+
+**Multiple instances per resource type**
+
+Very similar to Banker's algorithm:
+
+- try to determine if there is a sequence in which running processes can **finish** executing.
+- assumes best case scenario - a process that is given its requested resources will finish without asking for more resources, and then releases all its resources.
+- does not require `Max[]` or `Need[]`.
+
+Maintains following:
+
+- `n` number of processes
+- `m` number of resource types
+- `Available[m]` - indicates the number of available resources of each type
+- `Allocation[n][m]` - allocation of resources per process
+- `Request[n][m]` - requests for resources per process
+
+**Algorithm**:
+
+```
+1. Initialize:
+  work = available
+  finish[i] = allocation == 0, for all i = 1 .. n
+
+2. Find an index i such that:
+  finish[i] == false and request[i] <= work
+  if doesnt exist, goto step 4
+
+3. work = work + allocation[i]
+   finish[i] = true
+   goto step 2
+
+4. if finish[i] == true for 1 <= i <= n, then the system is not in deadlock.
+   Otherwise, all processes Pi for which finish[i] is false are deadlocked
+```
+
+#### Detection algorithms - when and how often?
+
+Detection algorithms are expensive, cannot invoke on every resource request. Other ways of invoking detections include checking every few minutes, check when CPU goes idle. When and how often depends on how often a deadlock is likely to occur, how many processes will be affected (one for each disjoint cycle). If we check too often, we spend too many CPU cycles on useless work. If we don't check often enough, there may be many cycles in the resource graph and we would not be able to tell which of the many deadlocked processes caused the deadlock.
+
+### Deadlock recovery
+
+Done via **process termination**, **process rollback** or **resource preemption**.
+
+**Process termination**
+
+**Process rollback**
+
+**Process preemption**
