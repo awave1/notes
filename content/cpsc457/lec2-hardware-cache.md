@@ -20,8 +20,6 @@ CPU is the "brain" of the computer. It contains different types of registers (re
 - General purpose registers
   - Data & address
 
-<!--TODO: Finish-->
-
 A simple CPU cycle:
 
 1. **Fetch** an instruction
