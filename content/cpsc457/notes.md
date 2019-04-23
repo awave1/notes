@@ -16,7 +16,7 @@ Brief introduction to history of Operating Systems.
 
 There's no 'precise' definition. It is a layer of software that provides application programs with a better, simpler, cleaner model of the computer. The OS is there to simplify interaction with the hardware. OS manages all resources.
 
-It is the software that runs all the time (mostly in kernel mode). All other applications need it in order to run (*most* applications will need it).
+It is the software that runs all the time (mostly in kernel mode). All other applications need it in order to run (_most_ applications will need it).
 
 We can look at an OS from two different perspectives:
 
@@ -136,7 +136,6 @@ Cons:
 
 - more complexity
 
-
 ### Memory
 
 Ideally, memory should be (i) fast, (ii) large and (iii) cheap. In practice, we can get 2 out of 3, but not all three.
@@ -153,7 +152,7 @@ Both load and store operations are slow compared to the speed of CPU.
 CPU caching is the process of most heavily used data from memory is kept in a high-speed cache inside or very close to the CPU. When CPU needs to get data from memory, it first checks the cache:
 
 - **cache hit**: the data needed by the CPU is in the cache
-      <!--or-->
+  <!--or-->
 - **cache miss**: CPU needs to fetch the data from main memory
 
 CPU consists of multiple levels of caches:
@@ -167,7 +166,9 @@ CPU consists of multiple levels of caches:
 ### Caching on multicore CPUs
 
 ![Caching on multicore CPUs](lec2-caching1.png)
+
 <!--1. can process bigger chunks, bigger parts of the memory because L2 will be bigger-->
+
 Caches can be shared and there are multiple ways of sharing cache.
 
 ---
@@ -439,7 +440,6 @@ Virtual machines can save money for companies, time for developers. VMs are isol
 
 <!--Containers do not virtualize the machine, containers virtualize the OS. "each user app has it's own os"-->
 
-
 ---
 
 # System calls
@@ -494,7 +494,7 @@ A library can provide a set of functions (API). APIs hide implementation details
 #### Syscalls in C
 
 | call                                   | description                               |
-|----------------------------------------|-------------------------------------------|
+| -------------------------------------- | ----------------------------------------- |
 | `fd = open(file, how, ...)`            | open a file for reading, writing, or both |
 | `s = close(fd)`                        | close an open file                        |
 | `n = read(fd, buffer, nbytes)`         | read data from a file into a buffer       |
@@ -507,7 +507,6 @@ System calls can be traced using `strace` (linux) or `dtruss` (macos).
 <!-- why open a file and then read it? -->
 <!--- open is more expensive, read reuses whatever open has done.-->
 <!--- convenience. Always read from the beginning of the file-->
-
 
 ---
 
@@ -1247,6 +1246,7 @@ repeat forever:
 ```
 
 It would work, but:
+
 - only one process get to eat
 - but with 5 forks, 2 philosophers could be eating at the same time
 - it defeats the purpose of multithreading (no parallelism of eating); not optimal use of resources
@@ -1272,7 +1272,7 @@ while true:
 We introduce a random **timeout** mechanism for preventing deadlocks. Likely to work, often used in real world, for example in networking. However, there is still a small chance for starvation:
 
 - if sleep is the same for all philosophers, then no one gets to eat
-- in some cases some philosophers might never get to eat, or some philosophers will get to eat less often than the others - *fairness problem*
+- in some cases some philosophers might never get to eat, or some philosophers will get to eat less often than the others - _fairness problem_
 
 **Attempt 5**:
 
@@ -1290,8 +1290,8 @@ This is a **resource hierarchy** solution - by establishing a **partial order** 
 Even trying to implement a naive solution presents problems. Consider algorithm for #1:
 
 ```c
-/* 
-  Utencil state: 
+/*
+  Utencil state:
     true = available
     false = unavailable
 */
@@ -1316,8 +1316,8 @@ Depending on the execution order (e.g. multicore machines, or timing of context 
 In that code, the shared resource is the global variable `forks[]`. The critical sections are:
 
 ```c{10-12,14-15}
-/* 
-  Utencil state: 
+/*
+  Utencil state:
     true = available
     false = unavailable
 */
@@ -1361,14 +1361,14 @@ lock = TRUE;
 lock = FALSE;
 ```
 
-Mutex is often implemented as an object with two possible states: *locked* and *unlocked*. It implements two operations `lock()` and `unlock()`. If multiple threads call `lock()` simultaneously, only one will proceed, the others will block. Therefore, only the thread *that locks* the mutes can *unlock it*.
+Mutex is often implemented as an object with two possible states: _locked_ and _unlocked_. It implements two operations `lock()` and `unlock()`. If multiple threads call `lock()` simultaneously, only one will proceed, the others will block. Therefore, only the thread _that locks_ the mutes can _unlock it_.
 
-A waiting queue is used to keep track of all threads waiting on the mutex to be unlocked. Once the mutex is unlocked, one of the blocked threads will be unlocked. *Note*: which one thread gets unlocked is usually not predictable. It can be implemented in software via busy waiting, but usually supported by hardware + OS. Portable libraries often try to use H/W mutex but are able to fall back to software.
+A waiting queue is used to keep track of all threads waiting on the mutex to be unlocked. Once the mutex is unlocked, one of the blocked threads will be unlocked. _Note_: which one thread gets unlocked is usually not predictable. It can be implemented in software via busy waiting, but usually supported by hardware + OS. Portable libraries often try to use H/W mutex but are able to fall back to software.
 
 ### Mutex in pthread
 
 | API                       | Description                                  |
-|---------------------------|----------------------------------------------|
+| ------------------------- | -------------------------------------------- |
 | `pthread_mutex_init()`    | create a mutex                               |
 | `pthread_mutex_destroy()` | destroy a mutex                              |
 | `pthread_mutex_lock()`    | lock a mutex, block if already locked        |
@@ -1508,7 +1508,7 @@ Thread 1 decrementing counter, but never below 0, thread 2 incrementing counter.
 
 while(true) {
   pthread_mutex_lock(&mutex);
-  
+
   while (count == 0) {
     pthread_cond_wait(&cond, &mutex);
   }
@@ -1523,7 +1523,7 @@ while(true) {
   pthread_mutex_lock(&mutex);
 
   counter++;
-  
+
   pthread_cond_signal(&cond);
   pthread_mutex_unlock(&mutex);
 }
@@ -2297,7 +2297,87 @@ Done via **process termination**, **process rollback** or **resource preemption*
 
 # Memory
 
-TODO: lec14
+Programs need memory to run & we excpect to run multiple programs simultaneously, therefore we expect OS to manage memory for processes. Some issues related to memory management:
+
+- OS must give each process potion of available memory - **address space**.
+- OS needs to protect memory given to one process from other processes
+
+Working with physical memory is bad and would lead to lack of memory protection.
+
+## Base and limit registers - address protection in hardware
+
+A pair of **base and limit registers** define the allowed range of addresses, available to CPU. **Base register** - starting memory; **limit memory** - size of memory. The base and limit registers can be modified only in kernel mode. CPU checks every memory access, generated by a process; when a process tries to access invalid address, CPU issues `trap` to OS routine. Base and limit registers are stored in **PCB**.
+
+![Base and limit registers](lec14-base-limit.png)
+
+## Address binding
+
+When programs are compiled, the physical address space of the process is not known. Possible solution for that is programs could be expressed in a way that allows them to be _relocated_. When needed we can bind the addresses to the actual physical memory location. Addresses in a program are represented in different ways at different stages of a program's life.
+
+Source code addresses are actually **symbolic**: `int main()`. Addresses in compiled code can bind to **relocatable addresses**: `main = 14 bytes from beginning of this module`. Before executions, the loader can **bind** relocatable addresses to physical addreses: `main = 14 bytes from beginning of this module` $\to$ 1000 + 14 = 1014. Each binding maps one address to another.
+
+### Binding of instructions and data to memory
+
+Address binding of instructions and data to memory addresses can happen at three different stages:
+
+1. **At compile time**: slowest. If memory location is known a priory, **absolute code** can be generated and stored. Code must be recompiled if the location changes.
+2. **At load time**: much faster. The compiled code must be stored as **relocatable code**. Binding is done beofre program starts executing. Position independent code (PIC) is included in this category.
+3. **At execution time**: faster, with HW support. If process can be moved during its execution, binding is done at run-time, dynamically. Most flexible, but need hardware support for address maps, e.g. _memory management unit_.
+
+## Logical & physical addresses
+
+Execution time address binding and memory protection can be achieved by **virtualizing memory**. OS gives each process a **logical address space**. It is a contiguous space, ranging from 0 to max. As process executed, addresses generated by the CPU are **logical addresses**. If logical address does no fall into the logical address space range, it results in violation (`trap`).
+
+**Physical address** is a real memory address. Logical addresses are mapped to physical addresses before reaching memory via hardware device, memory management unit. **Physical address space** of a process is the subset of RAM allocated to a process; set of all mappings from logical addresses.
+
+### Memory management unit
+
+MMU is a hardware device that maps virtual addresses to physical addresses. It needs to be fast, often is a part of the CPU. CPU only sees logical addresses, it never sees real physical addresses. Execution time binding occurs automatically, whenever memory reference is made.
+
+**Relocation registers**. Logical address space starts at 0, programs are written, assuming they start at address 0. CPU has a **relocation register**, value in the relocation register is added to every address, generated by a CPU at the time it is sent to memory. However this lacks memory protection.
+
+**Relocation and limit registers**. Combining relocation register and limit register, where **relocation (base) register** is smallest allowed physical memory address and **limit register** is the size of the chunk of physical memory a process is allowed to use. This achieves **execution time binding** as well as **memory protection**.
+
+## Swapping
+
+A process can be swapped temporarily out of memory to a backing store, and then brought back to memory for continued execution. **Backing store** is fast storage, large enough to accommodate copies of all memory images for all processes. Swapping allows the OS to load more processes than the available physical memory.
+
+## Memory allocation
+
+At some point OS needs to find free memory, mark it as used and later free it up. Simple approaches can lead to **memory fragmentation**. OS needs to manage the memory in an efficient way.
+
+### Fixed partitioning
+
+Memory is divided into partitions of **equal size**. This could lead to some problems:
+
+- **Internal fragmentation**: memory internal to a partition becomes fragmented
+- Leads to low memory utilization if partitions are big
+
+### Dynamic partitioning
+
+Create partitions that can fit a request perfectly. No more internal fragmentation, but now there is **external fragmentation** - the memory that is external to all partitions becomes increasingly fragmented, leading to low memory utilization.
+
+### Memory compaction
+
+**Memory compaction** is the mechanism that deals with external fragmentation. From time to time, the OS rearranges the used blocks of memory so that they are cotuiguous. Free blocks are merged into a single large block.
+
+### Implementation: Bitmaps
+
+Memory is divided into equal partitions. OS maintains a bitmap, 1 bit per partition, where 0 is free, 1 is occupied.
+
+### Implementation: Linked lists & dynamic partitioning
+
+Memory is divided into partitions of dynamic size. OS maintains a list of allocated and free memory partitions - **holes** - sorted by address.
+
+---
+
+Algorithms for finding a free space in a linked list:
+
+1. **First fit** - find the first hole that is big enough, the leftover space becomes a new hole.
+2. **Best fit** - find the _smallest_ hole that is big enough, leftover tiny space becomes new hole
+3. **Next fit** - same as first fit, but starts searching at the location of last placement
+4. **Worst fit** - find the largest hole, leftover big space is likely to be usable
+5. **Quick fit** - maintain separate lists for common request sizes, leads to faster search but more complicated management.
 
 ---
 
@@ -2447,7 +2527,7 @@ Filesystems split files up into fixed-sized blocks. File sizes are sized up to t
 
 **Virtual file systems** provide an 'object-oriented' way of implementing file systems. VFS allows the same system call interface (the API) to be used for different file systems. It separates generic file-system operations from implementation details. VFS implementation can be disk filesystem, RAM FS, archive FS, or even network based FS.
 
-OS accesses all filesystems throught the same VFS interface. 
+OS accesses all filesystems throught the same VFS interface.
 
 ![lec17-vfs.png](VFS Structure)
 
@@ -2502,7 +2582,7 @@ Contiguous allocation is not very common. Useful for tapes & read-only devices, 
 
 ![lec17-cont-alloc.png](Contiguous allocation process)
 
-Mapping from logical to physical address: assuming block size is a power of 2. Logical address: `[    q  |  r ]`, where `q` upper bits, `r` lower bits. Physical address computation:
+Mapping from logical to physical address: assuming block size is a power of 2. Logical address: `[ q | r ]`, where `q` upper bits, `r` lower bits. Physical address computation:
 
 $$
 block = q + \text{ address of first block} \\
@@ -2519,11 +2599,11 @@ In **linked allocation** each file is stored in a linked list of blocks. Each bl
 
 Example directory entry:
 
-| filename   | start block | size |
-|:----------:|:-----------:|:----:|
-| `test.txt` | 10          | 2100 |
+|  filename  | start block | size |
+| :--------: | :---------: | :--: |
+| `test.txt` |     10      | 2100 |
 
-Contents of `test.txt` spread over blocks: 10, 11, 14, 5, 17. File size entry is needed, because blocks * block size != filesize.
+Contents of `test.txt` spread over blocks: 10, 11, 14, 5, 17. File size entry is needed, because blocks \* block size != filesize.
 
 ## File Allocation Table (FAT)
 
@@ -2608,7 +2688,6 @@ File systems maintain free-space list to track available blocks. Can be implemen
 
 Provided by some operating systems and/or filesystems. Similar to reader-writer locks. **Shared lock** similar to reader lock - several processes can acquire concurrently. **Exclusive lock** similar to writer lock. Mediates access to a file to multiple processes during `open()`. Types: 1. **mandatory** - access is denied, depending on locks held and requested. 2. **advisory** - preocesses can find status of locks and decide what to do.
 
-
 ---
 
 # Disks, Scheduling, RAID
@@ -2676,7 +2755,7 @@ The head continuously scans back and forth across the disk and serves the reques
 
 **LOOK**
 
-Nearly identical to SCAN, but head does not move al the way to first/last cylinder before turning back. Instead, it only goes as far as necessary. Results in same request order as SCAN, but less overall head movement. 
+Nearly identical to SCAN, but head does not move al the way to first/last cylinder before turning back. Instead, it only goes as far as necessary. Results in same request order as SCAN, but less overall head movement.
 
 **C-SCAN**
 
@@ -2769,4 +2848,4 @@ Either SSTF or LOOK is a reasonable choince for default algorithm, C-LOOK if we 
 - Common for high-performance uses where data cannot be lost (databases)
 - Cant tune redundancy to 3, 4, 5 simultaneous failures.
 
-Consider RAID 10 that has N groups of RAID 1 and each group has M disks, i.e. total number of disks = M * N. It can survive at least M - 1 simultaneous disk failures, but potentially up to N(M - 1) failures. Read performance potentially up to N * M of a single disk, write performance is N times higher. Only N disks worth of space are used for data out of N * M, so it's very expensive RAID. Other nested RAIDs are possible: RAID 5+0, RAID 6+0, RAID 10+0.
+Consider RAID 10 that has N groups of RAID 1 and each group has M disks, i.e. total number of disks = M _ N. It can survive at least M - 1 simultaneous disk failures, but potentially up to N(M - 1) failures. Read performance potentially up to N _ M of a single disk, write performance is N times higher. Only N disks worth of space are used for data out of N \* M, so it's very expensive RAID. Other nested RAIDs are possible: RAID 5+0, RAID 6+0, RAID 10+0.
