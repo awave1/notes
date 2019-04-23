@@ -8,18 +8,23 @@ tags: ['cpsc457']
 
 ## Condition Variables
 
-Condition variables are another type of synchronization primitives. They're used together with mutexes.
+Condition variables are another type of synchronization primitives. They're used together with mutexes. CVs are perfect for implementing critical sections containing loops waiting for some condition.
 
 ```c
+mutex &m;
+
+...
+
+// Critical section is protected with mutex `m`
 lock(m);
   while (!condition) { ; }
 unlock(m);
 ```
 
-Where the condition can only become true if another thread runs it's critical section. A common pattern of using CVs:
+The condition can only become true, if **another thread runs it's critical section**. A common pattern of using CVs:
 
 - a thread enters it's critical section (locks a mutex)
-- inside CS, thread needs to wait for some condition to become true
+- inside critical sections, thread needs to wait for some condition to become true
 - but the condition can only become true by allowing some other thread to lock the mutex
 - the thread has to wait and release the mutex
 
