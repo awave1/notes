@@ -122,7 +122,6 @@ function Template(props) {
         <FontAwesomeIcon icon={faGithub} />{' '}
         <span style={{ marginLeft: '10px' }}>editOnGithub();</span>
       </EditContainer>
-      <Bio simple />
     </Article>
   );
 }
