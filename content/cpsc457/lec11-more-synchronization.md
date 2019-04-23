@@ -24,11 +24,34 @@ Another way to look at a monitor is:
 - automatic mutual exclusion on every method (via built-in mutex)
 - can include condition variables for signalling conditions
 
-<!-- todo: finish -->
+Monitors implement automatic mutual exclusion. Only one thread can execute any monitor method at any time (per instance), all other threads would block if they tried. Monitors maintain their own queues.
+
+**Example**:
+
+```c
+/**
+ * Calling  incr() or decr() from multiple threads would allow one thread in, the rest will be blocked.
+ * Think of it this way: All bodies of all methods are critical sections, protected by one mutex.
+ */
+Monitor counter {
+  int c = 0;
+  void incr() = c += 1;
+
+  void decr() = c -= 1;
+}
+```
+
+### Monitors with condition variables
+
+Monitors can have their own condition variables. CVs declared as part of the module, only accessible from within the module (are private). Similar functionality to `pthread_cond_t`.
+
+### Monitors vs. semaphores & mutexes
+
+Once a monitor is correctly implemented, access to the protected resource is correct for accessing from all threads. With semaphores or mutexes, resourece access is correct only if **all threads that access the resource are programmed correctly**.
 
 ## Spinlocks
 
-Spinlock is another synchronization mechanism. It's lightweight alternative to mutex. Implemented using busy waiting loops. Usually implemented in assembly, using **atomic operations**. It's very efficient if you know that wait time will be very short, because no re-scheduling required (only makes sense on multicore CPUs).
+Spinlock is another synchronization mechanism. It's a lightweight alternative to mutex, implemented using busy waiting loops. Usually implemented in assembly, using **atomic operations**. It's very efficient if you know that wait time will be very short, because no re-scheduling required (only makes sense on multicore CPUs).
 
 > Atomic operation - an operation that appears to execute instantaneously with respect to the rest of the system, i.e. it cannot be _interrupted_ by anything else
 
