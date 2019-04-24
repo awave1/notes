@@ -2244,8 +2244,6 @@ A process can move between queues (up or down in priority). This is done to redu
 
 # Deadlocks
 
-TODO: lec13
-
 **Definitions**:
 
 A set of processes is deadlocked if:
@@ -2306,7 +2304,9 @@ unlock(&mutex2);
 
 All 4 necessary conditions are present: _mutual exclusion_, _hold and wait_, _no preemption_, _circular wait_.
 
-<!-- TODO -->
+## Resource allocation graph
+
+Represents resource allocation per different processes. A directed graph, $P_i \to R_j$: request edge, $R_j \to P_i$: assignment edge. A cycle in such graph represents a deadlock.
 
 ## Safe, Unsafe, Deadlock State
 
