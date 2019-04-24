@@ -4,6 +4,7 @@ date: '2019-04-22'
 description: 'Principles of Operating Systems'
 published: true
 tags: ['cpsc457']
+geometry: margin=2cm
 ---
 
 TODO: Simple table of contents
@@ -1448,8 +1449,6 @@ However, this will not work, due to **deadlock**. `while (!forks[i] || forks[i +
 
 # Synchronization Mechanisms. Condition Variables, Semaphores and Other Synchronization Mechanisms
 
-TODO: lec11
-
 ## Condition Variables
 
 Condition variables are another type of synchronization primitives. They're used together with mutexes. CVs are perfect for implementing critical sections containing loops waiting for some condition.
@@ -1695,7 +1694,56 @@ Processes send each other **messages**. Messages can contain arbitrary data. Del
 
 ## Priority inversion
 
-<!-- TODO: Finish all before synch hardware -->
+Scenario: Assume we have three processes, L, M and H, whose priorities follow the order L < M < H. Assume that process H requires resource R, which is currently being accessed by process L. While H is waiting for L to finish using resource R, M becomes runnable, thereby preemting process L. Now, H has to wait for both M and L to finish. Effectively, H has the lowest priority in this execution.
+
+This problem is known as **priority inversion**. Possible solution is **priority inheritance**. As sson as H requests resource R, the process P, holding resource R automatically inherits the priority of H if the P has lower priority. Once P releases the resource, its original priority is restored. As result, we would have the following execution order: L, H, M.
+
+## Readers/writers problem
+
+Given a single resource that is shared among several threads, some threads, only read the resource, others will write to it. The resource supports multiple concurrent readers, but only single writer, also called share-exclusive lock, or reader-writer lock.
+
+**Implementation using semaphores**:
+
+```c
+int readcount = 0;
+sem_t cs = 1;
+sem_t w_only = 1;
+
+writer {
+  wait(w_only);
+  do_writing();
+  signal(w_only);
+}
+
+reader {
+  wait(cs); // enter critical section
+  readcout++;
+  if (readcount == 1) {
+    wait(w_only); // wait for writers
+  }
+  signal(cs); // exit critical section
+
+  do_reading();
+
+  wait(cs);
+  readcount--;
+  if (readcount == 0) {
+    signal(w_only); // let writers write
+  }
+  signal(cs);
+}
+```
+
+Note: first reader locks `w_only` last reader releases `w_only`.
+
+## Requirements for good race-free solution
+
+1. **Mutual exclusion**: no two processes/threads may be simultaneously inside their critical sections.
+2. **Progress**: no process/threads running outside its CS may block other processes/threads
+3. **Bounder waiting**: no process/thread should have to wait forever to enter its CS.
+4. **Speed**: no assumptions may be made about the speed or the number of CPUs.
+
+### Non-blocking tecniques to achieve mutual exclusion
 
 ## Synchronization hardware
 
@@ -2428,7 +2476,7 @@ When a program tries to access a page that does not map to physical memeory, CPU
 
 ### Paging performance
 
-Paging performance is evaluated via **Effective access time (EAT)** for memory access. Let $p$ be probability of a page fault, or **page fault rate** (\$$0 \leq p \leq 1). If $p = 0$, then all pages in memory, no page fault. If $p = 1$, all pages are on disk, all memory accesses are page faults. Let $ma$ be the memory access time and $pfst\$ page fault service time, i.e. how long does it take to service a page fault. Then:
+Paging performance is evaluated via **Effective access time (EAT)** for memory access. Let $p$ be probability of a page fault, or **page fault rate** ($0 \leq p \leq 1$). If $p = 0$, then all pages in memory, no page fault. If $p = 1$, all pages are on disk, all memory accesses are page faults. Let $ma$ be the memory access time and $pfst\$ page fault service time, i.e. how long does it take to service a page fault. Then:
 
 $$
 EAT = (1 - p) \cdot ma + p \cdot (pfst + ma)
@@ -2951,7 +2999,7 @@ The surface of a platter is logically divided into **circular tracks**
 - each track is further divided into **sectors**
 - the set of tracks that are at the same arm position make up a **cylinder**
 
-![lec18-sectors.png](Space)
+![Space](lec18-sectors.png)
 
 ### Mapping
 
@@ -2961,7 +3009,7 @@ A **logicak block** is the smallest unit of transfer between the disk and the me
 
 **Low level format** or **physical format** writes low level information to the disk, dividing it into series of tracks, each containing some number of sectors, with small gaps between sectors.
 
-![lec18-low-level-format.png](Low level format)
+![Low level format](lec18-low-level-format.png)
 
 - Preamble: starts with a special bit sequence, cylinder number, sector number, etc.
 - Data: depends on the format (e.g. 512 bytes)
@@ -2985,13 +3033,13 @@ The requests for disk I/O are appended to the **disk queue**. OS maintains separ
 
 **First come first serve** scheduling processes requests in the same order as they received. It is fair, but it does not provide fasted overall service.
 
-![lec18-fcfs.png](FCFS Scheduling)
+![FCFS Scheduling](lec18-fcfs.png)
 
 ### SSTF Scheduling
 
 **Shortest seek time first** selects the next request that would result in the shortest seek time from the current head position, i.e. picks the closest request next. Seek time = distance to move the heads. May cause starvation of some requests.
 
-![lec18-sstf.png](SSTF Scheduling)
+![SSTF Scheduling](lec18-sstf.png)
 
 ### Elevator Scheduling
 
@@ -2999,7 +3047,7 @@ The requests for disk I/O are appended to the **disk queue**. OS maintains separ
 
 The head continuously scans back and forth across the disk and serves the requests as it reaches each cylinder. Head moves all the way to first/lst cylinder before turning back. Requests at either end tend to wait the longest.
 
-![lec18-scan.png](SCAN)
+![SCAN](lec18-scan.png)
 
 **LOOK**
 
@@ -3013,7 +3061,7 @@ Same as SCAN in one direction, but after reaching last cylinder head repositions
 
 Small optimization of C-SCAN, head only goes as far as needed by the next request (same optimization as SCAN -> LOOK).
 
-![lec18-elevator.png](Elevator scheduling methods)
+![Elevator scheduling methods](lec18-elevator.png)
 
 ---
 
@@ -3054,7 +3102,7 @@ Either SSTF or LOOK is a reasonable choince for default algorithm, C-LOOK if we 
 
 ### RAID 4 - Striping with dedicated parity
 
-![lec18-raid4.png](RAID4)
+![RAID 4](lec18-raid4.png)
 
 - One disk dedicated to contain **parity** information, computed e.g. using XOR
 - Purpose: reliability & fast read performance
@@ -3066,7 +3114,7 @@ Either SSTF or LOOK is a reasonable choince for default algorithm, C-LOOK if we 
 
 ### RAID 5 - Striping with distributed parity
 
-![lec18-raid5.png](RAID5)
+![RAID 5](lec18-raid5.png)
 
 - Similar to RAID 4 but parity is **distributed among all disks**.
 - Purpose: Reliability, fast read and write performance, but not as fast as RAID 0
@@ -3076,7 +3124,7 @@ Either SSTF or LOOK is a reasonable choince for default algorithm, C-LOOK if we 
 
 ### RAID 6 - Striping with double distributed parity
 
-![lec18-raid6.png](RAID6)
+![RAID 6](lec18-raid6.png)
 
 - Similar to RAID 5, but doubles the amount of partity (more complicated than XOR)
 - Purpose: reliability, fast read/write performance
@@ -3086,7 +3134,7 @@ Either SSTF or LOOK is a reasonable choince for default algorithm, C-LOOK if we 
 
 ### RAID 1 + 0 - Striped mirrors
 
-![lec18-raid10.png](RAID10)
+![RAID 1 + 0](lec18-raid10.png)
 
 - aka RAID 10 is an example of hybrid/nested RAID
   - Nests RAID 1 in RAID 0 configuration
