@@ -1745,16 +1745,104 @@ Note: first reader locks `w_only` last reader releases `w_only`.
 
 ### Non-blocking tecniques to achieve mutual exclusion
 
-## Synchronization hardware
+- Disabling interrupts
+- Lock variables
+- Strict alternation
+- Peterson's algorithm
+- Synchronization hardware
+
+#### Disabling interrupts
+
+Each process disables all interrupts just before entering CS and re-enable before leaving it. Once a process has disabled interrupts, it can examine and update the shared memory without interventions from other processes.
+
+Problems:
+
+- what if a process never re-enables the interrupts?
+- on a multi-cpu systens, disabling interrupts affects only one CPU
+
+#### Lock variables
+
+A single, shared lock variable initialized to 0.
+
+- `lock == 0`: no process is in CS
+- `lock == 1`: a process is in CS
+
+A process can only enter CS if `lock == 0`.
+
+```c
+while(true) {
+  while (lock == 1) {}
+  lock = 1;
+  // critical section
+  lock = 0;
+  // non critical section
+}
+```
+
+However this will not give mutual exclusion. The solution is to use **compare-and-swap** or using **strict alternation**
+
+#### Strict alternation
+
+Two processes alternate entering their critical sections. Global variable `turn = 0`.
+
+```c
+// Thread 1
+while (true) {
+  while (turn != 0) {}
+  // critical section
+  turn = 1;
+  // non-critical section
+}
+
+// Thread 2
+while (true) {
+  while (turn != 1) {}
+  // critical section
+  turn = 0;
+  // non-critical section
+}
+```
+
+This achieves mutual exclusion, however, it leads to busy waiting, it only works for 2 processes, and no progress - faster process is blocked by slower process not in its CS.
+
+#### Peterson's algorithm
+
+Software solution for 2 processes, that can also be extended for N processes. It assumes atomicity, visibility & ordering. It uses shared integer `turn`, that indicates who's turn it is and shared array `flag[2]`, indicating who is interested in entering CS, initialized to `false`.
+
+```c
+// Process 0
+while(true) {
+  flag[0] = true;
+  turn = true;
+  while (flag[1] && turn) {}
+  // critical section
+  flag[0] = false;
+  // non-critical section
+}
+
+// Process 1
+while(true) {
+  flag[1] = true;
+  turn = false;
+  while (flag[0] && !turn) {}
+  // critical section
+  flag[1] = false;
+  // non-critical section
+}
+```
+
+Peterson's algorithm achieves mutual exclusion, progress, and bounded waiting.
+
+#### Synchronization hardware
 
 Race conditions are prevented by ensuring that critical sections are protected by locks:
 
 - A process must acquire a lock before entering a CS
 - A process releases the lock when it exits the CS
 
-Many modern systems provide special hardware instructions that implement useful atomic operations.
+Many modern systems provide special hardware instructions that implement useful atomic operations. These can be used to create atomic locking and unlocking mechanisms.
 
-### Compare-and-swap (CAS)
+#### Compare-and-swap (CAS)
 
 Atomic operation used for synchronization. It's supported by most CPUs, e.g. `cmpxchg` on Intel. General algorithm for compare and swap:
 
@@ -1799,9 +1887,17 @@ while (true) {
 
 **Spinlock using compare-and-swap**:
 
-<!-- TODO: Finish -->
+```c
+void spinlock(volatile int *p) {
+  while (!__sync_bool-compare_and_swap(p, 0, 1)) {}
+}
 
-### Test-and-set
+void spin_unlock(volatile iny *p) {
+  *p = 0;
+}
+```
+
+#### Test-and-set
 
 A specialized version of compare-and-swap. Old hardware had test-and-set, newer hardware uses more generalized compare-and-swap. General algorithm:
 
@@ -1829,7 +1925,7 @@ while (true) {
 }
 ```
 
-### Swap
+#### Swap
 
 Another atomic operation that can be used for synchronization. General algorithm:
 
@@ -1861,7 +1957,7 @@ while (1) {
 
 ---
 
-### Bounded waiting with synchronization hardware
+#### Bounded waiting with synchronization hardware
 
 When used correctly, the atomic operations, such as compare-and-swap, test-and-set, swap can be used to achieve mutual exclusion, progress and speed. But they are too low level to achieve bounded waiting, especially for more than 2 processes. Bounded waiting can be 'added', e.g. via two shared variables:
 
@@ -1875,10 +1971,33 @@ int waiting[n];
 Example:
 
 ```c
-// TODO
-```
+int id;
 
----
+while(true) {
+  waiting[id] = true;
+  if CS is locked, wait until someone else gives us a turn
+  while (waiting[id] ** testandset(&lock)) {}
+  waiting[id] = false;
+
+  // critical section
+
+  j = (id + 1) %m;
+  while ((j != id) && !waiting[id]) {
+    // find the next process trying to get into CS
+    j = (j + 1) % n;
+  }
+
+  if (j == id) {
+    // release the lock if nobody else is waiting
+    lock = false;
+  } else {
+    // if we found someone else waiting, let them in CS, but do not release the lock
+    waiting[id] = false;
+  }
+
+  // the rest
+}
+```
 
 Synchronization hardware can be used to implement mutual exclusion, progress, speed and even bounded waiting.
 
@@ -1897,7 +2016,6 @@ Advantage:
 
 # CPU Scheduling
 
-TODO: lec12
 
 Recall multiprogramming:
 
@@ -1918,7 +2036,13 @@ As CPUs get faster, processes tent to get more I/O bound. It takes quite a few I
 
 ## When to schedule
 
-<!-- TODO -->
+Scheduling is needed for different situations:
+
+- Process creation
+- Process termination
+- Blocking system call
+- I/O interrupt
+- Periodic clock interrupt
 
 ## Preemptive vs non-preemptive CPU scheduling
 
@@ -1933,7 +2057,15 @@ As CPUs get faster, processes tent to get more I/O bound. It takes quite a few I
 
 ## Categories of scheduling algorithms
 
-<!-- TODO -->
+- **Batch systems*
+  - preemptions is limited to adding new jobs and often no preemption at all
+  - no interactivity
+- **Interactive systems**
+  - general systems, running many tasks, many of them need to remain active
+  - preemption (time-sharing) is required
+- **Real time systems**
+  - application must be given guaranteed CPU cycles/second
+  - closely tied to hardware
 
 ### Scheduling metrics
 
@@ -1942,7 +2074,7 @@ As CPUs get faster, processes tent to get more I/O bound. It takes quite a few I
   - different from arrival time for batch systems, identical to arrival on interactive systems
 - **Finish time**: when the process is done (time of the last instruction)
 - **Response time**: how long before you get first feedback, often response = start - arrival
-- **Turnaround time**: time from arrival to finish, runaround = finish - arrival
+- **Turnaround time**: time from arrival to finish, turnaround = finish - arrival
 - **CPU time**: how much time the process spent on CPU
 - **Waiting time**: total time spent in waiting queue, waiting = turnaround = CPU - I/O
 
@@ -1958,26 +2090,32 @@ Overall statistics:
   - **policy/priority enforcement**:
   - **balance**:
 - Batch systems
+  - **throughput**: maximize jobs per hour (or per minute)
+  - **turnaround time**: minimize time between submission and termination
+  - **CPU utilization**: keep the CPU busy at all times
+  - **waiting time**: turnaround time - execution time
 - Interactive systems
+  - **response time**: minimize time between submission and the first response
+  - **proportionality**: meet expectations
 - Real systems
-
----
+  - **meeting deadlines**
+  - **predictability**
 
 ## First-come-first-served (FCFS) scheduling
 
-<!-- TODO -->
+FCFS is one of the simplest algorithms. It is non-preemptive. CPU assigned in the order the processes request it, using a FIFO queue. New jobs are added to the ready queue. A running jub **keeps the CPU until it's finished or it blocks**. When running process blocks, next process from ready queue starts to execute. When process is unblocked, it is appended at the end of the ready queue. Requires minimum number of context switches - only N switches for N processes.
 
 **Gantt chart**: used to visualize scheduling of 5 processes
 
 List of processes (for simplicity, assume no I/O activity):
 
-| Process | Arrival | Burst |
-| ------- | ------- | ----- |
-| P1      | 0       | 6     |
-| P2      | 0       | 6     |
-| P3      | 1       | 3     |
-| P4      | 2       | 8     |
-| P5      | 3       | 2     |
+| Process | Arrival | Burst | Start | Finish | Turnaround | Waiting |
+| ------- | ------- | ----- | ----- | ------ | ---------- | ------- |
+| P1      | 0       | 6     |0 | 6 | 6 | 0 |
+| P2      | 0       | 6     | 6 | 12 | 12 6 |
+| P3      | 1       | 3     | 12 | 15 | 14 | 11 |
+| P4      | 2       | 8     | 15 | 23 | 21 | 13 |
+| P5      | 3       | 2     | 23 | 25 | 22 | 20 |
 
 Gantt chart:
 
@@ -1993,26 +2131,14 @@ gantt
     P5: p5, after p4, 2d
 ```
 
-**Simulating scheduling**:
-
-<!-- TODO -->
-
 **Calculating statistics**:
 
-<!-- TODO -->
-
----
+- avg. wait time = (0+6+11+13+20)/5 = 10 units
+- num of context switches = 5
 
 ### Convoy Effect
 
 Big disadvantage of FCFS is the **convoy effect**. Scenario: one CPU-bound process + many I/O bound processes. Result: the CPU-bound process will tie up the CPU, making the I/O bound processes run for much longer.
-
-**Example**:
-
-- Single CPU-bound process $A$, with 1s long CPU burst cycles
-- Many I/O bound processes $B_i$, with each needing 1000 I/O operations, each $\frac{1}{1000}s$ long
-
-<!-- TODO -->
 
 ## Round-robin scheduling (RR)
 
@@ -2024,21 +2150,14 @@ Using a quantum = 3msec
 
 | Process | Arrival | Burst | Start | Finish | Turnaround | Waiting |
 | ------- | ------- | ----- | ----- | ------ | ---------- | ------- |
-| P1      | 0       | 6     |       |        |            |         |
-| P2      | 0       | 6     |       |        |            |         |
-| P3      | 1       | 3     |       |        |            |         |
-| P4      | 2       | 8     |       |        |            |         |
-| P5      | 3       | 2     |       |        |            |         |
+| P1      | 0       | 6     |   0    | 17       | 17           | 11        |
+| P2      | 0       | 6     |  3     |  20      |   20         | 14        |
+| P3      | 1       | 3     |   6    |  9      |  8          |  5       |
+| P4      | 2       | 8     |    9   | 25       | 23           | 15        |
+| P5      | 3       | 2     |     12  | 14       | 11           | 9        |
 
-<!-- TODO -->
 
-```mermaid-svg
-
-```
-
-(Context switches happen when number changes)
-
-**Time Slice**
+### RR: Time Slice
 
 Performance of RR depends on the size of the time quantum $Q$ and the time required for a context switch $S$. For example, if $S = 1ms$, $Q = 4ms$, then CPU will spend $1/(4 + 1) = 20\%$ of its time on useless tasks. Very small $Q$ implies heavy overhead, but highly responsive system. Very large $Q$ implies minimum overhead, but a non-responsive system. So $Q$ should be large compared to $S$, but not too large:
 
@@ -2052,8 +2171,6 @@ Performance of RR depends on the size of the time quantum $Q$ and the time requi
 When the CPU is available, it is assigned to the shortest job. Shortest job - shortest _execution time_. Ties are resolved using FCFS. SJF is similar to FCFS, but ready queue is sorted based on submitted estimate of execution time.
 
 **SJF scheduling**
-
-<!-- TODO -->
 
 | Process | Arrival | Burst | Start | Finish | Turnaround | Waiting |
 | ------- | ------- | ----- | ----- | ------ | ---------- | ------- |
@@ -2069,8 +2186,6 @@ gantt
     dateFormat  DD-MM-YYYY
     section CPU
 ```
-
----
 
 **Advantages**
 
@@ -2089,9 +2204,6 @@ gantt
 
 **Shortest-remaining-time-next** is _preemptive_ version of SJF. Next job is picked based on remaining time: `remaining = (expected execution) - (time spent on CPU)`. **SRTN** is similar to RR, but ready queue is a priority queue, sorted based on remaining time. Preemption happens as a result of adding a job.
 
-**Scheduling**
-
-<!-- TODO -->
 
 | Process | Arrival | Burst | Start | Finish | Turnaround | Waiting |
 | ------- | ------- | ----- | ----- | ------ | ---------- | ------- |
@@ -2122,9 +2234,11 @@ gantt
 
 ## Multilevel queues
 
-Preemptive time-sharing scheduling algorithm that supports process priorities.
+Preemptive time-sharing scheduling algorithm that supports process priorities. Ready queue is partitioned into separate queues, e.g foreground queue for interactive processes, background queue for non-interactive processes. Each queue can have a different scheduling algorithm. A process is permanently assigned to one of the queues. Scheduling is done based on queues.
 
-<!-- TODO -->
+### Multilevel feedback queue scheduling
+
+A process can move between queues (up or down in priority). This is done to reduce convoy effect and minimizes the starvation problem. Can dynamically react to a job changing from CPU bound to IO bound.
 
 ---
 
