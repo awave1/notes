@@ -17,7 +17,7 @@ const leKebab = str => str.replace(/[^A-Za-z0-9\s]+/g, '').replace(/\s/g, '-');
  * Note: This code is taken from @tryghost/helpers package
  **/
 const countWords = html => {
-  const text = html.replace(/<(.|\n)*?>/g, ' '); // strip any HTML tags
+  const text = html ? html.replace(/<(.|\n)*?>/g, ' ') : ''; // strip any HTML tags
 
   const pattern = /[a-zA-ZÀ-ÿ0-9_\u0392-\u03c9\u0410-\u04F9]+|[\u4E00-\u9FFF\u3400-\u4dbf\uf900-\ufaff\u3040-\u309f\uac00-\ud7af]+/g;
   const match = text.match(pattern);
@@ -46,7 +46,7 @@ const countWords = html => {
  * @description Takes a html string and returns the number of images
  * Note: This code is taken from @tryghost/helpers package
  **/
-const countImages = html => (html.match(/<img(.|\n)*?>/g) || []).length;
+const countImages = html => html ? (html.match(/<img(.|\n)*?>/g) || []).length : 0;
 
 const contentCount = html => ({
   wordCount: countWords(html),
