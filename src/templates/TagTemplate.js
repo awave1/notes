@@ -18,7 +18,8 @@ const TagsTemplate = ({ pageContext, data }) => {
   return (
     <div>
       <h3>
-        {tagHeader} <span style={{ fontFamily: 'monospace' }}>"{tag}"</span>
+        {tagHeader}{' '}
+        <span style={{ fontFamily: "'Hack', monospace" }}>"{tag}"</span>
       </h3>
       {content}
       <FontAwesomeIcon icon={faTags} /> <Link to="/tags">Show all tags</Link>

@@ -3,7 +3,6 @@ import { graphql, Link } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import styled from 'styled-components';
-import Bio from '../components/Bio';
 import TagList from '../components/TagList';
 import { getReadingTime } from '../utils/utils';
 
@@ -16,7 +15,7 @@ const CONTENT_ROOT = 'content';
 const EditContainer = styled.a`
   display: flex;
   align-items: center;
-  font-family: Hack, monospace;
+  font-family: 'Hack', monospace;
   margin: 1.5rem 0;
   font-weight: bold;
 

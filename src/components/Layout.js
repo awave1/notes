@@ -2,9 +2,8 @@ import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import styled, { ThemeProvider } from 'styled-components';
-import Transition from '../components/Transition';
+import Transition from './Transition';
 import Navbar from './Navbar';
-import Footer from './Footer';
 import { rhythm } from '../utils/Typography';
 
 const Content = styled.div`

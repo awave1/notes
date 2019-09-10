@@ -1,7 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import PostCard from '../components/PostCard';
-import Footer from '../components/Footer';
 import './css/index.css';
 
 const IndexPage = ({ data }) => {
@@ -18,7 +17,6 @@ const IndexPage = ({ data }) => {
   return (
     <>
       <div style={{ marginTop: 45 }}>{content}</div>
-      <Footer />
     </>
   );
 };
