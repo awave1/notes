@@ -13,6 +13,10 @@ tags: ['cpsc571']
 Steps performed:
 
 - Study existing system
+- Meet with user groups
+- Analyze existing procedures
+- Modification to improve efficiency
+- Prepare the initial proposal
 
 #### Definition of Problem
 
@@ -71,7 +75,7 @@ Analysis of the existing system is **critical**.
 
 Outcomes of analysis stage:
 
-- Data requirememts
+- Data requirements
 - Properties and interrelationships of the data
 - Operation requirements
 - Significant events and termination conditions
@@ -85,11 +89,18 @@ Outcomes of analysis stage:
 - Required changes are made
 - This is an iterative process that continues until all users are satisfied
 
+Next step is to describe the system with a conceptual schema.
+
 #### Conceptual Schema
 
 Conceptual schema has nothing to do with the database that you have. It needs to be DBMS independent. It should be understandable to a non-specialist.
 
- <!-- TODO -->
+- Using the high-level model:
+  - Entities and relationships are identified
+  - attributes are explicitly stated
+  - primary keys are indicated
+  - relationship cardinalities are estimated
+  - constraints are specified (where possible)
 
 ##### Building the Conceptual Schema
 
