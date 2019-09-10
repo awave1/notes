@@ -1,0 +1,20 @@
+name: Notes CI
+
+on:
+  push:
+    branches:
+    - master
+  schedule:
+  - cron: 0 0 * * 0-6
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run echo
+      run: echo Publishing /notes
+    - name: Gatsby Publish
+      uses: enriikke/gatsby-gh-pages-action@1.0.1
