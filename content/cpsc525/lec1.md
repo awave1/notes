@@ -1,5 +1,5 @@
 ---
-title: 'Introduction'
+title: 'Principles of Computer Security'
 date: '2019-09-09'
 description: ''
 published: true
@@ -47,7 +47,7 @@ PIPEDA is Canada's private-sector privacy law. PIPEDA - **P**ersonal **I**nforma
 9. Be accountable
 10. Provide recourse
 
-**Security vs Privacy**
+#### Security vs Privacy
 
 Treating security and privacy as opposites is **wrong**.
 
