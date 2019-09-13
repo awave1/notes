@@ -6,6 +6,8 @@ published: false
 tags: ['cpsc571']
 ---
 
+<!-- TODO: Finish lec02 -->
+
 ## Nomenclature
 
 - Asset

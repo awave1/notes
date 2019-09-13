@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void main(int argc, char * argv[]) {
+void main(int argc, char *argv[]) {
   char buffer[16];
   strncpy(buffer, argv[1], sizeof(buffer));
   printf("%s\n", buffer);
