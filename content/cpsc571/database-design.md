@@ -93,7 +93,7 @@ Next step is to describe the system with a conceptual schema.
 
 #### Conceptual Schema
 
-Conceptual schema has nothing to do with the database that you have. It needs to be DBMS independent. It should be understandable to a non-specialist.
+Conceptual schema has nothing to do with the database that you have. It needs to be DBMS independent. It should be understandable to a non-specialist. Written using **DDL - Data Definition Language**.
 
 - Using the high-level model:
   - Entities and relationships are identified
@@ -114,6 +114,103 @@ Conceptual schema has nothing to do with the database that you have. It needs to
 ### Design Stage
 
 After analysis stage, we begin to **design** the system. We need to define requirement for **DBMS Software**, **hardware**. After that, we proceed to **final design**, when we define the actual tables, and database. After design is complete and implemented, the final design needs to be **tested**.
+
+One of the first things that needs to be done is to decide what computing system you going to use.
+
+Fundamental:
+
+- You are probably stuck with what you get
+- try to work with it whenever possible
+
+Other considerations include things such as:
+
+- ensure existing DBMS has adequate storage and processing abilities
+  - e.g. can I increase the page size in chosen DBMS?
+- report generating facilities
+- menu and form-based user interface (vs. terminal only)
+- should the database be distributed
+- _expertise of the personnel_ and their preferences
+
+#### Data Model Selection (DBMS Level)
+
+- If data is mainly hierarchical, choose a hoerarchical model and a hierarchical DBMS
+- If data exhibits a large number of interrelationships, the network or relational model would be preferable
+- Other factors:
+  - experience of personnel
+  - reputation of the vendor
+  - availability service from the vendor
+
+Selection of the DBMS determines the data model.
+
+#### Computer System Selection
+
+Things to consider:
+
+- Capital cost
+- Conversion and initial training costs
+- Operating costs including:
+  - Personnel
+  - Maintenance of hardware/software
+
+#### The Three-schema Architecture
+
+**DDL** works with _schema_, **DML** works with _data_. When defining Internal Schema, use SDL.
+
+<!-- TODO: Finish The Three-schema Architecture -->
+
+#### Final Design
+
+To this point add design has been DBMS independent. Now the independent conceptual schema is translated to a DBMS dependent conceptual schema. Views of the application are derived from it as _external views_. First step is to convert from ER model to the DBMS dependent model:
+
+<!-- TODO: Final Design -->
+
+- ...
+- ...
+
+#### Physical Database Design
+
+Decisions are made regarding:
+
+- Choice of clustering of records
+- Choice of file organization
+- Choice of supporting indexes
+- Choice of links between records
+
+This is going to define the storage structure and how to optimize accesses.
+
+Performance considerations:
+
+- Size of records
+- Amount of data
+- Data distribution over multiple storage devices
+- Indexes vs. direct access mechanisms
+
+##### Storage Strategies
+
+Relational table can be fragmented: horizontally or vertically. **Horizontal fragmentation** - dividing table up into rows, e.g. subset of the data (query grad students vs. undergrad). **Vertical fragmentation** - dividing table up in columns, e.g. get only the column of the value (disregard some sensitive user info and extract only needed info). Fragmenting both horizontally and vertically would result in 2 copies of some cells, therefore updating will require to update both copies.
+
+**Hybrrid fragmentation** - store both horizontal and vertical fragments.
+
+Problem with horizontal fragmentation: can't do aggregate queries well. Solution to that? vertical fragmentation. But it cannot be done at the same time. If a cell is in both vertical fragment and horizontal fragment, to write to it, need to lock both fragments.
+
+Hyper fragmentation: fragmenting both vertically and horizontally and store those fragments.
+
+<!-- TODO: Storage Strategies -->
+
+---
+
+Physical design is an iterative process. Each attempt is analyzed to determine if performance will be acceptable. This is done analytically, rather than pragmatically. Potential pitfalls:
+
+- file organization inappropriate for online transactions
+- records must occur on the same physical drive
+- improper storage units
+- too much record overflow
+
+#### Implementation and Testing
+
+Implementation consists of writing and compiling code for conceptual and exernal schemes in the DDL of the DBMS. Physical database is created and loaded with data. Application programs and transactions are written, using a high-level language with embedded DML.
+
+When implemented, the design is tested to determine if functioning correctly. Documentation of the system is prepared. Backup and restart after failures are outlines.
 
 ### Operational Stage
 

@@ -331,3 +331,8 @@ TSWLatexianTemp*
 
 # standalone packages
 *.sta
+
+!./content/*/*/code/*.c
+!./content/*/*/code/*.cpp
+!./content/*/*/code/*.h
+!./content/*/*/code/*.py
