@@ -156,13 +156,17 @@ Things to consider:
 
 **DDL** works with _schema_, **DML** works with _data_. When defining Internal Schema, use SDL.
 
-<!-- TODO: Finish The Three-schema Architecture -->
+<!--
+#TODO: Finish The Three-schema Architecture
+-->
 
 #### Final Design
 
 To this point add design has been DBMS independent. Now the independent conceptual schema is translated to a DBMS dependent conceptual schema. Views of the application are derived from it as _external views_. First step is to convert from ER model to the DBMS dependent model:
 
-<!-- TODO: Final Design -->
+<!--
+#TODO: Final Design
+-->
 
 - ...
 - ...
@@ -195,7 +199,9 @@ Problem with horizontal fragmentation: can't do aggregate queries well. Solution
 
 Hyper fragmentation: fragmenting both vertically and horizontally and store those fragments.
 
-<!-- TODO: Storage Strategies -->
+<!--
+#TODO: Storage Strategies
+-->
 
 ---
 
@@ -217,6 +223,86 @@ When implemented, the design is tested to determine if functioning correctly. Do
 **Operational stage** includes **installation** of the finished design. **Operation and tuning** of the design keeps on going, until new features are required/needed.
 
 ## Entity Relationship Model
+
+### Data Modeling
+
+In general, a model is a detail hiding abstraction that highlights the components of direct or most interest. **Data model** is a mechanism for accomplishing this for database applications. It should be able to capture:
+
+- entities and their attributes
+- inter and intra-entity relationships
+- appropriate constraints on the data
+
+Current systems most often model data with either the:
+
+- hierarchical, network, or
+- relational data model
+- object-oriented model
+  - True object-oriented databases do not exists
+- graph model
+
+### Semantic data models
+
+Class of models created to capture _what_ data means. Developed originally to capture "knowledge" inherent in the world. They should be able to:
+
+- organize and
+- represent general knowledge
+
+The most used semantic data model is the **Entity Relationship Model**.
+
+#### Entity Relationship Model
+
+Developed approximately from the hierarchical and network models. ER permits explicit representation of **constraints** and **relationship**.
+
+<!--
+#TODO: Finish Entity Relationship Model
+-->
+
+##### Entity
+
+An entity is an object that is of interest to an organization. All objects are unique and must be identified by a unique name. An object may belong to more than one entity, e.g;
+
+- University Athlete
+  - hockey player
+  - football player
+  - women's track coach
+
+A subset of an entity's
+
+<!--
+#TODO: Finish Entity
+-->
+
+###### Strong Entity
+
+<!--
+#TODO: Finish strong Entity
+-->
+
+###### Weak Entity
+
+<!--
+#TODO: Finish weak Entity
+-->
+
+**Identifying relationship** is the one that links a strong entity to a subordinate. A **weak entity** is an entity that is not uniquely identified by its attributes. **Discriminator**: ... .
+
+##### Relationship
+
+**Relationship set** is a collection of relations of the same type.
+
+<!--
+#TODO: Finish relationship
+-->
+
+###### Keying Relaionships
+
+<!--
+#TODO: Finish keying relationship
+-->
+
+#### Aggregation
+
+**Aggregation** is the process ... .
 
 ## Relational Data Model
 
