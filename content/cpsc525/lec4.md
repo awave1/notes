@@ -63,3 +63,68 @@ int main() {
   return 0;
 }
 ```
+
+## Exploiting a real program
+
+It's trivial to execute the above attack if we control the source code. However, if we don't control the source code, how do we find the return address on the stack? (which is dependent and based on CPU, OS, compiler flags, etc.)
+
+- Where do we locate code to spawn a shell?
+  - write it into a buffer we're overflowing
+  - exploit it to an environment variable
+  - pass it to the program via `argv`
+- How do we find the return address on the stack?
+  - trial and error
+  - debugger / disassembler
+  - repeat return address many times, hope for the best
+
+### NOPs
+
+```c
+int i = 0;
+i + 1; // add 1 to i; discard result
+; // NULL statement
+{} // empty block
+for (int i = 0; i < 100; i++) { } // NOP 100 times
+for (int i = 0; i < 100; i++); // NOP 100 times
+(void) 0; // cannonical NOP in C
+char *nop = "\x90"; // x86 NOP
+```
+
+If we don't know the exact address of shellcode, we can use **NOP sled**; that is, pad the start of the shellcode with a bunch of NOPs. If we return to _any_ address in the sequesce of NOPs, execution flow will slide into the shellcode.
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int auth() {
+  int r;
+  char pwd[8 + 1] = "passw0rd";
+  char buff[8 + 1];
+  gets(buff);
+  r = memcmp(pwd, buff, sizeof(pwd));
+  return !r;
+}
+
+int main() {
+  if (auth()) {
+    printf("match\n");
+  }
+  return 0;
+}
+```
+
+## Off-by-one faults
+
+```c
+v
+```
+
+The frame pointer overwrite (paper)
+
+## Exploiting buffer overflows in the wild
+
+How do you find buffer overflows? Only if it's available, examine the source code. Otherwise, disassemble binary, perform fuzz testing. When fuzz testing:
+
+- send malformed inputs (e.g. ending in unexpected characters, like `"$$$$"`)
+- wait for program to crash
+- search core dump for input characters (`"$$$$"`).
