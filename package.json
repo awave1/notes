@@ -59,7 +59,7 @@
     "prettier": "prettier --write ./src/**/*.js"
   },
   "devDependencies": {
-    "@mdx-js/loader": "^0.17.0",
+    "@mdx-js/loader": "^1.5.1",
     "@mdx-js/mdx": "^0.17.0",
     "cz-conventional-changelog": "3.0.2",
     "gh-pages": "^2.0.1",
