@@ -80,7 +80,7 @@ class Layout extends React.Component {
           primaryColor: '#f5f5f6',
         },
         tag: {
-          background: '#ffffffe6',
+          background: '#101010',
           hover: {
             background: '#fff',
           },

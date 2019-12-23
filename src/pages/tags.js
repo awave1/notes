@@ -17,20 +17,28 @@ const TagsPage = ({
     },
   },
 }) => {
+  const list =
+    group && group.length ? (
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {group.map(tag => (
+          <Tag key={tag.fieldValue}>
+            <Link to={`/tags/${leKebab(tag.fieldValue)}/`}>
+              {tag.fieldValue} ({tag.totalCount})
+            </Link>
+          </Tag>
+        ))}
+      </ul>
+    ) : (
+      <div>
+        <h2>No Tags</h2>
+      </div>
+    );
   return (
     <div>
       <Helmet title={title} />
       <div>
         <h3>Tags</h3>
-        <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-          {group.map(tag => (
-            <Tag key={tag.fieldValue}>
-              <Link to={`/tags/${leKebab(tag.fieldValue)}/`}>
-                {tag.fieldValue} ({tag.totalCount})
-              </Link>
-            </Tag>
-          ))}
-        </ul>
+        {list}
       </div>
     </div>
   );
