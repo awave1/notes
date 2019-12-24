@@ -46,7 +46,8 @@ const countWords = html => {
  * @description Takes a html string and returns the number of images
  * Note: This code is taken from @tryghost/helpers package
  **/
-const countImages = html => html ? (html.match(/<img(.|\n)*?>/g) || []).length : 0;
+const countImages = html =>
+  html ? (html.match(/<img(.|\n)*?>/g) || []).length : 0;
 
 const contentCount = html => ({
   wordCount: countWords(html),
@@ -87,9 +88,12 @@ const flatten = arr => [].concat.apply([], arr);
 
 const unique = arr => arr.filter((el, i, array) => array.indexOf(el) === i);
 
+const uniqueFlatten = arr => unique(flatten(arr));
+
 module.exports = {
   leKebab,
   getReadingTime,
   flatten,
   unique,
+  uniqueFlatten,
 };

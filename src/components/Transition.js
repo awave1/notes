@@ -3,7 +3,7 @@ import {
   TransitionGroup,
   Transition as ReactTransition,
 } from 'react-transition-group';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const enter = 200;
 const exit = 150;

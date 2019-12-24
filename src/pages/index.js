@@ -1,12 +1,33 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { graphql, useStaticQuery } from 'gatsby';
 import PostCard from '../components/PostCard';
 import './css/index.css';
 
-const IndexPage = ({ data }) => {
+function IndexPage() {
   const {
     allMarkdownRemark: { edges },
-  } = data;
+  } = useStaticQuery(graphql`
+    query getAllPosts {
+      allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
+        edges {
+          node {
+            id
+            html
+            frontmatter {
+              date(formatString: "MMMM DD, YYYY")
+              title
+              description
+              published
+            }
+            fields {
+              slug
+              category
+            }
+          }
+        }
+      }
+    }
+  `);
 
   const content = edges
     .filter(
@@ -14,34 +35,7 @@ const IndexPage = ({ data }) => {
     )
     .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
 
-  return (
-    <>
-      <div style={{ marginTop: 45 }}>{content}</div>
-    </>
-  );
-};
+  return <div style={{ marginTop: 45 }}>{content}</div>;
+}
 
 export default IndexPage;
-
-export const pageQuery = graphql`
-  query {
-    allMarkdownRemark(sort: { order: DESC, fields: [frontmatter___date] }) {
-      edges {
-        node {
-          id
-          html
-          frontmatter {
-            date(formatString: "MMMM DD, YYYY")
-            title
-            description
-            published
-          }
-          fields {
-            slug
-            category
-          }
-        }
-      }
-    }
-  }
-`;

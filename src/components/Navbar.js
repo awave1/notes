@@ -1,11 +1,10 @@
 import { Link } from 'gatsby';
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Switch from './Switch';
 
 const Nav = styled.nav`
-  background: #212121;
-  box-shadow: 0px 0px 50px #0000001a;
+  background-color: ${props => props.theme.primaryColor};
 `;
 
 const NavContent = styled.div`
@@ -17,7 +16,7 @@ const NavContent = styled.div`
 `;
 
 const NavHeader = styled(Link)`
-  color: #fff;
+  color: ${props => props.theme.secondaryColor};
   text-decoration: none;
   text-shadow: none;
   background-image: none;
@@ -40,17 +39,12 @@ const SwitchCounter = styled.span`
   }
 `;
 
-const Navbar = ({ siteTitle, onThemeChanged, switchCounter }) => {
+const Navbar = ({ siteTitle, onThemeChanged }) => {
   return (
     <Nav>
       <NavContent>
         <NavHeader to="/">{siteTitle}</NavHeader>
         <SwitchContainer>
-          {switchCounter > 5 && (
-            <SwitchCounter>
-              Look, I just flipped the switch {switchCounter} times!
-            </SwitchCounter>
-          )}
           <Switch onChange={onThemeChanged} />
         </SwitchContainer>
       </NavContent>

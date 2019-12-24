@@ -1,6 +1,6 @@
 const path = require('path');
 const { createFilePath } = require('gatsby-source-filesystem');
-const { leKebab, flatten, unique } = require('./src/utils/utils');
+const { leKebab, uniqueFlatten } = require('./src/utils/utils');
 
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions;
@@ -50,18 +50,21 @@ exports.createPages = ({ actions, graphql }) => {
     });
 
     const tags = posts
+      .filter(edge => edge.node.frontmatter.published)
       .filter(
-        edge => !!edge.node.frontmatter.tags && edge.node.frontmatter.published
+        edge => edge.node.frontmatter.tags && edge.node.frontmatter.tags.length
       )
       .map(edge => edge.node.frontmatter.tags);
 
-    unique(flatten(tags)).forEach(tag => {
-      createPage({
-        path: `/tags/${leKebab(tag)}`,
-        component: TagTemplate,
-        context: { tag },
+    if (tags.length) {
+      uniqueFlatten(tags).forEach(tag => {
+        createPage({
+          path: `/tags/${leKebab(tag)}`,
+          component: TagTemplate,
+          context: { tag },
+        });
       });
-    });
+    }
   });
 };
 

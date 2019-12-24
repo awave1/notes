@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import TagList from '../components/TagList';
 import { getReadingTime } from '../utils/utils';
 
@@ -80,15 +80,14 @@ const PostHeader = props => {
   );
 };
 
-function Template(props) {
+function Template({ data, pageContext }) {
   const {
     markdownRemark: {
       frontmatter: { title, date, tags },
       html,
     },
-  } = props.data;
-  const { slug, prev, next } = props.pageContext;
-
+  } = data;
+  const { slug, prev, next } = pageContext;
   const editUrl = `https://github.com/${GITHUB_USER}/${GITHUB_REPO}/edit/master/src/${CONTENT_ROOT}${slug}.md`;
   const readingTime = getReadingTime(html);
 
