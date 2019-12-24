@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { leKebab } from '../utils/utils';
 
 const Tag = styled.li`

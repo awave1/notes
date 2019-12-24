@@ -1,7 +1,8 @@
 import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
-import styled, { ThemeProvider } from 'styled-components';
+import styled from '@emotion/styled';
+import { ThemeProvider } from 'emotion-theming';
 import Transition from './Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/Typography';
@@ -15,7 +16,7 @@ const Content = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  background: ${props => props.theme.primaryColor};
+  background: ${props => props.theme.main.background};
   color: ${props => props.theme.secondaryColor};
   transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
 
@@ -51,10 +52,13 @@ class Layout extends React.Component {
 
     this.theme = {
       light: {
-        primaryColor: '#f5f5f6',
+        primaryColor: '#ececec',
         secondaryColor: 'black',
+        main: {
+          background: '#fff',
+        },
         card: {
-          background: '#f5f5f6',
+          background: '#fff',
         },
         code: {
           primaryColor: '#1a1a1a',
@@ -71,8 +75,11 @@ class Layout extends React.Component {
         },
       },
       dark: {
-        primaryColor: '#212121',
+        primaryColor: '#191919',
         secondaryColor: 'white',
+        main: {
+          background: '#212121',
+        },
         card: {
           background: '#191919',
         },
@@ -94,7 +101,6 @@ class Layout extends React.Component {
 
     this.state = {
       theme: this.theme.light,
-      switchCounter: 0,
     };
 
     this.onThemeChanged = this.onThemeChanged.bind(this);
@@ -103,7 +109,6 @@ class Layout extends React.Component {
   async onThemeChanged({ target }) {
     await this.setState({
       theme: target.checked ? this.theme.dark : this.theme.light,
-      switchCounter: this.state.switchCounter + 1,
     });
 
     if (target.checked) {
@@ -114,7 +119,7 @@ class Layout extends React.Component {
       document.body.classList.add('body__light');
     }
 
-    document.body.style.background = this.state.theme.primaryColor;
+    document.body.style.background = this.state.theme.main.background;
   }
 
   render() {
@@ -140,15 +145,14 @@ class Layout extends React.Component {
                 href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css"
               />
             </Helmet>
-            <Navbar
-              siteTitle={`/${data.site.siteMetadata.title}`}
-              onThemeChanged={this.onThemeChanged}
-              switchCounter={switchCounter}
-            />
             <ThemeProvider theme={theme}>
+              <Navbar
+                siteTitle={`/${data.site.siteMetadata.title}`}
+                onThemeChanged={this.onThemeChanged}
+              />
               <Transition
                 location={location}
-                backgroundColor={theme.primaryColor}
+                backgroundColor={theme.main.background}
               >
                 <ContentWrapper>
                   <Content>{children}</Content>
