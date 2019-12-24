@@ -46,72 +46,76 @@ const ContentWrapper = styled.div`
   }
 `;
 
+const theme = {
+  light: {
+    primaryColor: '#ececec',
+    secondaryColor: 'black',
+    main: {
+      background: '#fff',
+    },
+    card: {
+      background: '#fff',
+    },
+    code: {
+      primaryColor: '#1a1a1a',
+    },
+    tag: {
+      background: '#e0e0e080',
+      hover: {
+        background: '#e0e0e0',
+      },
+    },
+    blockquote: {
+      color: '#6a737d',
+      borderLeft: '0.25em solid #dfe2e5',
+    },
+  },
+  dark: {
+    primaryColor: '#191919',
+    secondaryColor: 'white',
+    main: {
+      background: '#212121',
+    },
+    card: {
+      background: '#191919',
+    },
+    code: {
+      primaryColor: '#f5f5f6',
+    },
+    tag: {
+      background: '#101010',
+      hover: {
+        background: '#fff',
+      },
+    },
+    blockquote: {
+      color: '#958C82',
+      borderLeft: '0.25em solid #958C82',
+    },
+  },
+};
 class Layout extends React.Component {
   constructor(props) {
     super(props);
 
-    this.theme = {
-      light: {
-        primaryColor: '#ececec',
-        secondaryColor: 'black',
-        main: {
-          background: '#fff',
-        },
-        card: {
-          background: '#fff',
-        },
-        code: {
-          primaryColor: '#1a1a1a',
-        },
-        tag: {
-          background: '#e0e0e080',
-          hover: {
-            background: '#e0e0e0',
-          },
-        },
-        blockquote: {
-          color: '#6a737d',
-          borderLeft: '0.25em solid #dfe2e5',
-        },
-      },
-      dark: {
-        primaryColor: '#191919',
-        secondaryColor: 'white',
-        main: {
-          background: '#212121',
-        },
-        card: {
-          background: '#191919',
-        },
-        code: {
-          primaryColor: '#f5f5f6',
-        },
-        tag: {
-          background: '#101010',
-          hover: {
-            background: '#fff',
-          },
-        },
-        blockquote: {
-          color: '#958C82',
-          borderLeft: '0.25em solid #958C82',
-        },
-      },
-    };
+    const useDarkMode =
+      window.matchMedia &&
+      window.matchMedia(
+        '(prefers-color-scheme: dark)(prefers-color-scheme: dark)'
+      );
 
     this.state = {
-      theme: this.theme.light,
+      theme: useDarkMode ? theme.dark : theme.light,
+      mode: useDarkMode ? 'dark' : 'light',
+      useDarkMode,
     };
 
     this.onThemeChanged = this.onThemeChanged.bind(this);
+    this.setBodyStyle(useDarkMode);
   }
 
-  async onThemeChanged({ target }) {
-    await this.setState({
-      theme: target.checked ? this.theme.dark : this.theme.light,
-    });
-
-    if (target.checked) {
+  setBodyStyle(useDarkMode) {
+    if (useDarkMode) {
       document.body.classList.remove('body__light');
       document.body.classList.add('body__dark');
     } else {
@@ -120,6 +124,16 @@ class Layout extends React.Component {
     }
 
     document.body.style.background = this.state.theme.main.background;
+  }
+
+  async onThemeChanged({ target }) {
+    await this.setState({
+      theme: target.checked ? theme.dark : theme.light,
+    });
+
+    this.setBodyStyle(target.checked);
+
+    target.checked = !target.checked;
   }
 
   render() {
