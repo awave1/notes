@@ -1,7 +1,8 @@
 import { Link } from 'gatsby';
-import React from 'react';
+import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import Switch from './Switch';
+import { hasDarkMode } from '../utils/utils';
 
 const Nav = styled.nav`
   background-color: ${props => props.theme.primaryColor};
@@ -29,23 +30,20 @@ const SwitchContainer = styled.div`
   align-items: center;
 `;
 
-const SwitchCounter = styled.span`
-  margin-right: 10px;
-  color: #f5f5f6;
-  font-size: 12px;
-
-  @media screen and (max-width: 425px) {
-    display: none;
-  }
-`;
-
 const Navbar = ({ siteTitle, onThemeChanged }) => {
+  const [isChecked, setChecked] = useState(hasDarkMode());
+
+  const themeChanged = event => {
+    setChecked(!isChecked);
+    onThemeChanged(event);
+  };
+
   return (
     <Nav>
       <NavContent>
         <NavHeader to="/">{siteTitle}</NavHeader>
         <SwitchContainer>
-          <Switch onChange={onThemeChanged} />
+          <Switch onChange={themeChanged} checked={isChecked} />
         </SwitchContainer>
       </NavContent>
     </Nav>
