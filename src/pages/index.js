@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, useStaticQuery } from 'gatsby';
-import PostCard from '../components/PostCard';
+import Card from '../components/Card';
 import './css/index.css';
 
 function IndexPage() {
@@ -33,7 +33,7 @@ function IndexPage() {
     .filter(
       edge => !!edge.node.frontmatter.date && edge.node.frontmatter.published
     )
-    .map(edge => <PostCard key={edge.node.id} post={edge.node} />);
+    .map(edge => <Card key={edge.node.id} post={edge.node} />);
 
   return <div style={{ marginTop: 45 }}>{content}</div>;
 }

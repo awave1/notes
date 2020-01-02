@@ -14,14 +14,14 @@ const PostContainer = styled(Link)`
   position: relative;
   color: ${props => props.theme.secondaryColor};
   background: ${props => props.theme.card.background};
-  box-shadow: 0px 0px 50px #0000001a;
+  border: 1px solid #cccccc7d;
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 48px;
   transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
 
   &:hover {
-    box-shadow: 0px 0px 75px #00000012;
+    border: 1px solid #cccccca8;
   }
 `;
 
@@ -40,7 +40,7 @@ const CategoryLabel = styled.span`
   max-width: 15ch;
 `;
 
-const PostCard = ({ post }) => {
+const Card = ({ post }) => {
   const {
     html,
     fields: { slug, category },
@@ -61,4 +61,4 @@ const PostCard = ({ post }) => {
   );
 };
 
-export default PostCard;
+export default Card;
