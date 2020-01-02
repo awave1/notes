@@ -6,6 +6,7 @@ import { ThemeProvider } from 'emotion-theming';
 import Transition from './Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/Typography';
+import { hasDarkMode } from '../utils/utils';
 
 const Content = styled.div`
   display: flex;
@@ -55,6 +56,11 @@ const theme = {
     },
     card: {
       background: '#fff',
+      borderColor: '#cccccc7d',
+
+      hover: {
+        borderColor: '#cccccca8',
+      },
     },
     code: {
       primaryColor: '#1a1a1a',
@@ -78,6 +84,11 @@ const theme = {
     },
     card: {
       background: '#191919',
+      borderColor: '#ffffff47',
+
+      hover: {
+        borderColor: '#ffffff5e',
+      },
     },
     code: {
       primaryColor: '#f5f5f6',
@@ -98,11 +109,7 @@ class Layout extends React.Component {
   constructor(props) {
     super(props);
 
-    const useDarkMode =
-      window.matchMedia &&
-      window.matchMedia(
-        '(prefers-color-scheme: dark)(prefers-color-scheme: dark)'
-      );
+    const useDarkMode = hasDarkMode();
 
     this.state = {
       theme: useDarkMode ? theme.dark : theme.light,
@@ -132,13 +139,11 @@ class Layout extends React.Component {
     });
 
     this.setBodyStyle(target.checked);
-
-    target.checked = !target.checked;
   }
 
   render() {
     const { children, location } = this.props;
-    const { theme, switchCounter } = this.state;
+    const { theme } = this.state;
 
     return (
       <StaticQuery

@@ -51,14 +51,9 @@ const Slider = styled.span`
 `;
 
 function Switch(props) {
-  const isOn =
-    window.matchMedia &&
-    window.matchMedia(
-      '(prefers-color-scheme: dark)(prefers-color-scheme: dark)'
-    );
   return (
     <SwitchWrapper>
-      <SliderInput onChange={props.onChange} type="checkbox" checked={isOn} />
+      <SliderInput type="checkbox" {...props} />
       <Slider />
     </SwitchWrapper>
   );

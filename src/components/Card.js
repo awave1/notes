@@ -14,14 +14,15 @@ const PostContainer = styled(Link)`
   position: relative;
   color: ${props => props.theme.secondaryColor};
   background: ${props => props.theme.card.background};
-  border: 1px solid #cccccc7d;
+  border: 1px solid;
+  border-color: ${props => props.theme.card.borderColor};
   border-radius: 6px;
   padding: 1rem;
   margin-bottom: 48px;
   transition: all 150ms cubic-bezier(0.55, 0, 0.1, 1);
 
   &:hover {
-    border: 1px solid #cccccca8;
+    border-color: ${props => props.theme.card.hover.borderColor};
   }
 `;
 
