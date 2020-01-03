@@ -1,7 +1,6 @@
 import { Link } from 'gatsby';
-import { React, useState } from 'react';
+import { React, useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import useDarkMode from 'use-dark-mode';
 import Switch from './Switch';
 
 const Nav = styled.nav`
@@ -31,8 +30,12 @@ const SwitchContainer = styled.div`
 `;
 
 const Navbar = ({ siteTitle, onThemeChanged }) => {
-  const darkMode = useDarkMode();
-  const [isChecked, setChecked] = useState(darkMode.value);
+  const [isChecked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setChecked(window.__theme === 'dark');
+    window.__onThemeChange = () => setChecked(window.__theme === 'dark');
+  }, []);
 
   const themeChanged = event => {
     setChecked(!isChecked);

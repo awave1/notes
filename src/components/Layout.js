@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import styled from '@emotion/styled';
@@ -7,7 +7,6 @@ import { withTheme, ThemeProvider } from 'emotion-theming';
 import Transition from './Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/Typography';
-import useDarkMode from 'use-dark-mode';
 
 const Content = styled.div`
   display: flex;
@@ -119,13 +118,15 @@ const GlobalStyles = withTheme(({ theme }) => (
 ));
 
 function Layout({ children, location }) {
-  const darkMode = useDarkMode();
-  const [theme, setTheme] = useState(
-    darkMode.value ? appTheme.dark : appTheme.light
-  );
+  const [theme, setTheme] = useState(appTheme.light);
 
   const onThemeChanged = ({ target }) =>
     setTheme(target.checked ? appTheme.dark : appTheme.light);
+
+  useEffect(() => {
+    setTheme(appTheme[window.__theme]);
+    window.__onThemeChange = () => setTheme(appTheme[window.__theme]);
+  }, []);
 
   return (
     <StaticQuery
