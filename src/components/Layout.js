@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import styled from '@emotion/styled';
 import { Global, css } from '@emotion/core';
-import { ThemeProvider } from 'emotion-theming';
+import { withTheme, ThemeProvider } from 'emotion-theming';
 import Transition from './Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/Typography';
-import { hasDarkMode } from '../utils/domUtils';
+import useDarkMode from 'use-dark-mode';
 
 const Content = styled.div`
   display: flex;
@@ -48,7 +48,7 @@ const ContentWrapper = styled.div`
   }
 `;
 
-const theme = {
+const appTheme = {
   light: {
     primaryColor: '#ececec',
     secondaryColor: 'black',
@@ -106,75 +106,65 @@ const theme = {
     },
   },
 };
-class Layout extends React.Component {
-  constructor(props) {
-    super(props);
 
-    const useDarkMode = hasDarkMode();
-
-    this.state = {
-      theme: useDarkMode ? theme.dark : theme.light,
-      mode: useDarkMode ? 'dark' : 'light',
-      useDarkMode,
-    };
-
-    this.onThemeChanged = this.onThemeChanged.bind(this);
+const makeGlobalStyles = theme => css`
+  body {
+    background: ${theme.main.background};
+    transition: background 150ms cubic-bezier(0.55, 0, 0.1, 1);
   }
+`;
 
-  async onThemeChanged({ target }) {
-    await this.setState({
-      theme: target.checked ? theme.dark : theme.light,
-    });
-  }
+const GlobalStyles = withTheme(({ theme }) => (
+  <Global styles={makeGlobalStyles(theme)} />
+));
 
-  render() {
-    const { children, location } = this.props;
-    const { theme } = this.state;
+function Layout({ children, location }) {
+  const darkMode = useDarkMode();
+  const [theme, setTheme] = useState(
+    darkMode.value ? appTheme.dark : appTheme.light
+  );
 
-    return (
-      <StaticQuery
-        query={graphql`
-          query SiteTitleQuery {
-            site {
-              siteMetadata {
-                title
-              }
+  const onThemeChanged = ({ target }) =>
+    setTheme(target.checked ? appTheme.dark : appTheme.light);
+
+  return (
+    <StaticQuery
+      query={graphql`
+        query SiteTitleQuery {
+          site {
+            siteMetadata {
+              title
             }
           }
-        `}
-        render={data => (
-          <>
-            <Helmet>
-              <link
-                rel="stylesheet"
-                href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css"
-              />
-            </Helmet>
-            <ThemeProvider theme={theme}>
-              <Global
-                styles={css`
-                  background: ${theme.main.background};
-                  transition: background 150ms cubic-bezier(0.55, 0, 0.1, 1);
-                `}
-              />
-              <Navbar
-                siteTitle={`/${data.site.siteMetadata.title}`}
-                onThemeChanged={this.onThemeChanged}
-              />
-              <Transition
-                location={location}
-                backgroundColor={theme.main.background}
-              >
-                <ContentWrapper>
-                  <Content>{children}</Content>
-                </ContentWrapper>
-              </Transition>
-            </ThemeProvider>
-          </>
-        )}
-      />
-    );
-  }
+        }
+      `}
+      render={data => (
+        <>
+          <Helmet>
+            <link
+              rel="stylesheet"
+              href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css"
+            />
+          </Helmet>
+          <ThemeProvider theme={theme}>
+            <Navbar
+              siteTitle={`/${data.site.siteMetadata.title}`}
+              onThemeChanged={onThemeChanged}
+            />
+            <Transition
+              location={location}
+              backgroundColor={theme.main.background}
+            >
+              <ContentWrapper>
+                <Content>{children}</Content>
+              </ContentWrapper>
+            </Transition>
+            <GlobalStyles />
+          </ThemeProvider>
+        </>
+      )}
+    />
+  );
 }
 
 export default Layout;
