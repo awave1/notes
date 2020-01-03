@@ -2,11 +2,12 @@ import React from 'react';
 import { StaticQuery, graphql } from 'gatsby';
 import { Helmet } from 'react-helmet';
 import styled from '@emotion/styled';
+import { Global, css } from '@emotion/core';
 import { ThemeProvider } from 'emotion-theming';
 import Transition from './Transition';
 import Navbar from './Navbar';
 import { rhythm } from '../utils/Typography';
-import { hasDarkMode } from '../utils/utils';
+import { hasDarkMode } from '../utils/domUtils';
 
 const Content = styled.div`
   display: flex;
@@ -118,27 +119,12 @@ class Layout extends React.Component {
     };
 
     this.onThemeChanged = this.onThemeChanged.bind(this);
-    this.setBodyStyle(useDarkMode);
-  }
-
-  setBodyStyle(useDarkMode) {
-    if (useDarkMode) {
-      document.body.classList.remove('body__light');
-      document.body.classList.add('body__dark');
-    } else {
-      document.body.classList.remove('body__dark');
-      document.body.classList.add('body__light');
-    }
-
-    document.body.style.background = this.state.theme.main.background;
   }
 
   async onThemeChanged({ target }) {
     await this.setState({
       theme: target.checked ? theme.dark : theme.light,
     });
-
-    this.setBodyStyle(target.checked);
   }
 
   render() {
@@ -165,6 +151,12 @@ class Layout extends React.Component {
               />
             </Helmet>
             <ThemeProvider theme={theme}>
+              <Global
+                styles={css`
+                  background: ${theme.main.background};
+                  transition: background 150ms cubic-bezier(0.55, 0, 0.1, 1);
+                `}
+              />
               <Navbar
                 siteTitle={`/${data.site.siteMetadata.title}`}
                 onThemeChanged={this.onThemeChanged}

@@ -2,7 +2,7 @@ import { Link } from 'gatsby';
 import { React, useState } from 'react';
 import styled from '@emotion/styled';
 import Switch from './Switch';
-import { hasDarkMode } from '../utils/utils';
+import { hasDarkMode } from '../utils/domUtils';
 
 const Nav = styled.nav`
   background-color: ${props => props.theme.primaryColor};

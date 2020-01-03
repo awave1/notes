@@ -90,10 +90,10 @@ const unique = arr => arr.filter((el, i, array) => array.indexOf(el) === i);
 
 const uniqueFlatten = arr => unique(flatten(arr));
 
-const hasDarkMode = () =>
-  window.matchMedia &&
-  window.matchMedia(
-    '(prefers-color-scheme: dark)(prefers-color-scheme: dark)'
-  ) !== undefined;
-
-export { leKebab, getReadingTime, flatten, unique, uniqueFlatten, hasDarkMode };
+module.exports = {
+  leKebab,
+  getReadingTime,
+  flatten,
+  unique,
+  uniqueFlatten,
+};
