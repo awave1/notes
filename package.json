@@ -12,6 +12,7 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "dev": "gatsby develop",
+    "prod": "gatsby build && gatsby serve",
     "start": "npm run develop",
     "format": "prettier --write \"src/**/*.js\"",
     "test": "echo \"Write tests! -> https://gatsby.app/unit-testing\"",
