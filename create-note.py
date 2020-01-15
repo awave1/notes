@@ -7,13 +7,15 @@ import datetime
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('--dest', type=str, nargs=1, help='Destination folder')
+parser.add_argument('--dest', type=str, nargs=1, help='Destination folder', default='content')
 parser.add_argument('--file', type=str, nargs=1, help='Destination file')
 parser.add_argument('--publish', type=bool, nargs=1, default=False)
 parser.add_argument('--title', type=str, nargs=1, default='')
 parser.add_argument('--description', type=str, nargs=1, default='')
 
 args = parser.parse_args()
+
+print(args)
 
 
 def yes_no(prompt):
@@ -22,7 +24,7 @@ def yes_no(prompt):
 
 
 def get_from_args(val, prompt):
-    if not val:
+    if val is None:
         val = input(prompt)
 
     return val
@@ -73,8 +75,8 @@ def main():
             f"file '{new_note}' aready exists; continue? (y/N): ")
 
     if force_overwrite:
-        title = get_from_args(args.title[0], 'title: ')
-        description = get_from_args(args.description[0], 'description: ')
+        title = get_from_args(args.title, 'title: ')
+        description = get_from_args(args.description, 'description: ')
         tags = get_tags(args.dest[0])
         date = datetime.datetime.now().strftime('%Y-%m-%d')
 
