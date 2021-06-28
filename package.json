@@ -52,7 +52,7 @@
     "katex": "^0.10.0",
     "mermaid": "^8.0.0",
     "mermaid.cli": "^0.5.1",
-    "prismjs": "^1.15.0",
+    "prismjs": "^1.24.0",
     "prop-types": "^15.6.2",
     "react": "^16.8.3",
     "react-chartjs-2": "^2.7.4",
