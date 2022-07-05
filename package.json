@@ -50,7 +50,7 @@
     "gatsby-transformer-remark": "^2.1.17",
     "gatsby-transformer-sharp": "^2.1.8",
     "katex": "^0.10.0",
-    "mermaid": "^8.0.0",
+    "mermaid": "^9.1.2",
     "mermaid.cli": "^0.5.1",
     "prismjs": "^1.15.0",
     "prop-types": "^15.6.2",
