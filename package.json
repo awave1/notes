@@ -72,7 +72,7 @@
     "gh-pages": "^2.0.1",
     "husky": "^3.0.5",
     "lint-staged": "^9.2.5",
-    "loader-utils": "^1.2.3",
+    "loader-utils": "^1.4.2",
     "prettier": "^1.15.3"
   },
   "repository": {
